@@ -4,38 +4,44 @@ package co.jp.smagroup.musahaf.ui.library.manage
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.jp.smagroup.musahaf.R
+import co.jp.smagroup.musahaf.framework.CustomToast
 import co.jp.smagroup.musahaf.model.DownloadingState
 import co.jp.smagroup.musahaf.model.Edition
-import co.jp.smagroup.musahaf.ui.commen.BaseFragment
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.DownloadService
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
 import co.jp.smagroup.musahaf.ui.commen.dialog.ProgressDialog
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
+import com.codebox.lib.android.widgets.longToast
 import com.codebox.lib.android.widgets.recyclerView.onScroll
 import kotlinx.android.synthetic.main.fragment_tab.*
 import javax.inject.Inject
 
 
 @Suppress("UNCHECKED_CAST")
-class TabFragment : BaseFragment() {
+class TabFragment : BaseFragment(),ProgressDialog.ProgressListener {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     override val layoutId: Int = R.layout.fragment_tab
     private lateinit var viewModel: LibraryViewModel
+
     private lateinit var parentActivity: ManageLibraryActivity
     private lateinit var adapter: ManageLibraryAdapter
     private var tabPosition = 0
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         parentActivity = activity as ManageLibraryActivity
         viewModel = viewModelOf(LibraryViewModel::class.java, viewModelFactory)
+
         viewModel.allAvailableEditions.observer(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 val data = filterDataByTabPosition(it)
@@ -44,18 +50,19 @@ class TabFragment : BaseFragment() {
                 loadingCompleted(false)
             } else loadingCompleted(true)
         }
+
         loadData()
     }
 
     private fun getRecyclerAdapter(data: List<Pair<Edition, DownloadingState>>): ManageLibraryAdapter {
-        adapter = ManageLibraryAdapter(data, doOnItemClicked = { editionIdentifier, downloadingState ->
-            if (downloadingState.isDownloadCompleted) {
-                //Do nothing
-            } else
-                downloadMusahaf(editionIdentifier, downloadingState)
-        })
+        adapter =
+            ManageLibraryAdapter(data, doOnItemClicked = { edition, downloadingState ->
+                if (!downloadingState.isDownloadCompleted)
+                    downloadMusahaf(edition, downloadingState)
+                //else Do nothing
+            })
 
-        recycler_library_manage.onScroll { dx, dy ->
+        recycler_library_manage.onScroll { _, _ ->
             recyclerViewPosition =
                 (recycler_library_manage.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
         }
@@ -73,24 +80,32 @@ class TabFragment : BaseFragment() {
     }
 
     private var recyclerViewPosition = 0
-    private fun downloadMusahaf(editionIdentifier: String, downloadingState: DownloadingState) {
+    private fun downloadMusahaf(edition: Edition, downloadingState: DownloadingState) {
 
-        if (activity?.supportFragmentManager!!.findFragmentByTag(ProgressDialog.TAG) == null) {
-            val progressDialog = ProgressDialog()
-            progressDialog.progressListener = object : ProgressDialog.ProgressListener {
+        if (parentActivity.supportFragmentManager.findFragmentByTag(ProgressDialog.TAG) == null) {
 
-                override fun onCancelled() = viewModel.updateDataDownloadState(editionIdentifier)
-                override fun onSuccess() = viewModel.updateDataDownloadState(editionIdentifier)
-                override suspend fun downloadManger(): String {
-                    viewModel.downloadMusahaf(
-                        editionIdentifier,
-                        downloadingState
-                    )
-                    viewModel.updateDataDownloadState(editionIdentifier)
-                    return editionIdentifier
+            if (DownloadService.isDownloading)
+                CustomToast.makeLong(parentActivity, R.string.downloading_please_wait)
+            else {
+                DownloadService.create(parentActivity, edition, downloadingState)
+
+                val progressDialog = ProgressDialog()
+
+                progressDialog.progressListener = object : ProgressDialog.ProgressListener {
+
+                    override fun onSuccess(dialog: ProgressDialog) {
+                        super.onSuccess(dialog)
+                        viewModel.updateDataDownloadState(edition.identifier)
+                    }
+
+                    override fun onError() = viewModel.updateDataDownloadState(edition.identifier)
+
+                    override fun onBackground() {
+                        parentActivity.finish()
+                    }
                 }
+                progressDialog.show(parentActivity.supportFragmentManager, ProgressDialog.TAG)
             }
-            progressDialog.show(activity?.supportFragmentManager!!, ProgressDialog.TAG)
         }
     }
 

@@ -19,13 +19,13 @@ import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.ReadTranslation
 import co.jp.smagroup.musahaf.model.Surah
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.utils.RecyclerViewItemClickedListener
 import co.jp.smagroup.musahaf.utils.extensions.onScroll
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
-import com.codebox.kidslab.Framework.Views.CustomToast
+import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.resoures.Colour
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.utils.screenHelpers.dp
@@ -42,7 +42,7 @@ class ReadLibraryActivity : BaseActivity() {
     lateinit var repository: Repository
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     private val job = SupervisorJob()
@@ -56,11 +56,11 @@ class ReadLibraryActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= 23) {
-            if (!MusahafApplication.isDarkThemeEnabled) window.decorView.systemUiVisibility =
+            if (!MushafApplication.isDarkThemeEnabled) window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
             window.statusBarColor =
-                if (MusahafApplication.isDarkThemeEnabled) Colour(R.color.color_background_dark) else Color.WHITE
+                if (MushafApplication.isDarkThemeEnabled) Colour(R.color.color_background_dark) else Color.WHITE
         }
 
         setContentView(R.layout.activity_read_library)
@@ -69,7 +69,7 @@ class ReadLibraryActivity : BaseActivity() {
             toolbar_library_surah.setBackgroundColor(Colour(R.color.colorPrimary))
         }
 
-        toolbar_library_surah.setNavigationIcon(if (MusahafApplication.isDarkThemeEnabled) R.drawable.ic_menu_light else R.drawable.ic_menu_dark)
+        toolbar_library_surah.setNavigationIcon(if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_menu_light else R.drawable.ic_menu_dark)
 
         readAdapter = ReadLibraryAdapter(readSurahData, repository)
 
@@ -216,13 +216,13 @@ class ReadLibraryActivity : BaseActivity() {
 
         fastScrollButton.setImageResource(R.drawable.ic_move_to_page)
         fastScrollButton.setOnClickListener { showAyaNumberPopup(fastScrollButton) }
-        fastScrollButton.setColorFilter(if (MusahafApplication.isDarkThemeEnabled) Color.WHITE else Color.BLACK)
+        fastScrollButton.setColorFilter(if (MushafApplication.isDarkThemeEnabled) Color.WHITE else Color.BLACK)
     }
     private var ayaPopupMenu :MaterialPopupMenu?=null
     private fun initAyaNumberPopup() {
         if (readSurahData.isNotEmpty()) {
             ayaPopupMenu = popupMenu {
-                if (MusahafApplication.isDarkThemeEnabled)
+                if (MushafApplication.isDarkThemeEnabled)
                     style = R.style.Widget_MPM_Menu_Dark_DarkBackground
                 section {
                     title = getString(R.string.select_aya)

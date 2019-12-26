@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.ui.MainActivity
-import co.jp.smagroup.musahaf.ui.commen.BaseFragment
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
 import co.jp.smagroup.musahaf.ui.quran.read.NavigateToPageDialog
@@ -32,7 +32,7 @@ class QuranIndexFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     private lateinit var viewModel: QuranViewModel

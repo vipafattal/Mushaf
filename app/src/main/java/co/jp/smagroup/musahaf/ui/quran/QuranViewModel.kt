@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
-import co.jp.smagroup.musahaf.ui.commen.CacheMaker
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.CacheManager
 import com.codebox.lib.standard.collections.filters.singleIdx
 import kotlinx.serialization.list
 import kotlinx.coroutines.*
@@ -15,7 +15,7 @@ import kotlinx.serialization.UnstableDefault
 class QuranViewModel(private val repository: Repository) : ViewModel() {
 
     @UnstableDefault
-    private val cacheMaker = CacheMaker()
+    private val cacheMaker = CacheManager()
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
     private lateinit var _mainMusahaf: MutableLiveData<List<Aya>>

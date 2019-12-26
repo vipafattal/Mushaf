@@ -7,7 +7,7 @@
         app:cardCornerRadius="10dp"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="410dp">
 
     <TextView
             android:layout_marginTop="@dimen/_45sdp"
@@ -25,25 +25,35 @@
             android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/textView3"/>
-    <com.google.android.material.button.MaterialButton
-            android:layout_centerHorizontal="true"
-            app:backgroundTint="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:text="@string/cancel_process"
-            android:layout_marginBottom="@dimen/_30sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/progress_circular"
-            android:id="@+id/progress_cancel_button"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:layout_centerHorizontal="true"
+                android:layout_alignBottom="@id/loading_view"
+                app:backgroundTint="@color/colorPrimaryDark"
+                android:textAllCaps="false"
+                android:layout_marginBottom="@dimen/_35sdp"
+                android:textStyle="bold"
+                android:text="@string/background_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_background_button"/>
+
 
     <com.airbnb.lottie.LottieAnimationView
-            app:lottie_progress="0"
-            android:id="@+id/progress_circular"
-            app:lottie_rawRes="@raw/loading_anim"
+            android:id="@+id/loading_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_progress="0"
+            app:lottie_rawRes="@raw/loading_anim" />
 
     <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@id/loading_view"
+            app:backgroundTint="@color/colorPrimaryDark"
+            android:textAllCaps="true"
+            android:layout_marginBottom="@dimen/_125sdp"
             android:id="@+id/loading_per"
             android:textColor="#fff"
             android:textAppearance="@style/AppTheme.Title.Bold"

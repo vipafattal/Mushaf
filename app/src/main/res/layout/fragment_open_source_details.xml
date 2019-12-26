@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+            android:clickable="true"
+            android:layoutDirection="ltr"
+            android:background="?android:colorBackground"
+            android:padding="8dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.openSourceLicenses.OpenSourceDetailsFragment"
+            tools:ignore="UnusedAttribute" android:focusable="true">
+
+        <TextView
+                style="@style/AppTheme.Text.Normal.Mini"
+                tools:text="www.google.com"
+                android:id="@+id/libraryLink"
+                android:autoLink="web"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_blank_fragment"/>
+
+        <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/libraryDetails"
+                style="@style/AppTheme.Text.Normal.Mini"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

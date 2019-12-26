@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -29,7 +29,7 @@ class WordByWordBottomSheet : BottomSheetDialogFragment() {
         viewModelOf(WordByWordViewModel::class.java).getWordByWord().observer(viewLifecycleOwner) {
             recycler_wordByWord.adapter = WordByWordAdapter(it)
         }
-        val closeIcon = if (MusahafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
+        val closeIcon = if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
         close_image.setImageResource(closeIcon)
         close_image.setOnClickListener {
             dismiss()

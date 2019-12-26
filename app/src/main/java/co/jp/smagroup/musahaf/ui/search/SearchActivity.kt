@@ -10,22 +10,21 @@ import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.framework.utils.TextTypeOpt
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
+import co.jp.smagroup.musahaf.utils.LocalJsonParser
 import co.jp.smagroup.musahaf.utils.extensions.checked
 import co.jp.smagroup.musahaf.utils.extensions.unChecked
-import com.codebox.kidslab.Framework.Views.CustomToast
+import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.views.listeners.onClick
 import com.codebox.lib.android.views.utils.gone
 import com.codebox.lib.android.views.utils.visible
 import com.codebox.lib.standard.stringsUtils.match
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.*
-import kotlinx.io.IOException
-import kotlinx.io.InputStream
+
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 
@@ -44,7 +43,7 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
     private var isSearchableQuranReady = false
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,21 +154,8 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
     @UnstableDefault
     @UseExperimental(ImplicitReflectionSerializer::class)
     private fun getSearchableData(): MutableList<Aya> {
-        val data = assets.open("searchable_quran.json").stringify()
-        val json = Json.nonstrict
-        val parsedData: Models.SearchableQuran = json.parse(Models.SearchableQuran.serializer(), data)
-
+        val parsedData = LocalJsonParser.parse("searchable_quran.json",Models.SearchableQuran.serializer())
         return parsedData.data.ayahs.toMutableList()
     }
 
-    private fun InputStream.stringify(): String {
-        try {
-            val bytes = kotlin.ByteArray(available())
-            read(bytes, 0, bytes.size)
-            return kotlin.text.String(bytes)
-        } catch (e: IOException) {
-            return ""
-        }
-
-    }
 }

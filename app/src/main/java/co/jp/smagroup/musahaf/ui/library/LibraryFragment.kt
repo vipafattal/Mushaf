@@ -4,10 +4,10 @@ package co.jp.smagroup.musahaf.ui.library
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.ui.MainActivity
-import co.jp.smagroup.musahaf.ui.commen.BaseFragment
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
 import co.jp.smagroup.musahaf.ui.library.manage.ManageLibraryActivity
 import co.jp.smagroup.musahaf.ui.search.SearchActivity
 import co.jp.smagroup.musahaf.utils.extensions.onScroll
@@ -28,7 +28,7 @@ class LibraryFragment : BaseFragment() {
     lateinit var repository: Repository
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
 

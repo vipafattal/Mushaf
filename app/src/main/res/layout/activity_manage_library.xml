@@ -39,11 +39,12 @@
                 android:layout_height="?actionBarSize"
                 app:tabMode="fixed"/>
 
-        <androidx.viewpager.widget.ViewPager
+        <com.duolingo.open.rtlviewpager.RtlViewPager
+                android:layoutDirection="locale"
                 android:layout_height="match_parent"
                 android:background="?android:colorBackground"
                 android:id="@+id/viewpager_manage_library"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent" tools:targetApi="jelly_bean_mr1"/>
     </LinearLayout>
 
     <include layout="@layout/layout_connection"/>

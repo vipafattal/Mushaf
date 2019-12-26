@@ -1,4 +1,4 @@
-package com.codebox.kidslab.Framework.Views
+package co.jp.smagroup.musahaf.framework
 
 import android.content.Context
 import android.view.View

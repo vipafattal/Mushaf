@@ -10,7 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import com.codebox.lib.android.utils.screenHelpers.dp
 import com.codebox.lib.standard.lambda.unitFun
 

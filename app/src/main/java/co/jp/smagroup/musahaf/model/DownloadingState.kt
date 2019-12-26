@@ -4,11 +4,12 @@ import co.jp.smagroup.musahaf.framework.database.MusahafDatabase
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
 import com.raizlabs.android.dbflow.structure.BaseModel
+import kotlinx.serialization.Serializable
 
 /**
  * Created by ${User} on ${Date}
  */
-
+@Serializable
 @Table(database = MusahafDatabase::class, allFields = true)
 data class DownloadingState(
     @PrimaryKey

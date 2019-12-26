@@ -6,14 +6,10 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Build
-import android.os.Bundle
-import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.ShortcutDetails
-import co.jp.smagroup.musahaf.ui.library.read.ReadLibraryActivity
-import com.codebox.kidslab.Framework.Views.CustomToast
-import com.codebox.lib.android.utils.AppPreferences
+import co.jp.smagroup.musahaf.framework.CustomToast
 import java.util.*
 
 /**

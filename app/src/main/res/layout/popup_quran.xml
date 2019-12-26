@@ -45,6 +45,13 @@
                 android:layout_width="@dimen/action_image_size"
                 android:layout_height="@dimen/action_image_size"
                 android:layout_marginRight="@dimen/popup_margin_ending"/>
+<!--        <ImageView
+                android:background="?selectableItemBackgroundBorderless"
+                android:id="@+id/wordByWord_popup"
+                app:srcCompat="@drawable/ic_language_word"
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+            />-->
         <ImageView
                 android:background="?selectableItemBackgroundBorderless"
                 android:id="@+id/play_popup"

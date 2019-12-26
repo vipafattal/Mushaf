@@ -126,6 +126,10 @@
     <string name="shortcut_created">Shortcut Created</string>
     <string name="unable_to_add_shortcut">Unable to add a shortcut</string>
     <string name="add_shortcut">Add shortcut to home screen</string>
+    <string name="open_source_license">Open Source License</string>
+    <string name="download_completed">Download complete</string>
+    <string name="downloading_please_wait">Downloading Please Wait</string>
+    <string name="background_download">Download in background</string>
 
 
 </resources>

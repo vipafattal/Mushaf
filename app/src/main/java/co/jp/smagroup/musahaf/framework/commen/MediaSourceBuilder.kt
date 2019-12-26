@@ -2,7 +2,7 @@ package co.jp.smagroup.musahaf.framework.commen
 
 import android.net.Uri
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.more.SettingsPreferencesConstant
 import com.codebox.lib.android.resoures.Stringer
 import com.codebox.lib.android.utils.AppPreferences
@@ -27,7 +27,7 @@ object MediaSourceBuilder {
         eachVerse: Int,
         wholeSet: Int
     ): MediaSource {
-        val userAgent = Util.getUserAgent(MusahafApplication.appContext, Stringer(R.string.app_name))
+        val userAgent = Util.getUserAgent(MushafApplication.appContext, Stringer(R.string.app_name))
         val dataSourceFactory = DefaultHttpDataSourceFactory(userAgent)
         val mediaSourceArray = arrayOfNulls<MediaSource>(mediaList.size)
         for (i in mediaList.indices) {

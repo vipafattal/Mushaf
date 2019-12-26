@@ -71,6 +71,12 @@
         <item name="android:fontFamily">@font/title_en</item>
     </style>
 
+    <style name="RadioButtonStyle" parent="Theme.AppCompat.Light">
+        <!--Selected button color-->
+        <item name="colorAccent">#FFAB00</item>
+        <!--Unselected button color-->
+        <item name="colorControlNormal">#3D5AFE</item>
+    </style>
 
     <style name="AppTheme.Text.Normal" parent="TextAppearance.AppCompat.Body1">
         <item name="android:fontFamily">@font/normal_en</item>

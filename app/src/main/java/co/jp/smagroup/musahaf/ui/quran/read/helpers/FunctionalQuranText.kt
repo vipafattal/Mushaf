@@ -12,7 +12,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.text.toSpannable
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.Aya
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
 import co.jp.smagroup.musahaf.utils.ClickableImageSpan
 import co.jp.smagroup.musahaf.utils.clearHighlighted
@@ -23,7 +23,7 @@ import com.codebox.lib.android.utils.screenHelpers.dp
  * Created by ${User} on ${Date}
  */
 class FunctionalQuranText(private val context: Context, private val popupActions: PopupActions) {
-    private val ayaNumberColor = if (MusahafApplication.isDarkThemeEnabled) Color.WHITE else Color.BLACK
+    private val ayaNumberColor = if (MushafApplication.isDarkThemeEnabled) Color.WHITE else Color.BLACK
     private var clickedStartSpanPosition = 0
     private var clickedEndSpanPosition = 0
 

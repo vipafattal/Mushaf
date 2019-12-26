@@ -3,7 +3,6 @@ package co.jp.smagroup.musahaf.ui.library.manage;
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.DownloadingState
@@ -12,14 +11,13 @@ import com.codebox.lib.android.viewGroup.inflater
 import com.codebox.lib.android.views.listeners.onClick
 import kotlinx.android.synthetic.main.item_library_manage.view.*
 import kotlinx.android.synthetic.main.item_library_manage_lang.view.*
-import java.util.*
 
 /**
  * Created by ${User} on ${Date}
  */
 class ManageLibraryAdapter(
     private val dataList: List<Pair<Edition, DownloadingState>>,
-    private val doOnItemClicked: (editionIdentifier: String, downloadState: DownloadingState) -> Unit
+    private val doOnItemClicked: (edition: Edition, downloadingState: DownloadingState) -> Unit
 
 ) : RecyclerView.Adapter<ManageLibraryAdapter.ViewHolder>() {
     
@@ -69,7 +67,7 @@ class ManageLibraryAdapter(
             val icon = if (data.second.isDownloadCompleted) R.drawable.ic_check else R.drawable.ic_cloud_download
             itemView.download_img.setImageResource(icon)
             itemView.itemLibrary_rootView.onClick {
-                doOnItemClicked.invoke(data.first.identifier, data.second)
+                doOnItemClicked.invoke(data.first, data.second)
             }
         }
         

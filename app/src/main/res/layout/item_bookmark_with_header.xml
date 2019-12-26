@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
-    <TextView
-            android:padding="5dp"
-            android:background="@color/colorSecondary"
-            tools:text="Quran"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/white"
-            android:textAppearance="@style/AppTheme.Title.Bold"
-            android:id="@+id/type_header"
+
+    <com.google.android.material.card.MaterialCardView
+            app:cardElevation="1dp"
+            app:cardCornerRadius="0dp"
             android:layout_width="match_parent"
-            android:layout_height="45dp"/>
+            android:layout_height="45dp">
+
+        <TextView
+                android:padding="5dp"
+                android:background="@color/colorSecondary"
+                tools:text="Quran"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/AppTheme.Title.Bold"
+                android:id="@+id/type_header"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"/>
+    </com.google.android.material.card.MaterialCardView>
+
 
     <include layout="@layout/item_bookmark"/>
 

@@ -55,6 +55,8 @@
                     app:layout_constraintBaseline_toBaselineOf="@+id/aya_number_library"/>
 
             <TextView
+                    android:lineSpacingExtra="1.5dp"
+                    android:lineSpacingMultiplier="1.2"
                     android:textStyle="bold"
                     app:layout_constrainedWidth="true"
                     style="@style/AppTheme.Text.Normal"

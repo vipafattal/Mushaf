@@ -2,8 +2,6 @@ package co.jp.smagroup.musahaf.framework.data.local
 
 import co.jp.smagroup.musahaf.framework.api.ApiModels
 import co.jp.smagroup.musahaf.framework.utils.EditionTypeOpt
-import co.jp.smagroup.musahaf.framework.utils.TextTypeOpt
-import co.jp.smagroup.musahaf.framework.utils.TranslationTypeOpt
 import co.jp.smagroup.musahaf.model.*
 
 /**
@@ -15,7 +13,7 @@ interface LocalDataSourceProviders {
     suspend fun addSupportedLanguages(languages: List<String>)
     suspend fun addEditions(editions: List<Edition>)
     suspend fun addEdition(edition: Edition)
-    suspend fun addDownloadingState(downloadingState: DownloadingState)
+    suspend fun addDownloadingState(downloadState: DownloadingState)
     suspend fun addDownloadReciter(reciters: List<Reciter>)
     fun addDownloadReciter(reciter: Reciter)
 

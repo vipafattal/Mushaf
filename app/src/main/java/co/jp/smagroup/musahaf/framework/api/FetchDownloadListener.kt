@@ -9,9 +9,7 @@ import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Reciter
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.DownloadingFragment
-import com.codebox.kidslab.Framework.Views.CustomToast
-import com.codebox.lib.android.resoures.Stringify
-import com.codebox.lib.android.widgets.shortToast
+import co.jp.smagroup.musahaf.framework.CustomToast
 import com.crashlytics.android.Crashlytics
 import com.tonyodev.fetch2.AbstractFetchListener
 import com.tonyodev.fetch2.Download

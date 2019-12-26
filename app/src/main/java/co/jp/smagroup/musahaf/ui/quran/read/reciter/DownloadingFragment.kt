@@ -5,8 +5,8 @@ import android.os.Build
 import android.os.Bundle
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.api.FetchDownloadListener
-import co.jp.smagroup.musahaf.ui.commen.BaseFragment
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.utils.extensions.observeOnMainThread
 import com.codebox.lib.android.fragments.removeFragment
 import io.reactivex.subjects.BehaviorSubject
@@ -25,7 +25,7 @@ class DownloadingFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         val closeIcon =
-            if (MusahafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
+            if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
         playerDownloadingCancel.setImageResource(closeIcon)
         playerDownloadingCancel.setOnClickListener {
             playerDownloadingCancelled.onNext(true)

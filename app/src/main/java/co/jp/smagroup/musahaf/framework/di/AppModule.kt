@@ -1,7 +1,7 @@
 package co.jp.smagroup.musahaf.framework.di
 
 import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.framework.api.QuranCloudAPI
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import com.codebox.lib.extrenalLib.TinyDB
@@ -12,7 +12,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -44,7 +43,7 @@ open class AppModule {
     }
     
     @Provides
-    fun tinyDb(): TinyDB = TinyDB(MusahafApplication.appContext)
+    fun tinyDb(): TinyDB = TinyDB(MushafApplication.appContext)
 
     @Provides
     @Singleton

@@ -9,7 +9,7 @@
 
     <color name="colorTextSecondary">#848484</color>
     <color name="darkBg">#000</color>
-    <color name="lightBg">#E7F9E8</color>
+    <color name="lightBg">#EAFAEB</color>
     <color name="progress_dialog">#CC000000</color>
 
     <color name="focusColor">#D50000</color>

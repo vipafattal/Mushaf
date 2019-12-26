@@ -15,8 +15,8 @@ class WordByWordViewModel : ViewModel() {
         wordByWordData = MutableLiveData()
     }
     
-    fun setWordByWordData(value: List<Pair<String?, String>>) {
-        wordByWordData.value = value
+    fun setWordByWordData(wordsByWords: List<Pair<String?, String>>) {
+        wordByWordData.value = wordsByWords
     }
     
     fun getWordByWord(): LiveData<List<Pair<String?, String>>> = wordByWordData

@@ -2,20 +2,19 @@ package co.jp.smagroup.musahaf.ui.quran.read.translation
 
 
 import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.model.Translation
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.ui.library.manage.ManageLibraryActivity
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.onClicks
@@ -62,7 +61,7 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
                     val ayatText = if (data.isNotEmpty()) data.map { it.text } else listOf("No Translation Downloaded")
                     recycler_translation.adapter = TranslationQuranAdapter(ayatText)
 
-                    translation_selection.setImageResource(if (MusahafApplication.isDarkThemeEnabled) R.drawable.ic_language_light else R.drawable.ic_language_dark)
+                    translation_selection.setImageResource(if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_language_light else R.drawable.ic_language_dark)
                     translation_selection.onClick {
                         val allData =
                             translation.selectedEditions.map { true to it } + translation.unSelectedEditions.map { false to it }
@@ -71,7 +70,7 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
 
                 }
             }
-        val closeIcon = if (MusahafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
+        val closeIcon = if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
         close_image.setImageResource(closeIcon)
         close_image.setOnClickListener {
             dismiss()
@@ -81,7 +80,7 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
     private fun showPopup(view: View, data: List<Pair<Boolean, Edition>>, numberInMusahaf: Int) {
         val newData = data.toMutableList()
         val popupMenu = popupMenu {
-            if (MusahafApplication.isDarkThemeEnabled)
+            if (MushafApplication.isDarkThemeEnabled)
                 style = R.style.Widget_MPM_Menu_Dark_DarkBackground
             section {
                 for (element in data) {
@@ -188,7 +187,7 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
     }
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     companion object {

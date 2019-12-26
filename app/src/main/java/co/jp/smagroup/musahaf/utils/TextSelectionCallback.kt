@@ -9,8 +9,6 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.annotation.MenuRes
 import androidx.annotation.RequiresApi
-import co.jp.smagroup.musahaf.model.Aya
-import co.jp.smagroup.musahaf.model.ReadData
 
 class TextSelectionCallback(
     private val data: Any,
@@ -54,16 +52,20 @@ class TextSelectionCallback(
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        val start = mTextView.selectionStart
-        val end = mTextView.selectionEnd
-        val value = onActionItemClickListener.onActionItemClick(data,item,start..end, clipboard)
+        var start = mTextView.selectionStart
+        var end = mTextView.selectionEnd
+
+        if (end > mTextView.text.lastIndex) end = mTextView.selectionEnd - 1
+        if (start < 0) start = 0
+
+        val value = onActionItemClickListener.onActionItemClick(data, item, start..end, clipboard)
         if (value) mode.finish()
         return value
     }
 
     interface OnActionItemClickListener {
         fun onActionItemClick(
-            data:Any,
+            data: Any,
             item: MenuItem,
             selectedRange: IntRange,
             clipboard: ClipboardManager

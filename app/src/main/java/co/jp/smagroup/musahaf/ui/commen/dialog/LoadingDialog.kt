@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import com.codebox.kidslab.Framework.Views.CustomToast
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.standard.lambda.unitFun
 
 

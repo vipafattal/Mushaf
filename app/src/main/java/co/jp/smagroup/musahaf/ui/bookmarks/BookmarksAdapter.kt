@@ -12,6 +12,7 @@ import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.ui.library.read.ReadLibraryActivity
 import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
+import co.jp.smagroup.musahaf.utils.toCurrentLanguageNumber
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
 import com.codebox.lib.android.actvity.newIntent
 import com.codebox.lib.android.utils.AppPreferences
@@ -69,9 +70,9 @@ class BookmarksAdapter(
 
         private fun View.bindItem(aya: Aya) {
             surah_name_bookmark.text = if (isRightToLeft == 1) aya.surah!!.englishName else aya.surah!!.name
-            val page = context.getString(R.string.page) + " ${aya.page.toString().toLocalizedNumber()}"
-            val juz = context.getString(R.string.juz) + " ${aya.juz.toString().toLocalizedNumber()}"
-            val numberInSurah = context.getString(R.string.aya) + " ${aya.numberInSurah.toString().toLocalizedNumber()}"
+            val page = context.getString(R.string.page) + " ${aya.page.toString().toCurrentLanguageNumber()}"
+            val juz = context.getString(R.string.juz) + " ${aya.juz.toString().toCurrentLanguageNumber()}"
+            val numberInSurah = context.getString(R.string.aya) + " ${aya.numberInSurah.toString().toCurrentLanguageNumber()}"
             val editionName = if (aya.edition!!.type != Edition.Quran) aya.edition!!.name else ""
             info_bookmark.text = "$page, $juz, $numberInSurah, $editionName"
 

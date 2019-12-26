@@ -151,6 +151,24 @@ fun String.toLocalizedNumber(): String {
     return output
 }
 
+fun String.toCurrentLanguageNumber(): String {
+    var output = this
+    if (isRightToLeft != 1 )
+        for ((englishNumber, arabicNumber) in numbers)
+            output = output.replace(englishNumber, arabicNumber)
+
+    return output
+}
+
+fun Int.toCurrentLanguageNumber(): String {
+    var output = this.toString()
+    if (isRightToLeft != 1 )
+        for ((englishNumber, arabicNumber) in numbers)
+            output = output.replace(englishNumber, arabicNumber)
+
+    return output
+}
+
 fun Int.toLocalizedNumber(): String {
     var output = this.toString()
     if (isRightToLeft != 1 || sharedPreference.getBoolean(SettingsPreferencesConstant.ArabicNumbersKey))

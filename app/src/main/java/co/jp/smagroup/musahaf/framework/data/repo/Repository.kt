@@ -7,7 +7,7 @@ import co.jp.smagroup.musahaf.framework.data.local.LocalDataSource
 import co.jp.smagroup.musahaf.framework.utils.NewAPI
 import co.jp.smagroup.musahaf.framework.utils.ReciterRequestGenerator
 import co.jp.smagroup.musahaf.model.*
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
 import co.jp.smagroup.musahaf.utils.extensions.onComplete
 import com.raizlabs.android.dbflow.sql.language.SQLite
@@ -32,7 +32,7 @@ class Repository : RepositoryProviders {
     lateinit var quranCloudAPI: QuranCloudAPI
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     override suspend fun getSupportedLanguage(): List<String> {

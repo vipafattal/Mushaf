@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.model.ShortcutDetails
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.Fonts
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.library.read.ReadLibraryActivity
 import co.jp.smagroup.musahaf.utils.Shortcut
 import co.jp.smagroup.musahaf.utils.extensions.onClicks
@@ -57,8 +58,9 @@ class LibraryAdapter(private val dataList: List<Edition>) : RecyclerView.Adapter
 
         @SuppressLint("SetTextI18n")
         fun bindData(edition: Edition) {
-            itemView.type_library.text = edition.type
+            itemView.type_library.text = if (edition.type != Edition.Tafsir) edition.type else "تفسير"
             itemView.edition_name_library.text = edition.name
+            itemView.edition_name_library.typeface = Fonts.getNormalFont(context, edition.language)
             onClicks(itemView.read_translation_button, itemView) { onItemClick(edition, itemView.context) }
             //In api 25 and above we're able to create create and shortcut to Icon launcher so we don't want to create popup for shortcuts.
             itemView.onLongClick { createShortcutPopup(edition) }
@@ -67,7 +69,7 @@ class LibraryAdapter(private val dataList: List<Edition>) : RecyclerView.Adapter
         private fun createShortcutPopup(edition: Edition) {
 
             val shortcutPopup = popupMenu {
-                if (MusahafApplication.isDarkThemeEnabled)
+                if (MushafApplication.isDarkThemeEnabled)
                     style = R.style.Widget_MPM_Menu_Dark_DarkBackground
                 section {
                     item {

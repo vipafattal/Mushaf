@@ -43,15 +43,17 @@
                 android:key="@string/data_validity"
                 android:title="@string/data_validity"/>
 
+        <Preference
+            android:title="@string/open_source_license"
+            android:key="@string/open_source_license" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">
         <Preference
-                android:selectable="false"
                 android:summary="@string/app_version"
                 android:title="@string/app_name"/>
         <Preference
-                android:selectable="false"
                 android:summary="@string/word_summery"
                 android:title="@string/word"/>
     </PreferenceCategory>

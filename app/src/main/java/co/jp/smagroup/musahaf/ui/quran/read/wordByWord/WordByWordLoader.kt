@@ -1,13 +1,14 @@
 package co.jp.smagroup.musahaf.ui.quran.read.wordByWord
 
-import androidx.annotation.UiThread
 import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.utils.isPunctuation
 import co.jp.smagroup.musahaf.utils.removePunctuation
 import com.codebox.lib.standard.stringsUtils.match
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
@@ -15,34 +16,51 @@ import kotlinx.coroutines.withContext
  */
 class WordByWordLoader(val repository: Repository) {
 
-    @UiThread
-    suspend fun getDataWordByWord(
+    fun getDataWordByWord(
+        coroutineScope: CoroutineScope,
         selectedData: ArrayList<String>,
         ayaFromSelectedText: Aya,
         onSuccess: (List<Pair<String?, String>>) -> Unit,
-        onError: () -> Unit
+        doOnEmptyData: () -> Unit
     ) {
         val ayaResult = mutableListOf<Pair<String?, String>>()
-        val wordByWordPageData =
-            withContext(Dispatchers.IO) { repository.getPage(MusahafConstants.WordByWord, ayaFromSelectedText.page) }
 
-        if (wordByWordPageData != null) {
-            for (arabicWord in selectedData) {
-                val surahEnglishName = ayaFromSelectedText.surah!!.englishName
-                var definition:String? = getWordDefinitionMedthod1(wordByWordPageData,arabicWord,surahEnglishName)
-                if (definition != null) ayaResult.add(definition to arabicWord)
-                else{
-                    definition = getWordDefinitionMedthod2(wordByWordPageData, arabicWord, surahEnglishName)
-                    ayaResult.add(definition to arabicWord)
+        coroutineScope.launch {
+            val wordByWordPageData =
+                withContext(Dispatchers.IO) {
+                    repository.getPage(
+                        MusahafConstants.WordByWord,
+                        ayaFromSelectedText.page
+                    )
                 }
-            }
-            onSuccess(ayaResult)
-        } else
-            onError()
+
+            if (wordByWordPageData != null) {
+                for (arabicWord in selectedData) {
+                    val surahEnglishName = ayaFromSelectedText.surah!!.englishName
+                    var definition: String? =
+                        getWordDefinitionMethod1(wordByWordPageData, arabicWord, surahEnglishName)
+                    if (definition != null) ayaResult.add(definition to arabicWord)
+                    else {
+                        definition = getWordDefinitionMedthod2(
+                            wordByWordPageData,
+                            arabicWord,
+                            surahEnglishName
+                        )
+                        ayaResult.add(definition to arabicWord)
+                    }
+                }
+                onSuccess(ayaResult)
+            } else
+                doOnEmptyData()
+        }
     }
 
-    private fun getWordDefinitionMedthod1(wordByWordPageData: List<Aya>, arabicWord: String, surahEnglishName: String): String? {
-        var wordDefinition:String? = null
+    private fun getWordDefinitionMethod1(
+        wordByWordPageData: List<Aya>,
+        arabicWord: String,
+        surahEnglishName: String
+    ): String? {
+        var wordDefinition: String? = null
         val aya = wordByWordPageData.firstOrNull {
             val wordByWordAya = it.text.removePunctuation()
             val arabicNoPunctuation = arabicWord.removePunctuation()
@@ -59,8 +77,12 @@ class WordByWordLoader(val repository: Repository) {
         return wordDefinition
     }
 
-    private fun getWordDefinitionMedthod2(wordByWordPageData: List<Aya>, arabicWord: String, surahEnglishName: String): String? {
-        var wordDefinition:String? = null
+    private fun getWordDefinitionMedthod2(
+        wordByWordPageData: List<Aya>,
+        arabicWord: String,
+        surahEnglishName: String
+    ): String? {
+        var wordDefinition: String? = null
 
         val aya = wordByWordPageData.firstOrNull {
             val wordByWordAya = it.text.removePunctuation()
@@ -73,7 +95,7 @@ class WordByWordLoader(val repository: Repository) {
                     wordByWordAya.find(arabicWithAlef)) && it.surah!!.englishName == surahEnglishName)
         }
 
-        if (aya != null) wordDefinition =  getWordDefinition(aya,arabicWord)
+        if (aya != null) wordDefinition = getWordDefinition(aya, arabicWord)
 
         return wordDefinition
     }

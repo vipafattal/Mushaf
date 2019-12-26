@@ -33,6 +33,7 @@
                 android:layout_marginLeft="6dp" app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
+
                 style="@style/AppTheme.Text.Normal.Mini"
                 app:layout_constrainedWidth="true"
                 tools:text="@string/surah_tools"

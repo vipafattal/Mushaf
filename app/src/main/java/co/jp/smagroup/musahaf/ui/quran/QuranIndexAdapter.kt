@@ -8,6 +8,7 @@ import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.utils.getAyaWord
+import co.jp.smagroup.musahaf.utils.toCurrentLanguageNumber
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
 import co.jp.smagroup.musahaf.utils.toLocalizedRevelation
 import com.codebox.lib.android.actvity.newIntent
@@ -73,14 +74,14 @@ class QuranIndexAdapter(private val dataList: List<Aya>,
         }
 
         private fun bindHeader(data: Aya) {
-            itemView.juzNumber.text = "${Stringify(R.string.juz,itemView.context)} ${data.juz.toString().toLocalizedNumber()}"
-            itemView.pageNumber.text = data.page.toString().toLocalizedNumber()
+            itemView.juzNumber.text = "${Stringify(R.string.juz,itemView.context)} ${data.juz.toString().toCurrentLanguageNumber()}"
+            itemView.pageNumber.text = data.page.toString().toCurrentLanguageNumber()
             itemView.juz_view_root.activeClick(data)
         }
 
         private fun bindSurah(data: Aya) {
             itemView.apply {
-                pageNumber_surah.text = data.page.toString().toLocalizedNumber()
+                pageNumber_surah.text = data.page.toString().toCurrentLanguageNumber()
 
                 if (isRightToLeft == 1) surahName.text = data.surah!!.englishName
                 else surahName.text = data.surah!!.name

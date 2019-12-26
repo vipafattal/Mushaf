@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import co.jp.smagroup.musahaf.R
-import com.codebox.kidslab.Framework.Views.CustomToast
+import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.actvity.newIntent
-import com.codebox.lib.android.widgets.longToast
-import com.codebox.lib.android.widgets.shortToast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_navigete_to_page.*
 

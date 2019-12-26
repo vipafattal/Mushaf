@@ -14,8 +14,8 @@ import androidx.core.widget.NestedScrollView
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
 import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
@@ -29,8 +29,8 @@ import co.jp.smagroup.musahaf.utils.extensions.addOnPageSelectedListener
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
 import co.jp.smagroup.musahaf.utils.notNull
-import co.jp.smagroup.musahaf.utils.toLocalizedNumber
-import com.codebox.kidslab.Framework.Views.CustomToast
+import co.jp.smagroup.musahaf.utils.toCurrentLanguageNumber
+import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.utils.screenHelpers.dp
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.DefaultRenderersFactory
@@ -53,7 +53,7 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     @Inject
@@ -129,13 +129,13 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         val floatingNumberOfHizb = hizbQuarters % 4
 
         val floatingText =
-            if (integerNumberOfHizb != 0) "${integerNumberOfHizb.toLocalizedNumber()} ${floatingNumberOfHizb.toLocalizedNumber()}/" + 4.toLocalizedNumber()
-            else "${floatingNumberOfHizb.toLocalizedNumber()}/" + 4.toLocalizedNumber()
+            if (integerNumberOfHizb != 0) "$integerNumberOfHizb $floatingNumberOfHizb/4"
+            else "${floatingNumberOfHizb}/" + 4
 
         val toastText =
-            "${getString(R.string.hizb)} " + if (floatingNumberOfHizb == 0) integerNumberOfHizb.toLocalizedNumber() else floatingText
+            "${getString(R.string.hizb)} " + if (floatingNumberOfHizb == 0) integerNumberOfHizb else floatingText
 
-        CustomToast.make(this, toastText, Toast.LENGTH_LONG)
+        CustomToast.make(this, toastText.toCurrentLanguageNumber(), Toast.LENGTH_LONG)
     }
 
     private fun initializePlayer() {

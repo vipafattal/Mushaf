@@ -4,13 +4,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.preference.CheckBoxPreference
-import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import co.jp.smagroup.musahaf.R
+import co.jp.smagroup.musahaf.ui.openSourceLicenses.OpenSourceLicenseActivity
 import co.jp.smagroup.musahaf.ui.MainActivity
 import co.jp.smagroup.musahaf.utils.LocaleHelper
+import co.jp.smagroup.musahaf.utils.extensions.goTo
 import co.jp.smagroup.musahaf.utils.extensions.onPreferencesClick
+import com.codebox.lib.android.actvity.launchActivity
 import com.codebox.lib.android.utils.AppPreferences
 
 
@@ -21,10 +23,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         newValue as Boolean
 
         when (preference.key) {
-            getString(R.string.dark_mode) -> {
+            getString(R.string.dark_mode) ->
                 sharedPreference.put(SettingsPreferencesConstant.AppThemeKey, newValue)
-                activity?.recreate()
-            }
+            
             getString(R.string.arabic_mode) -> {
                 sharedPreference.put(SettingsPreferencesConstant.AppLanguageKey, if (newValue) "ar" else "en")
 
@@ -65,20 +66,19 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
 
         onPreferencesClick(R.string.data_validity) {
-            goToUrl("https://alquran.cloud/")
+            context?.goTo("https://alquran.cloud/")
         }
 
         onPreferencesClick(R.string.audio_quality_options){
             val audioQualityDialog = AudioQualityDialog()
             fragmentManager?.let { audioQualityDialog.show(it,AudioQualityDialog.TAG) }
         }
+         onPreferencesClick(R.string.open_source_license){
+           context?.launchActivity<OpenSourceLicenseActivity>()
+        }
+
+
 
     }
 
-
-    private fun goToUrl(url: String) {
-        val uriUrl = Uri.parse(url)
-        val launchBrowser = Intent(Intent.ACTION_VIEW, uriUrl)
-        startActivity(launchBrowser)
-    }
 }

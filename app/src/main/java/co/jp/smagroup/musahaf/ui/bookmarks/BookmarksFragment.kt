@@ -6,9 +6,9 @@ import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.ui.MainActivity
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.BaseFragment
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
 import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
@@ -42,7 +42,7 @@ class BookmarksFragment : BaseFragment() {
     private val toDelete = mutableListOf<Aya>()
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -78,7 +78,6 @@ class BookmarksFragment : BaseFragment() {
             dispatchBookmarkData()
         }
     }
-
 
     fun removeBookmarked(aya: Aya) {
         deletedAya = aya

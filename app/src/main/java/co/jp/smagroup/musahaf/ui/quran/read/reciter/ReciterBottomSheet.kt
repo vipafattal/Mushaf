@@ -9,12 +9,11 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
 import co.jp.smagroup.musahaf.utils.extensions.observer
@@ -51,7 +50,7 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
     var isComingFromMediaPlayer = false
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

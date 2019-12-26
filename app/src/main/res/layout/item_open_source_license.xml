@@ -9,7 +9,7 @@
             android:id="@+id/open_source_title"
             android:layout_margin="12dp"
             android:fontFamily="@font/normal_en"
-            style="@style/AppTheme.Text.Normal"
+            style="@style/AppTheme.Text.Normal.Mini"
             tools:text="Magnet Kot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

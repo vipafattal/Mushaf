@@ -9,7 +9,7 @@
     <intent
         android:action="co.jp.smagroup.musahaf.ui.commen.last_page"
         android:targetPackage="co.jp.smagroup.musahaf"
-        android:targetClass="co.jp.smagroup.musahaf.ui.commen.ShortcutsActivity"
+        android:targetClass="co.jp.smagroup.musahaf.ui.quran.sharedComponent.ShortcutsActivity"
         />
   </shortcut>
 </shortcuts>

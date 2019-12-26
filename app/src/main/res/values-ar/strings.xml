@@ -91,7 +91,7 @@
     <string name="quarter">الربع</string>
     <string name="playing_error">حدث خطأ أثناء التشغيل</string>
     <string name="audio_quality_title">جودة صوت القارئ</string>
-    <string name="audio_quality_summary">تغير إعدادت هذا الخير سوف يؤثر قط على الأستماع المباشر من الإنترنت مع الإنتبه
+    <string name="audio_quality_summary">تغير إعدادت هذا الخير سوف يؤثر فقط على الأستماع المباشر من الإنترنت مع الإنتبه
         إلى أن رفع جود الصوت سوف تؤدي لستخدم بيانات أكثر
     </string>
 
@@ -104,5 +104,9 @@
     <string name="shortcut_created">تم إنشاء الإختصار</string>
     <string name="unable_to_add_shortcut">Unable to add a shortcut</string>
     <string name="add_shortcut">إضافة إختصار إلى الشاشة الرئيسية</string>
+    <string name="open_source_license">تراخيص البرامج مفتوحة المصدر</string>
+    <string name="download_completed">أكتمل التحميل</string>
+    <string name="downloading_please_wait">جاري التحميل الرجاء الإنتظار</string>
+    <string name="background_download">التحميل في الخلفية</string>
 
 </resources>

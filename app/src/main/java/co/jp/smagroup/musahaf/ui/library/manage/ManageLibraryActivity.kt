@@ -3,10 +3,10 @@ package co.jp.smagroup.musahaf.ui.library.manage
 import android.os.Bundle
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.utils.extensions.observeOnMainThread
-import com.codebox.kidslab.Framework.Views.CustomToast
+import co.jp.smagroup.musahaf.framework.CustomToast
 import kotlinx.android.synthetic.main.activity_manage_library.*
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class ManageLibraryActivity : BaseActivity() {
     lateinit var repository: Repository
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

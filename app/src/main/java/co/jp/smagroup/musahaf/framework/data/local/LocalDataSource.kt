@@ -3,15 +3,15 @@ package co.jp.smagroup.musahaf.framework.data.local
 import co.jp.smagroup.musahaf.framework.api.ApiModels
 import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.model.*
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import com.codebox.lib.extrenalLib.TinyDB
-import com.raizlabs.android.dbflow.kotlinextensions.and
-import com.raizlabs.android.dbflow.kotlinextensions.eq
-import com.raizlabs.android.dbflow.kotlinextensions.notEq
 import com.raizlabs.android.dbflow.sql.language.SQLite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.raizlabs.android.dbflow.kotlinextensions.and
+import com.raizlabs.android.dbflow.kotlinextensions.eq
+import com.raizlabs.android.dbflow.kotlinextensions.notEq
 import javax.inject.Inject
 
 /**
@@ -25,7 +25,7 @@ class LocalDataSource : LocalDataSourceProviders {
     lateinit var tinyDB: TinyDB
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     override suspend fun addSupportedLanguages(languages: List<String>) {

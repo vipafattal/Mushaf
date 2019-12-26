@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.ui.bookmarks.BookmarksFragment
-import co.jp.smagroup.musahaf.ui.commen.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.library.LibraryFragment
 import co.jp.smagroup.musahaf.ui.more.SettingsFragment
 import co.jp.smagroup.musahaf.ui.quran.QuranIndexFragment
@@ -39,12 +39,13 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
     private lateinit var navigationViewModel: NavigationViewModel
 
     init {
-        MusahafApplication.appComponent.inject(this)
+        MushafApplication.appComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         navigationViewModel = viewModelOf(NavigationViewModel::class.java)
         GlobalScope.launch(Dispatchers.IO) { repository.getAvailableReciters(true) }
 

@@ -8,12 +8,11 @@ import co.jp.smagroup.musahaf.framework.api.FetchDownloadListener
 import co.jp.smagroup.musahaf.framework.utils.ReciterRequestGenerator
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Reciter
-import co.jp.smagroup.musahaf.ui.commen.MusahafApplication
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
 import co.jp.smagroup.musahaf.utils.extensions.observeOnMainThread
-import com.codebox.kidslab.Framework.Views.CustomToast
+import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.fragments.replaceFragment
-import com.codebox.lib.android.widgets.shortToast
 import com.tonyodev.fetch2.Fetch
 import com.tonyodev.fetch2.Request
 import kotlinx.coroutines.*
@@ -29,7 +28,7 @@ class ReciterPlayer(
 
     private val job = SupervisorJob()
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main + job)
-    private val fetch: Fetch? = Fetch.Impl.getInstance(MusahafApplication.appContext.fetchConfiguration())
+    private val fetch: Fetch? = Fetch.Impl.getInstance(MushafApplication.appContext.fetchConfiguration())
     private lateinit var downloadListener: FetchDownloadListener
     fun play(isStreamingOnline: Boolean, playRange: IntRange, selectedReciterId: String, selectedReciterName: String) {
         if (isStreamingOnline)

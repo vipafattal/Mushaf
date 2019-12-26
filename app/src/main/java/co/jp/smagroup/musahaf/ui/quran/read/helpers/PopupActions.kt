@@ -17,17 +17,18 @@ import kotlinx.android.synthetic.main.popup_quran.*
  */
 class PopupActions(private val activity: ReadQuranActivity, private val clickListener: OnQuranPopupItemClickListener) {
     private var lastClickedPopupItemId = 0
-    fun show(x: Int, y: Int, aya: Aya,  doOnHide: (isBookmarkStatusChanged:Boolean)->Unit) {
+    fun show(x: Int, y: Int, aya: Aya, doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit) {
         activity.popup_parent.visible()
         menuSelectionPopup(x, y)
         activity.enableOnClicks(aya)
         activity.setOutSideClickListener(doOnHide)
     }
 
-    private inline fun ReadQuranActivity.setOutSideClickListener(crossinline doOnHide: (isBookmarkStatusChanged:Boolean)->Unit) {
+    private inline fun ReadQuranActivity.setOutSideClickListener(crossinline doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit) {
         popup_parent.setOnClickListener {
             popup_parent.invisible()
             doOnHide.invoke(lastClickedPopupItemId == R.id.bookmark_popup)
+            lastClickedPopupItemId = 0
         }
     }
 
@@ -71,6 +72,6 @@ class PopupActions(private val activity: ReadQuranActivity, private val clickLis
 
 
     interface OnQuranPopupItemClickListener {
-        fun popupItemClicked(aya:Aya, view: ImageView)
+        fun popupItemClicked(aya: Aya, view: ImageView)
     }
 }
