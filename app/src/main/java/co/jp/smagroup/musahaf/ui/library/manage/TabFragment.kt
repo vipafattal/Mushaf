@@ -7,14 +7,13 @@ import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
 import co.jp.smagroup.musahaf.model.DownloadingState
 import co.jp.smagroup.musahaf.model.Edition
-import co.jp.smagroup.musahaf.ui.DownloadService
+import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
 import co.jp.smagroup.musahaf.ui.commen.dialog.ProgressDialog
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
-import com.codebox.lib.android.widgets.longToast
 import com.codebox.lib.android.widgets.recyclerView.onScroll
 import kotlinx.android.synthetic.main.fragment_tab.*
 import javax.inject.Inject
@@ -94,7 +93,7 @@ class TabFragment : BaseFragment(),ProgressDialog.ProgressListener {
                 progressDialog.progressListener = object : ProgressDialog.ProgressListener {
 
                     override fun onSuccess(dialog: ProgressDialog) {
-                        super.onSuccess(dialog)
+                        dialog.dismiss()
                         viewModel.updateDataDownloadState(edition.identifier)
                     }
 

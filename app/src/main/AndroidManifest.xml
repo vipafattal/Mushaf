@@ -45,7 +45,7 @@
                 android:exported="true" />
 
         <service
-                android:name=".ui.DownloadService"
+                android:name=".framework.DownloadService"
                 android:enabled="true">
         </service>
     </application>

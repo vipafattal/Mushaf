@@ -1,37 +1,81 @@
 package co.jp.smagroup.musahaf.model
 
-import co.jp.smagroup.musahaf.framework.database.MusahafDatabase
-import com.raizlabs.android.dbflow.annotation.ForeignKey
-import com.raizlabs.android.dbflow.annotation.PrimaryKey
-import com.raizlabs.android.dbflow.annotation.Table
-import com.raizlabs.android.dbflow.structure.BaseModel
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import co.jp.smagroup.musahaf.framework.database.AYAT_TABLE
 import kotlinx.serialization.Serializable
 
-@Table(database = MusahafDatabase::class, allFields = true)
 @Serializable
-data class Aya(
-    @PrimaryKey
-    var number: Int = 0,
-    @ForeignKey(saveForeignKeyModel = true)
-    var surah: Surah? = null,
-    var text: String = "",
-    var numberInSurah: Int = 0,
-    var juz: Int = 0,
-    var page: Int = 0,
-    var hizbQuarter: Int = 0,
-    @PrimaryKey
-    @ForeignKey(saveForeignKeyModel = true)
-    var edition: Edition? = null,
-    var isBookmarked: Boolean = false
-) : BaseModel() {
+@Entity(
+    primaryKeys = ["number_in_mushaf", "edition_id"],
+    tableName = AYAT_TABLE
+)
+data class Aya @Ignore constructor(
+    @ColumnInfo(name = "number_in_mushaf")
+    val number: Int,
+    val surah_number: Int=0,
+    val text: String,
+    val numberInSurah: Int,
+    val juz: Int,
+    val page: Int,
+    val hizbQuarter: Int,
+    val edition_id: String = "",
+    val isBookmarked: Boolean = false,
+    @Ignore
+    var surah: Surah?,
+    @Ignore
+    var edition: Edition?=null
+) {
+    constructor(
+        number: Int,
+        surah_number: Int,
+        text: String,
+        numberInSurah: Int,
+        juz: Int,
+        page: Int,
+        hizbQuarter: Int,
+        edition_id: String,
+        isBookmarked: Boolean
+    ) : this(
+        number,
+        surah_number,
+        text,
+        numberInSurah,
+        juz,
+        page,
+        hizbQuarter,
+        edition_id,
+        isBookmarked, null, null
+    )
+
+    @Ignore
     constructor(aya: Aya, edition: Edition) : this(
         number = aya.number,
-        surah = aya.surah,
+        edition_id = edition.identifier,
+        surah_number = aya.surah_number,
         text = aya.text,
         numberInSurah = aya.numberInSurah,
         juz = aya.juz,
         page = aya.page,
         hizbQuarter = aya.hizbQuarter,
-        edition = edition
+        isBookmarked = aya.isBookmarked,
+        surah = aya.surah,
+        edition = aya.edition
+    )
+
+    @Ignore
+    constructor(ayaWithInfo: AyaWithInfo) : this(
+        number = ayaWithInfo.aya.number,
+        edition_id = ayaWithInfo.edition.identifier,
+        surah_number = ayaWithInfo.aya.surah_number,
+        text = ayaWithInfo.aya.text,
+        numberInSurah = ayaWithInfo.aya.numberInSurah,
+        juz = ayaWithInfo.aya.juz,
+        page = ayaWithInfo.aya.page,
+        hizbQuarter = ayaWithInfo.aya.hizbQuarter,
+        isBookmarked = ayaWithInfo.aya.isBookmarked,
+        surah = ayaWithInfo.surah,
+        edition = ayaWithInfo.edition
     )
 }

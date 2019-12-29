@@ -1,19 +1,19 @@
 package co.jp.smagroup.musahaf.model
 
-import co.jp.smagroup.musahaf.framework.database.MusahafDatabase
-import com.raizlabs.android.dbflow.annotation.PrimaryKey
-import com.raizlabs.android.dbflow.annotation.Table
-import com.raizlabs.android.dbflow.structure.BaseModel
+import androidx.room.Entity
+import co.jp.smagroup.musahaf.framework.database.SURAHS_TABLE
 import kotlinx.serialization.Serializable
+import androidx.room.PrimaryKey
 
 
 @Serializable
-@Table(database = MusahafDatabase::class, allFields = true)
+@Entity(tableName = SURAHS_TABLE)
 data class Surah(
-    @PrimaryKey var number: Int = 0,
-    var name: String = "",
-    var englishName: String = "",
-    var englishNameTranslation: String = "",
-    var revelationType: String = "",
-    var numberOfAyahs: Int = 0
-) : BaseModel()
+    @PrimaryKey
+    val number: Int,
+    val name: String,
+    val englishName: String,
+    val englishNameTranslation: String,
+    val revelationType: String,
+    val numberOfAyahs: Int
+)

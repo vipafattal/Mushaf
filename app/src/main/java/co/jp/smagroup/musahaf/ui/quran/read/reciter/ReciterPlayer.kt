@@ -2,16 +2,16 @@ package co.jp.smagroup.musahaf.ui.quran.read.reciter
 
 import android.util.Log
 import co.jp.smagroup.musahaf.R
+import co.jp.smagroup.musahaf.framework.CustomToast
+import co.jp.smagroup.musahaf.framework.api.FetchDownloadListener
 import co.jp.smagroup.musahaf.framework.commen.MediaSourceBuilder
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
-import co.jp.smagroup.musahaf.framework.api.FetchDownloadListener
 import co.jp.smagroup.musahaf.framework.utils.ReciterRequestGenerator
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Reciter
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
 import co.jp.smagroup.musahaf.utils.extensions.observeOnMainThread
-import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.fragments.replaceFragment
 import com.tonyodev.fetch2.Fetch
 import com.tonyodev.fetch2.Request
@@ -28,9 +28,15 @@ class ReciterPlayer(
 
     private val job = SupervisorJob()
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main + job)
-    private val fetch: Fetch? = Fetch.Impl.getInstance(MushafApplication.appContext.fetchConfiguration())
+    private val fetch: Fetch? =
+        Fetch.Impl.getInstance(MushafApplication.appContext.fetchConfiguration())
     private lateinit var downloadListener: FetchDownloadListener
-    fun play(isStreamingOnline: Boolean, playRange: IntRange, selectedReciterId: String, selectedReciterName: String) {
+    fun play(
+        isStreamingOnline: Boolean,
+        playRange: IntRange,
+        selectedReciterId: String,
+        selectedReciterName: String
+    ) {
         if (isStreamingOnline)
             playOnline(playRange, selectedReciterId, eachVerse, wholeSet)
         else {
@@ -70,7 +76,12 @@ class ReciterPlayer(
                         )
 
                         fetch!!.enqueue(notDownloadedAyaRequest)
-                        addDownloadListener(notDownloadedAyaRequest.size,selectedReciterId, selectedReciterName, playRange)
+                        addDownloadListener(
+                            notDownloadedAyaRequest.size,
+                            selectedReciterId,
+                            selectedReciterName,
+                            playRange
+                        )
                     } else playOffline(downloadedReciter, eachVerse, wholeSet)
 
                 }
@@ -88,14 +99,19 @@ class ReciterPlayer(
         }
 
 
-    private fun addDownloadListener(numberOfRequest: Int,selectedReciterId:String, selectedReciterName: String, playRange: IntRange) {
+    private fun addDownloadListener(
+        numberOfRequest: Int,
+        selectedReciterId: String,
+        selectedReciterName: String,
+        playRange: IntRange
+    ) {
         downloadListener = FetchDownloadListener(
             numberOfRequest,
             selectedReciterId,
             selectedReciterName,
             playListWithoutLoopedAyat,
             repository,
-            readQuranActivity
+            readQuranActivity, coroutineScope
         ) {
             if (fetch != null && !fetch.isClosed) {
                 fetch.removeListener(it)
@@ -109,25 +125,37 @@ class ReciterPlayer(
 
 
     private fun onDownloadingCompleted(playRange: IntRange, selectedReciterId: String) {
-        val newDownloadedReciter = repository.getReciterDownloads(
-            playRange.first,
-            playRange.last,
-            selectedReciterId
-        )
-        var isError = false
-        for (number in playRange) {
-            //Checking if not contains this number, if contains
-            if (newDownloadedReciter.firstOrNull { it.number == number } == null) {
-                CustomToast.makeShort(readQuranActivity,R.string.error_downloading)
-                isError = true
-                break
+        coroutineScope.launch {
+            val newDownloadedReciter =
+                withContext(Dispatchers.IO) {
+                    repository.getReciterDownloads(
+                        playRange.first,
+                        playRange.last,
+                        selectedReciterId
+                    )
+                }
+
+
+            var isError = false
+            for (number in playRange) {
+                //Checking if not contains this number, if contains
+                if (newDownloadedReciter.firstOrNull { it.number == number } == null) {
+                    CustomToast.makeShort(readQuranActivity, R.string.error_downloading)
+                    isError = true
+                    break
+                }
             }
+            if (!isError)
+                playOffline(newDownloadedReciter, eachVerse, wholeSet)
         }
-        if (!isError)
-            playOffline(newDownloadedReciter, eachVerse, wholeSet)
     }
 
-    private fun playOnline(playRange: IntRange, selectedReciterId: String, eachVerse: Int, wholeSet: Int) {
+    private fun playOnline(
+        playRange: IntRange,
+        selectedReciterId: String,
+        eachVerse: Int,
+        wholeSet: Int
+    ) {
         val links = MediaSourceBuilder.linksGenerator(playRange, selectedReciterId)
         val mediaSource = MediaSourceBuilder.onlineSource(links, eachVerse, wholeSet)
         readQuranActivity.setExoPLayerMediaSource(mediaSource, playList)

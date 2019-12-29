@@ -10,7 +10,6 @@ import co.jp.smagroup.musahaf.model.*
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
 import co.jp.smagroup.musahaf.utils.extensions.onComplete
-import com.raizlabs.android.dbflow.sql.language.SQLite
 import com.tonyodev.fetch2.Fetch
 import com.tonyodev.fetch2.Request
 import io.reactivex.subjects.BehaviorSubject
@@ -26,7 +25,7 @@ class Repository : RepositoryProviders {
     private val localDataSource = LocalDataSource()
     var errorStream: BehaviorSubject<String> = BehaviorSubject.create()
         private set
-    var loadingStream: BehaviorSubject<Int> = BehaviorSubject.createDefault(0)
+    var loadingStream: BehaviorSubject<Int> = BehaviorSubject.create()
         private set
     @Inject
     lateinit var quranCloudAPI: QuranCloudAPI
@@ -68,10 +67,11 @@ class Repository : RepositoryProviders {
                 localDataSource.addAyat(it.data)
                 loadingStream.onNext(juz)
                 if (juz < 30) {
-                    localDataSource.addDownloadingState(DownloadingState(identifier, false, juz + 1))
+                    localDataSource.addDownloadState(DownloadingState(identifier, false, juz + 1))
                     serverDelay(juz)
                 } else {
-                    localDataSource.addDownloadingState(DownloadingState.downloadQuranTextCompleted(identifier))
+                    localDataSource.addDownloadState(DownloadingState.downloadQuranTextCompleted(identifier))
+                    delay(500)
                     refreshForNewTask()
                 }
             }, onError = {
@@ -120,7 +120,7 @@ class Repository : RepositoryProviders {
     }
 
 
-    override fun updateBookmarkStatus(ayaNumber: Int, identifier: String, bookmarkStatus: Boolean) {
+    override suspend fun updateBookmarkStatus(ayaNumber: Int, identifier: String, bookmarkStatus: Boolean) {
         localDataSource.updateBookmarkStatus(ayaNumber, identifier, bookmarkStatus)
     }
 
@@ -169,7 +169,7 @@ class Repository : RepositoryProviders {
     }
 
     override suspend fun getSurahs(): List<Surah> =
-        SQLite.select().from(Surah::class.java).queryList()
+        localDataSource.getSurahs()
 
     override suspend fun getAyaByNumberInMusahaf(musahafIdentifier: String, number: Int): Aya =
         localDataSource.getAyaByNumberInMusahaf(musahafIdentifier, number)
@@ -227,7 +227,7 @@ class Repository : RepositoryProviders {
         localDataSource.getAllByBookmarkStatus(bookmarkStatus)
 
     override suspend fun getByAyaByBookmark(editionIdentifier: String, bookmarkStatus: Boolean): MutableList<Aya> =
-        localDataSource.getByAyaByBookmark(editionIdentifier, bookmarkStatus)
+        localDataSource.getAyaByBookmark(editionIdentifier, bookmarkStatus)
 
     override suspend fun getPage(musahafIdentifier: String, page: Int): List<Aya>? =
         if (isDownloaded(musahafIdentifier)) localDataSource.getPage(musahafIdentifier, page)
@@ -237,14 +237,14 @@ class Repository : RepositoryProviders {
         localDataSource.addDownloadReciter(data)
     }
 
-    override fun addDownloadedReciter(reciter: Reciter) {
+    override suspend fun addDownloadedReciter(reciter: Reciter) {
         localDataSource.addDownloadReciter(reciter)
     }
 
     override suspend fun getReciterDownload(ayaNumber: Int, reciterName: String): Reciter? =
         localDataSource.getReciterDownload(ayaNumber, reciterName)
 
-    override fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter> =
+    override suspend fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter> =
         localDataSource.getReciterDownloads(from, to, reciterIdentifier)
 
     private suspend fun serverDelay(juz: Int) {

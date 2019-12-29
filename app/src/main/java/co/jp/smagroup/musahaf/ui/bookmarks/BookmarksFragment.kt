@@ -110,16 +110,17 @@ class BookmarksFragment : BaseFragment() {
             if (dataList.isEmpty()) empty_data_text.visible()
         }
     }
-
+/*
     private fun updateBookmarkResuources(){
         for (aya in toDelete) {
             if (aya.edition!!.identifier == MusahafConstants.MainMusahaf)
                 quranViewModel.updateBookmarkStateInData(aya)
+
             repository.updateBookmarkStatus(aya.number,aya.edition!!.identifier, !aya.isBookmarked)
 
         }
 
-    }
+    }*/
 
     private fun restoreDeletedAya() {
         isUserUndoDeleting = true

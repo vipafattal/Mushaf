@@ -13,16 +13,16 @@ interface LocalDataSourceProviders {
     suspend fun addSupportedLanguages(languages: List<String>)
     suspend fun addEditions(editions: List<Edition>)
     suspend fun addEdition(edition: Edition)
-    suspend fun addDownloadingState(downloadState: DownloadingState)
+    suspend fun addDownloadState(downloadState: DownloadingState)
     suspend fun addDownloadReciter(reciters: List<Reciter>)
-    fun addDownloadReciter(reciter: Reciter)
+    suspend fun addDownloadReciter(reciter: Reciter)
 
-    fun updateBookmarkStatus(ayaNumber: Int,identifier: String, bookmarkStatus: Boolean)
+    suspend fun updateBookmarkStatus(ayaNumber: Int,identifier: String, bookmarkStatus: Boolean)
 
     suspend fun getSupportedLanguage(): List<String>
     suspend fun getAvailableEditions(format: String, language: String): List<Edition>
     suspend fun getAllEditions(): List<Edition>
-    fun getEditionsByType(@EditionTypeOpt type: String): List<Edition>
+    suspend fun getEditionsByType(@EditionTypeOpt type: String): List<Edition>
     suspend fun getAvailableReciters(): List<Edition>
     suspend fun getDownloadingState(identifier: String): DownloadingState?
     suspend fun getDownloadedDataReciter(reciterName: String): List<Reciter>
@@ -33,12 +33,13 @@ interface LocalDataSourceProviders {
     suspend fun getAyaByNumberInMusahaf(musahafIdentifier: String, number: Int): Aya
     suspend fun getAyatByRange(from: Int, to: Int): MutableList<Aya>
     suspend fun getAllByBookmarkStatus(bookmarkStatus: Boolean): MutableList<Aya>
-    suspend fun getByAyaByBookmark(editionIdentifier: String,bookmarkStatus: Boolean): MutableList<Aya>
+    suspend fun getAyaByBookmark(editionIdentifier: String, bookmarkStatus: Boolean): MutableList<Aya>
     suspend fun searchTranslation(query: String,  type: String): MutableList<Aya>
 
 
     suspend fun getReciterDownload(ayaNumber: Int, reciterIdentifier: String): Reciter?
-    fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter>
+    suspend fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter>
+    suspend fun getSurahs(): List<Surah>
 
 
 }

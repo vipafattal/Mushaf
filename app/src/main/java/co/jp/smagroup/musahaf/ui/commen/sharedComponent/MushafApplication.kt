@@ -11,9 +11,6 @@ import co.jp.smagroup.musahaf.utils.LocaleHelper
 import com.codebox.lib.android.os.MagentaX
 import com.codebox.lib.android.utils.AppPreferences
 import com.codebox.lib.standard.delegation.DelegatesExt
-import com.raizlabs.android.dbflow.config.FlowConfig
-import com.raizlabs.android.dbflow.config.FlowLog
-import com.raizlabs.android.dbflow.config.FlowManager
 import com.tonyodev.fetch2.FetchConfiguration
 import java.util.*
 
@@ -43,8 +40,6 @@ class MushafApplication : MultiDexApplication() {
         initDagger()
         sharedPrefs = AppPreferences()
         MagentaX.init(this)
-        FlowManager.init(FlowConfig.Builder(this).build())
-        FlowLog.setMinimumLoggingLevel(FlowLog.Level.V)
 
         val currentLanguage = sharedPrefs.getStr(SettingsPreferencesConstant.AppLanguageKey, "")
         //If no language set in Settingsfragment, this will saveDefaultAppLocal().

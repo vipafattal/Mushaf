@@ -154,7 +154,7 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
     @UnstableDefault
     @UseExperimental(ImplicitReflectionSerializer::class)
     private fun getSearchableData(): MutableList<Aya> {
-        val parsedData = LocalJsonParser.parse("searchable_quran.json",Models.SearchableQuran.serializer())
+        val parsedData = LocalJsonParser.parse("searchable_quran.json", Models.SearchableQuran.serializer())
         return parsedData.data.ayahs.toMutableList()
     }
 

@@ -55,7 +55,7 @@ class LibraryViewModel(private val repository: Repository) : ViewModel() {
                     else it
                 }
             }
-            _allAvailableEditions.value = editionsData
+            _allAvailableEditions.postValue(editionsData)
         }
     }
 

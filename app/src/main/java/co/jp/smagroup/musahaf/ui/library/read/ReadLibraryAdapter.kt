@@ -27,11 +27,16 @@ import com.codebox.lib.android.views.utils.invisible
 import com.codebox.lib.android.views.utils.visible
 import com.github.zawadz88.materialpopupmenu.popupMenu
 import kotlinx.android.synthetic.main.item_library_read.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Created by ${User} on ${Date}
  */
-class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>, private val repository: Repository) :
+class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
+                         private val repository: Repository,
+                         private val coroutineScope:CoroutineScope) :
     RecyclerView.Adapter<ReadLibraryAdapter.ViewHolder>() {
 
 
@@ -121,11 +126,13 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>, pri
                                 CustomToast.makeShort(itemView.context, R.string.bookmark_removed)
                                 updateViewToBookmarked(false)
                             }
+                            coroutineScope.launch(Dispatchers.IO) {
                             repository.updateBookmarkStatus(
                                 readTranslation.ayaNumber,
                                 readTranslation.editionInfo.identifier,
                                 newData.isBookmarked
                             )
+                            }
                         }
                     }
                 }

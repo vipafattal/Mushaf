@@ -18,7 +18,7 @@ import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.model.ReadData
-import co.jp.smagroup.musahaf.ui.DownloadService
+import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.ui.commen.dialog.ConformDialog
 import co.jp.smagroup.musahaf.ui.commen.dialog.LoadingDialog
@@ -69,7 +69,7 @@ class ReadQuranPagerAdapter(
 
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean =
-         view === `object`
+        view === `object`
 
     override fun getCount(): Int = MusahafConstants.SurahsNumber
 
@@ -253,7 +253,8 @@ class ReadQuranPagerAdapter(
                 val edition = Edition(
                     identifier = MusahafConstants.WordByWord,
                     name = "Word by word",
-                    language = "En"
+                    language = "En", format = "text", englishName = "Word by Word",
+                    type = ""
                 )
 
 
@@ -264,7 +265,7 @@ class ReadQuranPagerAdapter(
 
                 progressDialog.progressListener = object : ProgressDialog.ProgressListener {
                     override fun onSuccess(dialog: ProgressDialog) {
-                        super.onSuccess(dialog)
+                        dialog.dismiss()
                         wordsToTranslate(words, aya)
                     }
                 }

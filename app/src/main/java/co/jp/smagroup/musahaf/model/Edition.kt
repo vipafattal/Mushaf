@@ -1,23 +1,21 @@
 package co.jp.smagroup.musahaf.model
 
-import co.jp.smagroup.musahaf.framework.database.MusahafDatabase
-import com.google.gson.annotations.SerializedName
-import com.raizlabs.android.dbflow.annotation.PrimaryKey
-import com.raizlabs.android.dbflow.annotation.Table
-import com.raizlabs.android.dbflow.structure.BaseModel
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import co.jp.smagroup.musahaf.framework.database.EDITIONS_TABLE
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Table(database = MusahafDatabase::class, allFields = true)
+@Entity(tableName = EDITIONS_TABLE)
 data class Edition(
     @PrimaryKey
-    var identifier: String = "",
-    var language: String = "",
-    var name: String = "",
-    var englishName: String = "",
-    var format: String = "",
-    var type: String = ""
-) : BaseModel() {
+    val identifier: String,
+    val language: String,
+    val name: String,
+    val englishName: String,
+    val format: String,
+    val type: String
+)  {
 
     companion object {
         const val Tafsir = "tafsir"

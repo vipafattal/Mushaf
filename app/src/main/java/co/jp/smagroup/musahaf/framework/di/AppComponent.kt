@@ -2,7 +2,7 @@ package co.jp.smagroup.musahaf.framework.di
 
 import co.jp.smagroup.musahaf.framework.data.local.LocalDataSource
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
-import co.jp.smagroup.musahaf.ui.DownloadService
+import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.ui.MainActivity
 import co.jp.smagroup.musahaf.ui.bookmarks.BookmarksFragment
 import co.jp.smagroup.musahaf.ui.commen.dialog.ProgressDialog

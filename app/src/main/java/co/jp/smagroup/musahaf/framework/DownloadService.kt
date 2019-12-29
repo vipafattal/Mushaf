@@ -1,4 +1,4 @@
-package co.jp.smagroup.musahaf.ui
+package co.jp.smagroup.musahaf.framework
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -84,7 +84,9 @@ class DownloadService : Service() {
 
     private fun createNotification() {
 
-        notifyBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+        notifyBuilder = NotificationCompat.Builder(this,
+            CHANNEL_ID
+        )
             .setSmallIcon(R.drawable.ic_downloading_notification)
             .setContentTitle(edition.name)
             .setContentText(edition.language)
@@ -92,12 +94,14 @@ class DownloadService : Service() {
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(edition.identifier)
-            )
+            ).setOngoing(true)
 
         // Register the channel with the system
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_LOW
-            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME, importance)
             notificationManager.createNotificationChannel(channel)
         }
         notifyBuilder.setProgress(PROGRESS_MAX, currentProgress, false)
@@ -151,7 +155,6 @@ class DownloadService : Service() {
         showToast(message)
 
         notifyBuilder.setContentText(getString(message))
-            .setProgress(0, 0, false)
         notificationManager.notify(notificationId, notifyBuilder.build())
         stopSelf()
     }

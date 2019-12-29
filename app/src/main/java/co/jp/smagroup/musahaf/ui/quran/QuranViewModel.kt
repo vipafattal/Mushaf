@@ -14,8 +14,6 @@ import kotlinx.serialization.UnstableDefault
 
 class QuranViewModel(private val repository: Repository) : ViewModel() {
 
-    @UnstableDefault
-    private val cacheMaker = CacheManager()
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
     private lateinit var _mainMusahaf: MutableLiveData<List<Aya>>
@@ -33,28 +31,17 @@ class QuranViewModel(private val repository: Repository) : ViewModel() {
     }
 
 
-    @UseExperimental(UnstableDefault::class)
     private suspend fun loadAyatData() {
-        val cachedData = cacheMaker.getSavedList(MusahafConstants.MainMusahaf, Aya.serializer().list)
-        if (cachedData != null) QuranDataList = cachedData
-        else {
-            QuranDataList = repository.getMusahafAyat(MusahafConstants.MainMusahaf)
-            saveAyatArrayToCache()
-        }
-    }
-
-    @UseExperimental(UnstableDefault::class)
-    private suspend fun saveAyatArrayToCache() {
-        cacheMaker.saveList(MusahafConstants.MainMusahaf, Aya.serializer().list, QuranDataList)
+        QuranDataList = repository.getMusahafAyat(MusahafConstants.MainMusahaf)
     }
 
     fun updateBookmarkStateInData(aya: Aya) {
-        val (oldAya,index) = QuranDataList.singleIdx { it.number == aya.number }
-        oldAya.isBookmarked = !aya.isBookmarked
+        val index = QuranDataList.indexOf(aya)
+
         val newDatList = QuranDataList.toMutableList()
-        newDatList[index] = aya
+        newDatList[index] =  aya.copy(isBookmarked = !aya.isBookmarked)
+
         QuranDataList = newDatList
-        coroutineScope.launch { saveAyatArrayToCache() }
     }
 
     @Suppress("FunctionName")

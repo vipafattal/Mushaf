@@ -12,12 +12,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import co.jp.smagroup.musahaf.R
+import co.jp.smagroup.musahaf.framework.CustomToast
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.Constants.PLAYBACK_CHANNEL_ID
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.Constants.PLAYBACK_NOTIFICATION_ID
@@ -25,12 +25,12 @@ import co.jp.smagroup.musahaf.ui.quran.read.reciter.DescriptionAdapter
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.DownloadingFragment
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.ExoPlayerListener
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.ReciterBottomSheet
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.extensions.addOnPageSelectedListener
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
 import co.jp.smagroup.musahaf.utils.notNull
 import co.jp.smagroup.musahaf.utils.toCurrentLanguageNumber
-import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.utils.screenHelpers.dp
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.DefaultRenderersFactory
@@ -101,7 +101,9 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
 
 
     fun updateBookmarkState(aya: Aya) {
-        repository.updateBookmarkStatus(aya.number, aya.edition!!.identifier, !aya.isBookmarked)
+        coroutineScope.launch(Dispatchers.IO) {
+            repository.updateBookmarkStatus(aya.number, aya.edition!!.identifier, !aya.isBookmarked)
+        }
         viewModel.updateBookmarkStateInData(aya)
     }
 
@@ -165,8 +167,7 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
                 //if exoMediaSource not null then resume player with previous media source. This happens when activity configuration changed or resumed.
                 resumePlayer()
                 initNotificationManger(currentPlayedAyat!!)
-            }
-            else {
+            } else {
                 //resting saved position for the new media source.
                 currentWindow = 0
                 playbackPosition = 0
@@ -302,7 +303,8 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
     }
 
     fun updatePagerPadding(pad: Int) {
-        val scrollView = quranViewpager.findViewWithTag<NestedScrollView>("pageScroller${quranViewpager.currentItem}")
+        val scrollView =
+            quranViewpager.findViewWithTag<NestedScrollView>("pageScroller${quranViewpager.currentItem}")
         scrollView?.updatePadding(bottom = pad)
     }
 
@@ -311,11 +313,18 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         bundle.putInt(currentPageKey, quranViewpager.currentItem + 1)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 onPermissionGiven?.invoke()
-             else CustomToast.makeShort(this, "Cannot save audio files without the requested permission")
+            else CustomToast.makeShort(
+                this,
+                "Cannot save audio files without the requested permission"
+            )
         }
     }
 

@@ -24,7 +24,8 @@ data class ReadTranslation(
         aya: Aya,
         translationText: String,
         quranicText: String,
-        editionInfo: Edition, @TranslationTypeOpt translationOrTafsir: String,
+        editionInfo: Edition,
+        @TranslationTypeOpt translationOrTafsir: String,
         isBookmarked: Boolean
     ) : this(
         isBookmarked = isBookmarked,

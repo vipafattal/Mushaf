@@ -12,15 +12,13 @@ import androidx.fragment.app.DialogFragment
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
-import co.jp.smagroup.musahaf.ui.DownloadService
+import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.extensions.observeOnMainThread
 import com.codebox.lib.android.views.listeners.onClick
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_progress.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import javax.inject.Inject
@@ -42,13 +40,12 @@ class ProgressDialog : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        disposables += repository.loadingStream.observeOnMainThread { currentProgress ->
-            if (currentProgress <= DownloadService.PROGRESS_MAX) {
+        disposables += repository.loadingStream.filter { it > 0 }.observeOnMainThread { currentProgress ->
+            if (currentProgress < DownloadService.PROGRESS_MAX) {
                 val progress = currentProgress / (DownloadService.PROGRESS_MAX + 0f)
                 dialogView?.loading_per!!.text = "${(progress * 100).roundToInt()}%"
-                return@observeOnMainThread
             }
-
+            else
             progressListener.onSuccess(this)
         }
 

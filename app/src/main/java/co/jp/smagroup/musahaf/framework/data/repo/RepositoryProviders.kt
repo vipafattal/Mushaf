@@ -30,12 +30,12 @@ interface RepositoryProviders {
     suspend fun downloadFullDataReciter(fetch: Fetch, reciterId: String, reciterName: String)
     suspend fun searchTranslation(query: String, type: String): List<Aya>
 
-    fun updateBookmarkStatus(ayaNumber: Int, identifier: String, bookmarkStatus: Boolean)
+    suspend fun updateBookmarkStatus(ayaNumber: Int, identifier: String, bookmarkStatus: Boolean)
 
-    fun addDownloadedReciter(reciter: Reciter)
+    suspend fun addDownloadedReciter(reciter: Reciter)
     suspend fun addDownloadReciter(data: List<Reciter>)
     suspend fun getReciterDownload(ayaNumber: Int, reciterName: String): Reciter?
-    fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter>
+    suspend fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter>
 
     suspend fun isDownloaded(identifier: String): Boolean
 }

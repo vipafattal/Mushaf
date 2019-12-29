@@ -14,18 +14,18 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.jp.smagroup.musahaf.R
+import co.jp.smagroup.musahaf.framework.CustomToast
 import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.ReadTranslation
 import co.jp.smagroup.musahaf.model.Surah
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.RecyclerViewItemClickedListener
 import co.jp.smagroup.musahaf.utils.extensions.onScroll
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
-import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.resoures.Colour
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.utils.screenHelpers.dp
@@ -71,13 +71,15 @@ class ReadLibraryActivity : BaseActivity() {
 
         toolbar_library_surah.setNavigationIcon(if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_menu_light else R.drawable.ic_menu_dark)
 
-        readAdapter = ReadLibraryAdapter(readSurahData, repository)
+        readAdapter = ReadLibraryAdapter(readSurahData, repository,coroutineScope)
 
         val bundle = intent.extras
         //Extract the readSurahData…
         editionName = bundle?.getString(EditionIdKey) ?: throw Exception("No editionInfo found")
-        scrollPosition = preferences.getInt(PreferencesConstants.LastScrollPosition + editionName, 0)
-        val lastPageReadPage = preferences.getInt(PreferencesConstants.LastSurahViewed + editionName, 1)
+        scrollPosition =
+            preferences.getInt(PreferencesConstants.LastScrollPosition + editionName, 0)
+        val lastPageReadPage =
+            preferences.getInt(PreferencesConstants.LastSurahViewed + editionName, 1)
         coroutineScope.launch { refreshReadingAdapter(lastPageReadPage) }
         initChooseSurahAdapter()
 
@@ -145,14 +147,18 @@ class ReadLibraryActivity : BaseActivity() {
                 drawer.closeDrawer(GravityCompat.START)
                 coroutineScope.launch {
                     refreshReadingAdapter(dataItem.number)
-                    preferences.put(PreferencesConstants.LastSurahViewed + editionName, dataItem.number)
+                    preferences.put(
+                        PreferencesConstants.LastSurahViewed + editionName,
+                        dataItem.number
+                    )
                     showToolbar()
                 }
             }
         }
         coroutineScope.launch {
             val surahsList = withContext(Dispatchers.IO) { repository.getSurahs() }
-            recycler_choose_list.adapter = SurahChooseAdapter(surahsList, onSurahChooseClickListener)
+            recycler_choose_list.adapter =
+                SurahChooseAdapter(surahsList, onSurahChooseClickListener)
         }
     }
 
@@ -192,7 +198,8 @@ class ReadLibraryActivity : BaseActivity() {
         toolbar_library_surah.title =
             if (isRightToLeft == 1) dataToAdd[0].surah.englishName else dataToAdd[0].surah.name
 
-        if (isRightToLeft == 1) toolbar_library_surah.subtitle = dataToAdd[0].surah.englishNameTranslation
+        if (isRightToLeft == 1) toolbar_library_surah.subtitle =
+            dataToAdd[0].surah.englishNameTranslation
 
     }
 
@@ -206,7 +213,11 @@ class ReadLibraryActivity : BaseActivity() {
     private fun initFastScrollMenuItem(fastScrollButton: ImageButton) {
         val outValue = TypedValue()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            theme.resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true)
+            theme.resolveAttribute(
+                android.R.attr.selectableItemBackgroundBorderless,
+                outValue,
+                true
+            )
         } else theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
         fastScrollButton.setBackgroundResource(outValue.resourceId)
         if (isRightToLeft == 1) fastScrollButton.updatePadding(right = dp(16))
@@ -218,7 +229,8 @@ class ReadLibraryActivity : BaseActivity() {
         fastScrollButton.setOnClickListener { showAyaNumberPopup(fastScrollButton) }
         fastScrollButton.setColorFilter(if (MushafApplication.isDarkThemeEnabled) Color.WHITE else Color.BLACK)
     }
-    private var ayaPopupMenu :MaterialPopupMenu?=null
+
+    private var ayaPopupMenu: MaterialPopupMenu? = null
     private fun initAyaNumberPopup() {
         if (readSurahData.isNotEmpty()) {
             ayaPopupMenu = popupMenu {
@@ -239,14 +251,15 @@ class ReadLibraryActivity : BaseActivity() {
             CustomToast.makeShort(this, R.string.wait)
     }
 
-    private fun showAyaNumberPopup(anchorView: View){
-        if(ayaPopupMenu != null) ayaPopupMenu!!.show(this, anchorView)
-        else{
+    private fun showAyaNumberPopup(anchorView: View) {
+        if (ayaPopupMenu != null) ayaPopupMenu!!.show(this, anchorView)
+        else {
             initAyaNumberPopup()
             showAyaNumberPopup(anchorView)
         }
 
     }
+
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         if (menuItem.itemId == android.R.id.home) drawer.openDrawer(GravityCompat.START)
         return true

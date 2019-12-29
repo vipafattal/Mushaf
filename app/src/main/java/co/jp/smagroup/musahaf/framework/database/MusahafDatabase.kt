@@ -2,10 +2,13 @@
 
 package co.jp.smagroup.musahaf.framework.database
 
-import com.raizlabs.android.dbflow.annotation.Database
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import co.jp.smagroup.musahaf.model.*
 
-@Database(name = MusahafDatabase.NAME, version = MusahafDatabase.VERSION)
-object MusahafDatabase {
-    const val NAME = "Musahaf"
-    const val VERSION = 1
+@Database(entities = [Aya::class, Edition::class, Surah::class, DownloadingState::class, Reciter::class], version = DATA_VERSION)
+@TypeConverters(UriConverter::class)
+abstract class MusahafDatabase : RoomDatabase() {
+    abstract fun mushafDao(): MushafDao
 }

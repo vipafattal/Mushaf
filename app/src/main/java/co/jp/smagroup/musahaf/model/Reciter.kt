@@ -1,35 +1,62 @@
 package co.jp.smagroup.musahaf.model
 
 import android.net.Uri
-import co.jp.smagroup.musahaf.framework.database.MusahafDatabase
-import co.jp.smagroup.musahaf.framework.database.UriConverter
-import com.raizlabs.android.dbflow.annotation.Column
-import com.raizlabs.android.dbflow.annotation.ForeignKey
-import com.raizlabs.android.dbflow.annotation.PrimaryKey
-import com.raizlabs.android.dbflow.annotation.Table
-import com.raizlabs.android.dbflow.structure.BaseModel
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import co.jp.smagroup.musahaf.framework.database.RECITERS_TABLE
 
 
-@Table(database = MusahafDatabase::class, allFields = true)
-data class Reciter(
-    @PrimaryKey var number: Int = 0,
-    @PrimaryKey var identifier: String = "",
-    @ForeignKey var surah: Surah? = null,
-    @Column(typeConverter = UriConverter::class)
-    var uri: Uri? = null,
-    var name: String = "",
-    var numberInSurah: Int = 0,
-    var juz: Int = 0,
-    var page: Int = 0
-) : BaseModel() {
+@Entity(
+    tableName = RECITERS_TABLE,
+    primaryKeys = ["number_in_mushaf", "edition_id"]
+)
+data class Reciter @Ignore constructor(
+    @ColumnInfo(name = "number_in_mushaf")
+    val number: Int,
+    val edition_id: String,
+    val surah_number: Int,
+    val uri: Uri?,
+    val name: String,
+    val numberInSurah: Int,
+    val juz: Int,
+    val page: Int,
+    @Ignore
+    var surah: Surah? = null
+) {
+    constructor(
+        number: Int,
+        edition_id: String,
+        surah_number: Int,
+        uri: Uri?,
+        name: String,
+        numberInSurah: Int,
+        juz: Int,
+        page: Int
+    ) : this(number, edition_id, surah_number, uri, name, numberInSurah, juz, page, null)
+
+    @Ignore
     constructor(aya: Aya, reciterIdentifier: String, reciterName: String, uri: Uri) : this(
         number = aya.number,
-        identifier = reciterIdentifier,
-        surah = aya.surah,
+        edition_id = reciterIdentifier,
+        surah_number = aya.surah_number,
         page = aya.page,
         juz = aya.juz,
         numberInSurah = aya.numberInSurah,
         name = reciterName,
         uri = uri
+    )
+
+    @Ignore
+    constructor(reciterInfo: ReciterInfo) : this(
+        number = reciterInfo.reciter.number,
+        edition_id = reciterInfo.reciter.edition_id,
+        surah_number = reciterInfo.reciter.surah_number,
+        page = reciterInfo.reciter.page,
+        juz = reciterInfo.reciter.juz,
+        numberInSurah = reciterInfo.reciter.numberInSurah,
+        name = reciterInfo.reciter.name,
+        uri = reciterInfo.reciter.uri,
+        surah = reciterInfo.surah
     )
 }
