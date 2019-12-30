@@ -123,7 +123,7 @@ class QuranIndexFragment : BaseFragment() {
 
     override fun loadData() {
         super.loadData()
-        viewModel.prepareMainMusahaf()
+        viewModel.prepareMainMushaf()
     }
 
 

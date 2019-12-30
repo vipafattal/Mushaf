@@ -104,17 +104,17 @@ interface MushafDao {
     suspend fun getReciterByAyaNumber(ayaNumber: Int, reciterName: String): ReciterInfo?
 
     @Transaction
-    @Query("select * from $RECITERS_TABLE where number_in_mushaf between :startNumber AND :endNumber and edition_id = :reciterIdentifier and edition_id = :reciterIdentifier limit 1")
+    @Query("select * from $RECITERS_TABLE where number_in_mushaf between :startNumber AND :endNumber and edition_id = :reciterIdentifier and edition_id = :reciterIdentifier")
     suspend fun getReciterDownloadsByRang(startNumber: Int, endNumber: Int, reciterIdentifier: String): List<ReciterInfo>
 
     @Transaction
     @Query("select * from $RECITERS_TABLE where name = :reciterName")
     suspend fun getReciterDataByName(reciterName: String): List<ReciterInfo>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addReciter(reciter: Reciter)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addReciters(reciters: List<Reciter>)
 
    //DownloadState dao

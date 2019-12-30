@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.ui.bookmarks.BookmarksFragment
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.library.LibraryFragment
 import co.jp.smagroup.musahaf.ui.more.SettingsFragment
 import co.jp.smagroup.musahaf.ui.quran.QuranIndexFragment
 import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
 import co.jp.smagroup.musahaf.utils.notNull
 import com.codebox.lib.android.fragments.replaceFragment
@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,6 +38,7 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
     lateinit var repository: Repository
     private var disposable: Disposable? = null
     private lateinit var navigationViewModel: NavigationViewModel
+
 
     init {
         MushafApplication.appComponent.inject(this)

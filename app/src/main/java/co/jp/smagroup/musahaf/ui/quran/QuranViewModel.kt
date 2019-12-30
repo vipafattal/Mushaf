@@ -6,27 +6,23 @@ import androidx.lifecycle.ViewModel
 import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.CacheManager
-import com.codebox.lib.standard.collections.filters.singleIdx
-import kotlinx.serialization.list
 import kotlinx.coroutines.*
-import kotlinx.serialization.UnstableDefault
 
 class QuranViewModel(private val repository: Repository) : ViewModel() {
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
-    private lateinit var _mainMusahaf: MutableLiveData<List<Aya>>
+    private lateinit var _mainMushaf: MutableLiveData<List<Aya>>
     val mainMusahaf: LiveData<List<Aya>>
-        get() = _getMainMusahaf()
+        get() = _getMainMushaf()
 
-    fun prepareMainMusahaf() {
-        if (!::_mainMusahaf.isInitialized)
-            _mainMusahaf = MutableLiveData()
+    fun prepareMainMushaf() {
+        if (!::_mainMushaf.isInitialized)
+            _mainMushaf = MutableLiveData()
         coroutineScope.launch {
             if (QuranDataList.isEmpty())
                 withContext(Dispatchers.IO) { loadAyatData() }
-            _mainMusahaf.postValue(QuranDataList)
+            _mainMushaf.postValue(QuranDataList)
         }
     }
 
@@ -45,11 +41,11 @@ class QuranViewModel(private val repository: Repository) : ViewModel() {
     }
 
     @Suppress("FunctionName")
-    private fun _getMainMusahaf(): LiveData<List<Aya>> {
-        if (!::_mainMusahaf.isInitialized)
-            _mainMusahaf = MutableLiveData()
+    private fun _getMainMushaf(): LiveData<List<Aya>> {
+        if (!::_mainMushaf.isInitialized)
+            _mainMushaf = MutableLiveData()
 
-        return _mainMusahaf
+        return _mainMushaf
     }
 
     override fun onCleared() {

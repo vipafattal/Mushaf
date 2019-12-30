@@ -107,8 +107,8 @@ class ReciterPlayer(
     ) {
         downloadListener = FetchDownloadListener(
             numberOfRequest,
-            selectedReciterId,
             selectedReciterName,
+            selectedReciterId,
             playListWithoutLoopedAyat,
             repository,
             readQuranActivity, coroutineScope

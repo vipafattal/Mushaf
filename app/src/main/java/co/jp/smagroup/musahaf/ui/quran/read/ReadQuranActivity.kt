@@ -94,7 +94,7 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
 
             initViewPager(startAtPage, data)
         }
-        viewModel.prepareMainMusahaf()
+        viewModel.prepareMainMushaf()
 
         activateClickListener()
     }

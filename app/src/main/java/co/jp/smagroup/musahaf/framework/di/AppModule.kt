@@ -5,7 +5,7 @@ import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.api.QuranCloudAPI
 import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
-import co.jp.smagroup.musahaf.framework.database.MusahafDatabase
+import co.jp.smagroup.musahaf.framework.database.MushafDatabase
 import co.jp.smagroup.musahaf.framework.database.MushafDao
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import com.codebox.lib.android.resoures.Stringer
@@ -56,13 +56,12 @@ open class AppModule {
 
     @Suppress("DEPRECATION")
     @Provides
-    @Singleton
     fun databaseDao(): MushafDao {
         val database = Room.databaseBuilder(
             MushafApplication.appContext,
-            MusahafDatabase::class.java,
+            MushafDatabase::class.java,
             Stringer(R.string.app_name)
-        )/*.createFromAsset("Mushaf.db")*/.build()
+        ).createFromAsset("Mushaf.db").build()
 
         return database.mushafDao()
     }

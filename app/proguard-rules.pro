@@ -19,9 +19,10 @@
 # If you keep the line ayaNumber information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class * extends com.raizlabs.android.dbflow.config.DatabaseHolder { *; }
--keep class * extends com.raizlabs.android.dbflow.structure.BaseModel { *; }
 -keep public class co.jp.smagroup.musahaf.framework.api.** { *; }
+
+-keep class * extends androidx.room.RoomDatabase
+-dontwarn androidx.room.paging.**
 
 -dontwarn retrofit2.**
 -keep class javax.annotation.Nullable
@@ -54,12 +55,17 @@
 #Kotlin serilaztion
 -keepattributes *Annotation*, InnerClasses
 -dontnote kotlinx.serialization.SerializationKt
--keep,includedescriptorclasses class com.yourcompany.yourpackage.**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class com.yourcompany.yourpackage.** { # <-- change package name to your app's
+-keep,includedescriptorclasses class co.jp.smagroup.musahaf.**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class co.jp.smagroup.musahaf.** { # <-- change package name to your app's
     *** Companion;
 }
--keepclasseswithmembers class com.yourcompany.yourpackage.** { # <-- change package name to your app's
+-keepclasseswithmembers class co.jp.smagroup.musahaf.** { # <-- change package name to your app's
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+-keep class kotlinx.coroutines.android.AndroidDispatcherFactory {*;}
+
+-keepclassmembers class co.jp.smagroup.musahaf.model.** { *; }
+-keepclassmembers class co.jp.smagroup.musahaf.framework.api.** { *; }
 
 

@@ -1,96 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/coordinatorLayout"
-        android:layout_width="match_parent"
-        android:animateLayoutChanges="true"
-        android:layout_height="match_parent">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
     <com.google.android.material.bottomappbar.BottomAppBar
-            app:backgroundTint="?toolbarColor"
-            android:id="@+id/bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom"
-            app:buttonGravity="bottom|top"
-            app:fabCradleMargin="8dp"
-            app:hideOnScroll="true"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:itemIconTint="@color/colorPrimary">
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:paddingBottomSystemWindowInsets="false"
+        android:layout_gravity="bottom"
+        app:backgroundTint="?toolbarColor"
+        app:buttonGravity="bottom|top"
+        app:fabCradleMargin="8dp"
+        app:hideOnScroll="true"
+        app:itemIconTint="@color/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways">
+
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <androidx.constraintlayout.widget.Guideline
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.59"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/guideline9"/>
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.59" />
+
             <androidx.constraintlayout.widget.Guideline
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.37"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/guideline10"/>
+                android:id="@+id/guideline10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.37" />
+
             <ImageView
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:tint="@color/colorPrimary"
-                    android:id="@+id/stopPlayer"
-                    app:srcCompat="@drawable/ic_stop"
-                    android:layout_width="@dimen/action_image_size"
-                    android:layout_height="@dimen/action_image_size"
-                    android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-            />
+                android:id="@+id/stopPlayer"
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_stop" />
+
             <ImageView
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:tint="@color/colorPrimary"
-                    android:id="@id/exo_prev"
-                    app:srcCompat="@drawable/ic_skip_previous"
-                    android:layout_width="@dimen/action_image_size"
-                    android:layout_height="@dimen/action_image_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="40dp" app:layout_constraintEnd_toStartOf="@+id/guideline10"
-                    android:layout_marginRight="40dp" android:layout_marginBottom="8dp"/>
+                android:id="@id/exo_prev"
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline10"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_skip_previous" />
+
             <ImageView
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:tint="@color/colorPrimary"
-                    android:id="@id/exo_next"
-                    app:srcCompat="@drawable/ic_skip_next"
-                    android:layout_width="@dimen/action_image_size"
-                    android:layout_height="@dimen/action_image_size"
-                    app:layout_constraintStart_toStartOf="@+id/guideline9"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginStart="40dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginBottom="8dp"/>
+                android:id="@id/exo_next"
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_skip_next" />
+
             <ImageView
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:tint="@color/colorPrimary"
-                    android:id="@+id/playerSettings"
-                    app:srcCompat="@drawable/ic_settings"
-                    android:layout_width="@dimen/action_image_size"
-                    android:layout_height="@dimen/action_image_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginBottom="8dp" android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"/>
+                android:id="@+id/playerSettings"
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_settings" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            app:tint="@color/white"
-            android:id="@+id/playPauseButton"
-            app:backgroundTint="@color/colorPrimary"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:maxImageSize="35dp"
-            app:srcCompat="@drawable/ic_pause"
-            app:layout_anchor="@id/bottom_nav"/>
+        android:id="@+id/playPauseButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@id/bottom_nav"
+        app:maxImageSize="35dp"
+        app:srcCompat="@drawable/ic_pause"
+        app:tint="@color/white" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
