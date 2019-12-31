@@ -14,15 +14,15 @@ import androidx.core.view.plusAssign
 import androidx.viewpager.widget.PagerAdapter
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
+import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.model.ReadData
-import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.ui.commen.dialog.ConformDialog
+import co.jp.smagroup.musahaf.ui.commen.dialog.DownloadDialog
 import co.jp.smagroup.musahaf.ui.commen.dialog.LoadingDialog
-import co.jp.smagroup.musahaf.ui.commen.dialog.ProgressDialog
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.read.helpers.*
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.ReciterBottomSheet
@@ -64,9 +64,8 @@ class ReadQuranPagerAdapter(
 
     private val pageFormatter = getPagerFormatter()
     private val tinyDb = TinyDB(readQuranActivity)
-    private val wordByWordLoader =
-        WordByWordLoader(readQuranActivity.repository)
 
+    private val wordByWordLoader = WordByWordLoader(readQuranActivity.repository)
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean =
         view === `object`
@@ -98,11 +97,11 @@ class ReadQuranPagerAdapter(
                 view.surahText.tag = "surahText$index$position"
             }
         } else {
-            mainView.bindFullPage(readDataPage[0])
+            mainView.bindFullPage(readDataPage.first())
             mainView.surahText_page.tag = "surahPageText$position"
         }
 
-        mainView.bindAyaInfo(readDataPage[0])
+        mainView.bindAyaInfo(readDataPage.first())
 
         collection += mainView
         return mainView
@@ -150,6 +149,38 @@ class ReadQuranPagerAdapter(
             readData.aya.surah!!.englishName
         else
             readData.aya.surah!!.name
+    }
+
+    override fun popupItemClicked(aya: Aya, view: ImageView) {
+        val numberInMusahaf = aya.number
+        when (view.id) {
+            R.id.bookmark_popup -> {
+                //Aya.isBookmarked is true then it's must be removed.
+                if (aya.isBookmarked) CustomToast.makeShort(
+                    readQuranActivity,
+                    R.string.bookmark_removed
+                )
+                else CustomToast.makeShort(readQuranActivity, R.string.bookmard_saved)
+
+                readQuranActivity.updateBookmarkState(aya)
+            }
+
+            R.id.share_popup -> {
+                val shareTextFormatted =
+                    "{${aya.text}} \npage:${aya.page} \nsurah:${aya.surah!!.name}  \nvia @Musahaf for android"
+
+                TextActionUtil.shareText(readQuranActivity, shareTextFormatted)
+            }
+
+            R.id.play_popup -> playReciter(aya)
+
+            R.id.translate_popup -> getTranslation(numberInMusahaf)
+
+            R.id.wordByWord_popup -> {
+                val words = textToWords(aya.text)
+                wordsToTranslate(words, aya)
+            }
+        }
     }
 
     //on text selection this will respond to user click on menu created.
@@ -261,46 +292,17 @@ class ReadQuranPagerAdapter(
                 DownloadService.create(readQuranActivity, edition, downloadingState)
 
 
-                val progressDialog = ProgressDialog()
+                val progressDialog = DownloadDialog()
 
-                progressDialog.progressListener = object : ProgressDialog.ProgressListener {
-                    override fun onSuccess(dialog: ProgressDialog) {
+                progressDialog.progressListener = object : DownloadDialog.ProgressListener {
+                    override fun onSuccess(dialog: DownloadDialog) {
                         dialog.dismiss()
                         wordsToTranslate(words, aya)
                     }
                 }
-                progressDialog.show(readQuranActivity.supportFragmentManager, ProgressDialog.TAG)
+                progressDialog.show(readQuranActivity.supportFragmentManager, DownloadDialog.TAG)
 
             }
-        }
-    }
-
-    override fun popupItemClicked(aya: Aya, view: ImageView) {
-        val numberInMusahaf = aya.number
-        when (view.id) {
-            R.id.bookmark_popup -> {
-                //Aya.isBookmarked is true then it's must be removed.
-                if (aya.isBookmarked) CustomToast.makeShort(
-                    readQuranActivity,
-                    R.string.bookmark_removed
-                )
-                else CustomToast.makeShort(readQuranActivity, R.string.bookmard_saved)
-
-                readQuranActivity.updateBookmarkState(aya)
-            }
-
-            R.id.share_popup -> {
-                val shareTextFormatted =
-                    "{${aya.text}} \npage:${aya.page} \nsurah:${aya.surah!!.name}  \nvia @Musahaf for android"
-
-                TextActionUtil.shareText(readQuranActivity, shareTextFormatted)
-            }
-
-            R.id.play_popup -> playReciter(aya)
-
-            R.id.translate_popup -> getTranslation(numberInMusahaf)
-
-            // R.id.wordByWord_popup -> prepareDataToWordByWord()
         }
     }
 
@@ -310,10 +312,13 @@ class ReadQuranPagerAdapter(
             val downloadedEditions =
                 withContext(Dispatchers.IO) { readQuranActivity.repository.getDownloadedEditions() }.filter { it.format == MusahafConstants.Text }
                     .toMutableList()
+
             val selectedTranslation =
                 tinyDb.getListString(PreferencesConstants.LastUsedTranslation)
+
             val selectedEditions: MutableList<Edition> = mutableListOf()
             val unSelectedEditions: MutableList<Edition>
+
             if (selectedTranslation.isNotEmpty()) {
                 selectedTranslation.forEach { identifier ->
                     val selected =
@@ -327,6 +332,7 @@ class ReadQuranPagerAdapter(
             }
             readQuranActivity.viewModelOf(TranslationViewModel::class.java)
                 .setTranslationData(selectedEditions, unSelectedEditions, numberInMusahaf)
+
             TranslationBottomSheet().show(
                 readQuranActivity.supportFragmentManager,
                 TranslationBottomSheet.TAG

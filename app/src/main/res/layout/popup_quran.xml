@@ -1,64 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.florent37.shapeofview.shapes.BubbleView
-        android:clickable="true"
-        android:focusable="true"
-        android:id="@+id/popup_rootView"
-        app:shape_bubble_arrowPosition="bottom"
-        android:elevation="8dp"
-        app:shape_bubble_borderRadius="10dp"
-        app:shape_bubble_arrowWidth="10dp"
-        app:arrow_posititon_percent="0.5"
-        app:shape_bubble_arrowHeight="10dp"
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="65dp"
-        tools:targetApi="lollipop">
+<com.github.florent37.shapeofview.shapes.BubbleView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/popup_rootView"
+    android:layout_width="wrap_content"
+    android:layout_height="65dp"
+    android:clickable="true"
+    android:elevation="8dp"
+    android:focusable="true"
+    android:orientation="vertical"
+    app:arrow_posititon_percent="0.5"
+    app:shape_bubble_arrowHeight="10dp"
+    app:shape_bubble_arrowPosition="bottom"
+    app:shape_bubble_arrowWidth="10dp"
+    app:shape_bubble_borderRadius="10dp"
+    tools:targetApi="lollipop">
 
     <LinearLayout
-            android:background="@color/colorPrimary"
-            android:padding="8dp"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
         <ImageView
-                android:background="?selectableItemBackgroundBorderless"
-                android:id="@+id/bookmark_popup"
-                android:layout_marginEnd="@dimen/popup_margin_ending"
-                app:srcCompat="@drawable/ic_bookmark"
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-                android:layout_marginRight="@dimen/popup_margin_ending"/>
+            android:id="@+id/bookmark_popup"
+            android:layout_width="@dimen/action_image_size"
+            android:layout_height="@dimen/action_image_size"
+            android:layout_marginEnd="@dimen/popup_margin_ending"
+            android:layout_marginRight="@dimen/popup_margin_ending"
+            android:background="?selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_bookmark" />
+
         <ImageView
-                android:background="?selectableItemBackgroundBorderless"
-                android:id="@+id/translate_popup"
-                android:layout_marginEnd="@dimen/popup_margin_ending"
-                app:srcCompat="@drawable/ic_translate"
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-                android:layout_marginRight="@dimen/popup_margin_ending"/>
+            android:id="@+id/translate_popup"
+            android:layout_width="@dimen/action_image_size"
+            android:layout_height="@dimen/action_image_size"
+            android:layout_marginEnd="@dimen/popup_margin_ending"
+            android:layout_marginRight="@dimen/popup_margin_ending"
+            android:background="?selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_translate" />
+
         <ImageView
-                android:background="?selectableItemBackgroundBorderless"
-                android:id="@+id/share_popup"
-                android:layout_marginEnd="@dimen/popup_margin_ending"
-                app:srcCompat="@drawable/ic_share"
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-                android:layout_marginRight="@dimen/popup_margin_ending"/>
-<!--        <ImageView
-                android:background="?selectableItemBackgroundBorderless"
-                android:id="@+id/wordByWord_popup"
-                app:srcCompat="@drawable/ic_language_word"
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-            />-->
+            android:id="@+id/share_popup"
+            android:layout_width="@dimen/action_image_size"
+            android:layout_height="@dimen/action_image_size"
+            android:layout_marginEnd="@dimen/popup_margin_ending"
+            android:layout_marginRight="@dimen/popup_margin_ending"
+            android:background="?selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_share" />
+
         <ImageView
-                android:background="?selectableItemBackgroundBorderless"
-                android:id="@+id/play_popup"
-                app:srcCompat="@drawable/ic_play"
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-            />
+            android:id="@+id/wordByWord_popup"
+            android:layout_width="@dimen/action_image_size"
+            android:layout_height="@dimen/action_image_size"
+            android:layout_marginEnd="@dimen/popup_margin_ending"
+            android:layout_marginRight="@dimen/popup_margin_ending"
+            android:background="?selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_language_word" />
+
+        <ImageView
+            android:id="@+id/play_popup"
+            android:layout_width="@dimen/action_image_size"
+            android:layout_height="@dimen/action_image_size"
+            android:background="?selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_play" />
     </LinearLayout>
 
 </com.github.florent37.shapeofview.shapes.BubbleView>

@@ -9,7 +9,7 @@ import co.jp.smagroup.musahaf.model.DownloadingState
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
-import co.jp.smagroup.musahaf.ui.commen.dialog.ProgressDialog
+import co.jp.smagroup.musahaf.ui.commen.dialog.DownloadDialog
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
 import co.jp.smagroup.musahaf.utils.extensions.observer
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 
 @Suppress("UNCHECKED_CAST")
-class TabFragment : BaseFragment(),ProgressDialog.ProgressListener {
+class TabFragment : BaseFragment(),DownloadDialog.ProgressListener {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -81,18 +81,18 @@ class TabFragment : BaseFragment(),ProgressDialog.ProgressListener {
     private var recyclerViewPosition = 0
     private fun downloadMusahaf(edition: Edition, downloadingState: DownloadingState) {
 
-        if (parentActivity.supportFragmentManager.findFragmentByTag(ProgressDialog.TAG) == null) {
+        if (parentActivity.supportFragmentManager.findFragmentByTag(DownloadDialog.TAG) == null) {
 
             if (DownloadService.isDownloading)
                 CustomToast.makeLong(parentActivity, R.string.downloading_please_wait)
             else {
                 DownloadService.create(parentActivity, edition, downloadingState)
 
-                val progressDialog = ProgressDialog()
+                val progressDialog = DownloadDialog()
 
-                progressDialog.progressListener = object : ProgressDialog.ProgressListener {
+                progressDialog.progressListener = object : DownloadDialog.ProgressListener {
 
-                    override fun onSuccess(dialog: ProgressDialog) {
+                    override fun onSuccess(dialog: DownloadDialog) {
                         dialog.dismiss()
                         viewModel.updateDataDownloadState(edition.identifier)
                     }
@@ -103,7 +103,7 @@ class TabFragment : BaseFragment(),ProgressDialog.ProgressListener {
                         parentActivity.finish()
                     }
                 }
-                progressDialog.show(parentActivity.supportFragmentManager, ProgressDialog.TAG)
+                progressDialog.show(parentActivity.supportFragmentManager, DownloadDialog.TAG)
             }
         }
     }

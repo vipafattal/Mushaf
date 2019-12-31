@@ -5,7 +5,7 @@ import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.ui.MainActivity
 import co.jp.smagroup.musahaf.ui.bookmarks.BookmarksFragment
-import co.jp.smagroup.musahaf.ui.commen.dialog.ProgressDialog
+import co.jp.smagroup.musahaf.ui.commen.dialog.DownloadDialog
 import co.jp.smagroup.musahaf.ui.library.LibraryFragment
 import co.jp.smagroup.musahaf.ui.library.manage.ManageLibraryActivity
 import co.jp.smagroup.musahaf.ui.library.manage.TabFragment
@@ -38,7 +38,7 @@ interface AppComponent {
     fun inject(readLibraryActivity: ReadLibraryActivity)
 
     //Fragments and dialogs
-    fun inject(progressDialog: ProgressDialog)
+    fun inject(downloadDialog: DownloadDialog)
 
     fun inject(libraryFragment: LibraryFragment)
     fun inject(quranListFragment: QuranIndexFragment)

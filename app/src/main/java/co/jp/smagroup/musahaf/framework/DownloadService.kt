@@ -73,7 +73,7 @@ class DownloadService : Service() {
         }
 
         errorDisposable = repository.errorStream.filter { it != "" }.subscribe {
-            finish(true)
+            finish(it)
         }
     }
 
@@ -107,15 +107,6 @@ class DownloadService : Service() {
         notifyBuilder.setProgress(PROGRESS_MAX, currentProgress, false)
 
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(notificationId, notifyBuilder.build())
-        loadingDisposable = repository.loadingStream.subscribe {
-            if (currentProgress <= PROGRESS_MAX) {
-                notifyBuilder.setProgress(PROGRESS_MAX, currentProgress++, false)
-                // notificationId is a unique int for each notification that you must define
-                notificationManager.notify(notificationId, notifyBuilder.build())
-            } else
-                finish(false)
-        }
         startForeground(notificationId, notifyBuilder.build())
         activeDownloadingProgress(notifyBuilder)
     }
@@ -132,12 +123,7 @@ class DownloadService : Service() {
                 // notificationId is a unique int for each notification that you must define
                 notificationManager.notify(notificationId, builder.build())
             } else
-                finish(false)
-
-        }
-
-        repository.loadingStream.doOnDispose {
-            finish(false)
+                finish(getString(R.string.download_completed))
         }
     }
 
@@ -146,15 +132,15 @@ class DownloadService : Service() {
         releaseProcess()
     }
 
-    private fun finish(withError: Boolean) {
+    private fun finish(message:String) {
         isDownloading = false
 
-        val message = if (withError) R.string.error_downloading
-        else R.string.download_completed
-
-        showToast(message)
-
-        notifyBuilder.setContentText(getString(message))
+        if (message == getString(R.string.cancelled)) {
+            notifyBuilder.setContentText(getString(R.string.cancelled))
+        } else {
+            showToast(message)
+            notifyBuilder.setContentText(message)
+        }
         notificationManager.notify(notificationId, notifyBuilder.build())
         stopSelf()
     }
@@ -167,7 +153,7 @@ class DownloadService : Service() {
     }
 
 
-    private fun showToast(@StringRes msg: Int) {
+    private fun showToast(msg: String) {
         coroutineScope.launch(Dispatchers.Main) {
             Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show();
         }

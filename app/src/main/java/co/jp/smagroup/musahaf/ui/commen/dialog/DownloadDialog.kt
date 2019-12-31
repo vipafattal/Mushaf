@@ -18,13 +18,13 @@ import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.extensions.observeOnMainThread
 import com.codebox.lib.android.views.listeners.onClick
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.dialog_progress.view.*
+import kotlinx.android.synthetic.main.dialog_download.view.*
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class ProgressDialog : DialogFragment() {
+class DownloadDialog : DialogFragment() {
 
     lateinit var progressListener: ProgressListener
     private val job = SupervisorJob()
@@ -57,16 +57,19 @@ class ProgressDialog : DialogFragment() {
             dismiss()
         }
 
-        dialogView?.progress_background_button!!.onClick {
+        dialogView?.download_background_button!!.onClick {
             progressListener.onBackground()
             dismiss()
+        }
+        dialogView?.download_cancel_button!!.onClick {
+            repository.errorStream.onNext(getString(R.string.cancelled))
         }
     }
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext(), R.style.AppTheme_TransparentDialog)
-        dialogView = View.inflate(context, R.layout.dialog_progress, null)
+        dialogView = View.inflate(context, R.layout.dialog_download, null)
         builder.setView(dialogView)
         val dialog = builder.create()
 
@@ -102,7 +105,7 @@ class ProgressDialog : DialogFragment() {
 
     interface ProgressListener {
 
-        fun onSuccess(dialog: ProgressDialog) {}
+        fun onSuccess(dialog: DownloadDialog) {}
         fun onError() {}
         fun onCancelled() {}
         fun onFinish() {}

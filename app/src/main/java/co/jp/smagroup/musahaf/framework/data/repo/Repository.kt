@@ -25,6 +25,7 @@ class Repository : RepositoryProviders {
     private val localDataSource = LocalDataSource()
     var errorStream: BehaviorSubject<String> = BehaviorSubject.create()
         private set
+
     var loadingStream: BehaviorSubject<Int> = BehaviorSubject.create()
         private set
     @Inject

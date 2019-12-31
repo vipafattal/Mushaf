@@ -2,10 +2,12 @@
 <resources>
     <color name="colorPrimary">#2E7D32</color>
     <color name="colorPrimaryDark">#005005</color>
-    <color name="colorAccent">#546E7A</color>    #D81B60
+    <color name="colorAccent">#607D8A</color>    #D81B60
     <color name="colorSecondary">#60AD5E</color>
     <color name="colorDisabled">#aaaaaa</color>
     <color name="colorActive">#fff</color>
+
+    <color name="colorPlayHighlight">#C660AD5E</color>
 
     <color name="colorTextSecondary">#848484</color>
     <color name="darkBg">#000</color>

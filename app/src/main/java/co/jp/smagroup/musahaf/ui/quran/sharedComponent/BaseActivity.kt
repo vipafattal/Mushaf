@@ -35,7 +35,7 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(MushafApplication.appContext.getAppTheme())
-        if (isRequiringFullScreen) requireFullScreen()
+        if (isRequiringFullScreen) hideFullScreen()
         super.onCreate(savedInstanceState)
         initialLocale = LocaleHelper.getLanguage(this)
     }
@@ -68,10 +68,18 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
         }
     }
 
-    private fun showSystemUI() {
+    protected fun showSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    }
+
+    protected fun hideFullScreen() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
     }
 
     fun lockScreenOrientation() {
@@ -97,14 +105,6 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
                 Surface.ROTATION_270 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
             }
         }
-    }
-
-    private fun requireFullScreen() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
     }
 
     fun unlockScreenOrientation() {

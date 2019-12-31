@@ -37,6 +37,7 @@ class PopupActions(private val activity: ReadQuranActivity, private val clickLis
             play_popup,
             share_popup,
             translate_popup,
+            wordByWord_popup,
             bookmark_popup
         ) {
             lastClickedPopupItemId = id
