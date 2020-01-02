@@ -39,7 +39,7 @@
                 tools:progress="5"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
-                android:layout_height="3dp"
+                android:layout_height="@dimen/_6sdp"
                 android:id="@+id/playerDownloadingProgress" android:layout_marginLeft="4dp"
                 android:layout_marginRight="6dp"/>
 

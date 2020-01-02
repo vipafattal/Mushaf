@@ -10,12 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.plusAssign
+import androidx.core.widget.NestedScrollView
 import androidx.viewpager.widget.PagerAdapter
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
 import co.jp.smagroup.musahaf.framework.DownloadService
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.model.ReadData
@@ -34,12 +34,12 @@ import co.jp.smagroup.musahaf.ui.quran.read.wordByWord.WordByWordLoader
 import co.jp.smagroup.musahaf.ui.quran.read.wordByWord.WordByWordViewModel
 import co.jp.smagroup.musahaf.utils.TextActionUtil
 import co.jp.smagroup.musahaf.utils.TextSelectionCallback
-import co.jp.smagroup.musahaf.utils.extensions.addIfNotNull
-import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
+import co.jp.smagroup.musahaf.utils.extensions.*
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
 import com.codebox.lib.android.resoures.Stringify
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.viewGroup.inflater
+import com.codebox.lib.android.views.listeners.onClick
 import com.codebox.lib.android.views.utils.gone
 import com.codebox.lib.extrenalLib.TinyDB
 import kotlinx.android.synthetic.main.item_read_quran.view.*
@@ -70,7 +70,7 @@ class ReadQuranPagerAdapter(
     override fun isViewFromObject(view: View, `object`: Any): Boolean =
         view === `object`
 
-    override fun getCount(): Int = MusahafConstants.SurahsNumber
+    override fun getCount(): Int = MushafConstants.SurahsNumber
 
     override fun destroyItem(collection: ViewGroup, position: Int, view: Any): Unit =
         collection.removeView(view as View)
@@ -82,7 +82,9 @@ class ReadQuranPagerAdapter(
 
         val mainView = collection.inflater(R.layout.item_read_quran_full_page)
         mainView.pageScroller.tag = "pageScroller$position"
-
+        mainView.pageScroller.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            readQuranActivity.updateSystemNavState(true)
+        }
         if (readDataPage.size > 1) {
             mainView.surah_name_view_root.gone()
             mainView.bismillah_page.gone()
@@ -111,16 +113,16 @@ class ReadQuranPagerAdapter(
         if (MushafApplication.isDarkThemeEnabled) bismillah_page.setImageResource(R.drawable.ic_bismillah_light)
         else bismillah_page.setImageResource(R.drawable.ic_bismillah_dark)
 
-        if (readData.aya.surah!!.englishName == MusahafConstants.Fatiha || readData.aya.surah!!.englishName == MusahafConstants.Tawba)
+        if (readData.aya.surah!!.englishName == MushafConstants.Fatiha || readData.aya.surah!!.englishName == MushafConstants.Tawba)
             bismillah_page.gone()
         if (!readData.isNewSurah) surah_name_view_root.gone()
-
-
 
         surahNameArabic_read_page.text = readData.aya.surah!!.name
         surahText_page.setText(readData.pagedText, TextView.BufferType.SPANNABLE)
         surahText_page.selectionTextCallBack(readData, this@ReadQuranPagerAdapter)
+        surahText_page.onQuranTextClick()
     }
+
 
     private fun View.bindMultiSurah(readData: ReadData) {
         if (!readData.isNewSurah)
@@ -133,6 +135,7 @@ class ReadQuranPagerAdapter(
         surahNameArabic_read_page.text = readData.aya.surah!!.name
         surahText.setText(readData.pagedText, TextView.BufferType.SPANNABLE)
         surahText.selectionTextCallBack(readData, this@ReadQuranPagerAdapter)
+        surahText.onQuranTextClick()
     }
 
     private fun View.bindAyaInfo(readData: ReadData) {
@@ -183,6 +186,13 @@ class ReadQuranPagerAdapter(
         }
     }
 
+    private fun QuranTextView.onQuranTextClick() {
+        onClick {
+            if (!text.toSpannable().isClickableSpan(selectionStart, selectionEnd))
+                readQuranActivity.updateSystemNavState(false)
+        }
+    }
+
     //on text selection this will respond to user click on menu created.
     @SuppressLint("NewApi")
     override fun onActionItemClick(
@@ -210,8 +220,13 @@ class ReadQuranPagerAdapter(
                     if (item.itemId == TextSelectionCallback.Share)
                         TextActionUtil.shareText(readQuranActivity, outputFriendlyText)
                     else
-                        clipboard.primaryClip =
-                            ClipData.newPlainText("Quran text", outputFriendlyText)
+                        clipboard.setPrimaryClip(
+                            ClipData.newPlainText(
+                                "Quran text",
+                                outputFriendlyText
+                            )
+                        )
+
                 }
                 return true
             }
@@ -278,11 +293,11 @@ class ReadQuranPagerAdapter(
             coroutineScope.launch {
 
                 val downloadingState = withContext(Dispatchers.IO) {
-                    readQuranActivity.repository.getDownloadState(MusahafConstants.WordByWord)
+                    readQuranActivity.repository.getDownloadState(MushafConstants.WordByWord)
                 }
 
                 val edition = Edition(
-                    identifier = MusahafConstants.WordByWord,
+                    identifier = MushafConstants.WordByWord,
                     name = "Word by word",
                     language = "En", format = "text", englishName = "Word by Word",
                     type = ""
@@ -310,7 +325,7 @@ class ReadQuranPagerAdapter(
     private fun getTranslation(numberInMusahaf: Int) {
         coroutineScope.launch {
             val downloadedEditions =
-                withContext(Dispatchers.IO) { readQuranActivity.repository.getDownloadedEditions() }.filter { it.format == MusahafConstants.Text }
+                withContext(Dispatchers.IO) { readQuranActivity.repository.getDownloadedEditions() }.filter { it.format == MushafConstants.Text }
                     .toMutableList()
 
             val selectedTranslation =

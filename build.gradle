@@ -31,14 +31,10 @@ buildscript {
         retrofitCoroutins_version = "0.9.2"
         okhttpLoggingInterceptorVersion = '4.2.2'
 
-
-        dbflow_version = "4.2.4"
-
         materialPopup_version = "3.3.0"
         magentaX_version = "0.7"
-        exoplayer_version = "2.9.6"
+        exoplayer_version = "2.10.4"
         fetch_version = '3.1.0'
-        shortbread_version = '1.0.2'
         scalablePiexl_version = "1.0.6"
     }
     repositories {

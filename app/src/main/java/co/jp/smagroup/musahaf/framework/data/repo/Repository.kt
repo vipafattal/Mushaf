@@ -2,7 +2,7 @@ package co.jp.smagroup.musahaf.framework.data.repo
 
 import android.util.Log
 import co.jp.smagroup.musahaf.framework.api.QuranCloudAPI
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.framework.data.local.LocalDataSource
 import co.jp.smagroup.musahaf.framework.utils.NewAPI
 import co.jp.smagroup.musahaf.framework.utils.ReciterRequestGenerator
@@ -56,7 +56,7 @@ class Repository : RepositoryProviders {
         downloadAyat(identifier, startingPoint)
 
         val musahaf = localDataSource.getAllAyatByIdentifier(identifier)
-        return if (musahaf.size == MusahafConstants.AyatNumber) musahaf else mutableListOf()
+        return if (musahaf.size == MushafConstants.AyatNumber) musahaf else mutableListOf()
     }
 
 
@@ -91,7 +91,7 @@ class Repository : RepositoryProviders {
         var notDownloadedAyaRequest = mutableListOf<Request>()
 
         if (allReciterDownloads.isNotEmpty()) {
-            for (ayaNumber in 1..MusahafConstants.AyatNumber) if (allReciterDownloads.firstOrNull { it.number == ayaNumber } == null) {
+            for (ayaNumber in 1..MushafConstants.AyatNumber) if (allReciterDownloads.firstOrNull { it.number == ayaNumber } == null) {
                 val aya = QuranViewModel.QuranDataList[ayaNumber - 1]
                 val request =
                     ReciterRequestGenerator.createRequestFromFile(reciterName, reciterId, aya.surah!!, ayaNumber)
@@ -125,8 +125,14 @@ class Repository : RepositoryProviders {
         localDataSource.updateBookmarkStatus(ayaNumber, identifier, bookmarkStatus)
     }
 
+
+
     override suspend fun searchTranslation(query: String, type: String): List<Aya> =
         localDataSource.searchTranslation(query, type).filter { isDownloaded(it.edition!!.identifier) }
+
+    override suspend fun searchQuran(query: String, editionId: String): List<Aya> =
+        localDataSource.searchQuran(query, editionId)
+
 
     override suspend fun getMusahafAyat(identifier: String): MutableList<Aya> {
         val downloadingState = localDataSource.getDownloadingState(identifier)
@@ -140,7 +146,7 @@ class Repository : RepositoryProviders {
         }
 
         val musahaf = localDataSource.getAllAyatByIdentifier(identifier)
-        return if (musahaf.size == MusahafConstants.AyatNumber) musahaf else mutableListOf()
+        return if (musahaf.size == MushafConstants.AyatNumber) musahaf else mutableListOf()
     }
 
     override suspend fun getAyatByRange(from: Int, to: Int): MutableList<Aya> = localDataSource.getAyatByRange(from, to)
@@ -203,7 +209,7 @@ class Repository : RepositoryProviders {
        if (!fromInternet)
            data = localDataSource.getAvailableReciters()
        if (fromInternet || data.isEmpty())
-           quranCloudAPI.getEditionsByType(MusahafConstants.Audio).awaitRequest {
+           quranCloudAPI.getEditionsByType(MushafConstants.Audio).awaitRequest {
                data = it.editions.removeInGrantedReciters()
                localDataSource.addEditions(data)
            }
@@ -212,7 +218,7 @@ class Repository : RepositoryProviders {
 
     override suspend fun getDownloadedEditions(): List<Edition> =
         localDataSource.getAllEditions().distinctBy { it.identifier }.filter { isDownloaded(it.identifier) }
-            .filter { it.identifier != MusahafConstants.WordByWord && it.identifier != MusahafConstants.MainMusahaf }.sortedBy { it.language }
+            .filter { it.identifier != MushafConstants.WordByWord && it.identifier != MushafConstants.MainMushaf }.sortedBy { it.language }
 
 
     override suspend fun isDownloaded(identifier: String): Boolean {

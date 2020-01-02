@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.ui.MainActivity
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
-import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.read.NavigateToPageDialog
 import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
 import co.jp.smagroup.musahaf.ui.search.SearchActivity
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.onScroll
@@ -46,9 +46,10 @@ class QuranIndexFragment : BaseFragment() {
         parentActivity = activity as MainActivity
         parentActivity.updateToolbar(R.string.quran, R.drawable.ic_search, R.drawable.ic_read)
         viewModel = viewModelOf(QuranViewModel::class.java, viewModelFactory)
+
         initToolbar()
 
-        viewModel.mainMusahaf.observer(viewLifecycleOwner) {
+        viewModel.getMainMushaf().observer(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 dispatchAyatData(it)
             } else {
@@ -105,7 +106,6 @@ class QuranIndexFragment : BaseFragment() {
         parentActivity.beginToolbar_icon.onClick {
             parentActivity.launchActivity<SearchActivity>()
         }
-
     }
 
     private fun convertToQuranList(ayat: List<Aya>): MutableList<Aya> {
@@ -119,11 +119,6 @@ class QuranIndexFragment : BaseFragment() {
             oldSurahNumber = it.surah!!.number
         }
         return adapterList
-    }
-
-    override fun loadData() {
-        super.loadData()
-        viewModel.prepareMainMushaf()
     }
 
 

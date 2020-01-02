@@ -10,63 +10,42 @@ import kotlinx.coroutines.*
 
 
 class LibraryViewModel(private val repository: Repository) : ViewModel() {
-    private lateinit var _allAvailableEditions: MutableLiveData<List<Pair<Edition, DownloadingState>>>
+
+    private lateinit var allAvailableEditions: MutableLiveData<List<Pair<Edition, DownloadingState>>>
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
-    val allAvailableEditions: LiveData<List<Pair<Edition, DownloadingState>>>
-        get() = _getEditions()
+    fun getEditions(): LiveData<List<Pair<Edition, DownloadingState>>> {
+        if (!::allAvailableEditions.isInitialized)
+            allAvailableEditions = MutableLiveData()
 
-
-    private fun _getEditions(): LiveData<List<Pair<Edition, DownloadingState>>> {
-        if (!::_allAvailableEditions.isInitialized)
-            _allAvailableEditions = MutableLiveData()
-        return _allAvailableEditions
-    }
-
-    fun getEditions() = runBlocking {
-        if (!::_allAvailableEditions.isInitialized)
-            _allAvailableEditions = MutableLiveData()
-
-        if (editionsData.isEmpty()) {
             coroutineScope.launch {
-                editionsData = withContext(Dispatchers.IO) { repository.getAllEditionsWithState() }
-                _allAvailableEditions.postValue(editionsData)
-            }
-        } else {
-            _allAvailableEditions.postValue(editionsData)
-        }
-    }
+               val editionsData = withContext(Dispatchers.IO) { repository.getAllEditionsWithState() }
+                allAvailableEditions.postValue(editionsData)
 
-    suspend fun downloadMusahaf(editionIdentifier: String, downloadingState: DownloadingState) {
-        withContext(Dispatchers.IO) {
-            repository.downloadAyat(
-                editionIdentifier,
-                downloadingState.stopPoint ?: 1)
         }
+        return allAvailableEditions
     }
 
     fun updateDataDownloadState(editionIdentifier: String) {
         coroutineScope.launch {
-            editionsData = withContext(Dispatchers.IO) {
-                editionsData.map {
+           val editionsData = withContext(Dispatchers.IO) {
+               allAvailableEditions.value?.map {
                     if (it.first.identifier == editionIdentifier)
                         it.first to repository.getDownloadState(editionIdentifier)
                     else it
                 }
             }
-            _allAvailableEditions.postValue(editionsData)
+
+            allAvailableEditions.postValue(editionsData)
         }
     }
 
     override fun onCleared() {
         super.onCleared()
         job.cancelChildren()
-        editionsData = emptyList()
     }
-    companion object {
-        private var editionsData = listOf<Pair<Edition, DownloadingState>>()
-    }
+
 }
 
 

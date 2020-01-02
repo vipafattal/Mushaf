@@ -2,7 +2,7 @@ package co.jp.smagroup.musahaf.framework.utils
 
 import android.os.Environment
 import co.jp.smagroup.musahaf.framework.commen.MediaSourceBuilder
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.model.Surah
 import com.tonyodev.fetch2.NetworkType
 import com.tonyodev.fetch2.Priority
@@ -29,6 +29,6 @@ object ReciterRequestGenerator {
         }
 
     fun recitersFolder(reciterName: String, surah: Surah) =
-        "${MusahafConstants.AppName}/reciters/$reciterName/${surah.number}/"
+        "${MushafConstants.AppName}/reciters/$reciterName/${surah.number}/"
 
 }

@@ -2,7 +2,6 @@ package co.jp.smagroup.musahaf.ui
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.MotionEvent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -17,7 +16,6 @@ import co.jp.smagroup.musahaf.ui.quran.QuranIndexFragment
 import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
 import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
-import co.jp.smagroup.musahaf.utils.notNull
 import com.codebox.lib.android.fragments.replaceFragment
 import com.codebox.lib.android.views.utils.invisible
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -102,7 +100,7 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
     }
 
     fun updateToolbar(@StringRes title: Int, @DrawableRes startIcon: Int = 0, @DrawableRes endIcon: Int = 0) {
-        if (toolbarTitle.notNull) {
+        if (toolbarTitle != null) {
             toolbarTitle.alpha = 0.5f
             toolbarTitle.animate().alpha(1f).withEndAction { toolbarTitle.setText(title) }.start()
 

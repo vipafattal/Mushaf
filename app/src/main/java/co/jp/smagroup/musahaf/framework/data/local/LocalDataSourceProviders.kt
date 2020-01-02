@@ -34,7 +34,9 @@ interface LocalDataSourceProviders {
     suspend fun getAyatByRange(from: Int, to: Int): MutableList<Aya>
     suspend fun getAllByBookmarkStatus(bookmarkStatus: Boolean): MutableList<Aya>
     suspend fun getAyaByBookmark(editionIdentifier: String, bookmarkStatus: Boolean): MutableList<Aya>
+
     suspend fun searchTranslation(query: String,  type: String): MutableList<Aya>
+    suspend fun searchQuran(query: String, editionId: String): List<Aya>
 
 
     suspend fun getReciterDownload(ayaNumber: Int, reciterIdentifier: String): Reciter?

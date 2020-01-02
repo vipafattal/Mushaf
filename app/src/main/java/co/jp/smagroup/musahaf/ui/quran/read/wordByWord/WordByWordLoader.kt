@@ -1,6 +1,6 @@
 package co.jp.smagroup.musahaf.ui.quran.read.wordByWord
 
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.utils.isPunctuation
@@ -29,7 +29,7 @@ class WordByWordLoader(val repository: Repository) {
             val wordByWordPageData =
                 withContext(Dispatchers.IO) {
                     repository.getPage(
-                        MusahafConstants.WordByWord,
+                        MushafConstants.WordByWord,
                         ayaFromSelectedText.page
                     )
                 }

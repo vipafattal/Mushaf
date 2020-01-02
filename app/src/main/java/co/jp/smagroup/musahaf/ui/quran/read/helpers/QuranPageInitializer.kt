@@ -3,12 +3,11 @@ package co.jp.smagroup.musahaf.ui.quran.read.helpers
 import android.content.Context
 import android.text.TextUtils
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.ReadData
-import co.jp.smagroup.musahaf.utils.formatMiniAlef
+import co.jp.smagroup.musahaf.utils.extensions.whiteSpaceMagnifier
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
-import co.jp.smagroup.musahaf.utils.whiteSpaceMagnifier
 import com.codebox.lib.android.resoures.Stringify
 import com.codebox.lib.standard.collections.isLastItem
 
@@ -24,7 +23,9 @@ class QuranPageInitializer(private val textAction: FunctionalQuranText, context:
         if (rawData.isLastItem(0)) {
             val aya = rawData[0]
             pageText = textAction.getQuranDecoratedText(
-                "${whiteSpaceMagnifier(aya.text)} ${aya.numberInSurah.toString().toLocalizedNumber()} ",
+                "${whiteSpaceMagnifier(
+                    aya.text
+                )} ${aya.numberInSurah.toString().toLocalizedNumber()} ",
                 0,
                 aya
             )
@@ -43,7 +44,9 @@ class QuranPageInitializer(private val textAction: FunctionalQuranText, context:
                             pageText = TextUtils.concat(
                                 pageText,
                                 textAction.getQuranDecoratedText(
-                                    "${whiteSpaceMagnifier(aya.text)} ${aya.numberInSurah.toLocalizedNumber()} ",
+                                    "${whiteSpaceMagnifier(
+                                        aya.text
+                                    )} ${aya.numberInSurah.toLocalizedNumber()} ",
                                     pageText.length,
                                     aya
                                 )
@@ -56,12 +59,15 @@ class QuranPageInitializer(private val textAction: FunctionalQuranText, context:
                     }
                 }
                 val removedBasmalia =
-                    if (aya.surah!!.englishName != MusahafConstants.Fatiha && aya.numberInSurah == 1)
+                    if (aya.surah!!.englishName != MushafConstants.Fatiha && aya.numberInSurah == 1)
                         aya.text.replace(basmalia, "")
                     else
                         aya.text
 
-                val spacedAyaText = whiteSpaceMagnifier(removedBasmalia)
+                val spacedAyaText =
+                    whiteSpaceMagnifier(
+                        removedBasmalia
+                    )
 
                 val decoratedText =
                     textAction.getQuranDecoratedText(

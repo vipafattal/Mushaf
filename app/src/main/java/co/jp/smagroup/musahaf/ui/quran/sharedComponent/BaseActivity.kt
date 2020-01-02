@@ -23,7 +23,8 @@ import com.codebox.lib.standard.lambda.unitFun
 /**
  * Created by ${User} on ${Date}
  */
-abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) : AppCompatActivity() {
+abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) :
+    AppCompatActivity() {
     val preferences = AppPreferences()
     protected var onPermissionGiven: unitFun? = null
         private set
@@ -48,7 +49,7 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
         //activity.volumeControlStream = AudioManager.STREAM_MUSIC
     }
 
-    private fun hideSystemUI() {
+    protected fun hideSystemUI() {
         if (Build.VERSION.SDK_INT < 19) { // lower api
             val v = window.decorView
             v.systemUiVisibility = View.GONE
@@ -68,13 +69,14 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
         }
     }
 
-    protected fun showSystemUI() {
+
+    fun showSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
 
-    protected fun hideFullScreen() {
+    private fun hideFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -91,18 +93,26 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE && (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) || configuration.orientation == Configuration.ORIENTATION_PORTRAIT && (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270)) {
             // Natural position is Landscape
             when (rotation) {
-                Surface.ROTATION_0 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                Surface.ROTATION_90 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-                Surface.ROTATION_180 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                Surface.ROTATION_270 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                Surface.ROTATION_0 -> requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                Surface.ROTATION_90 -> requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                Surface.ROTATION_180 -> requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                Surface.ROTATION_270 -> requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             }
         } else {
             // Natural position is Portrait
             when (rotation) {
-                Surface.ROTATION_0 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                Surface.ROTATION_90 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                Surface.ROTATION_180 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-                Surface.ROTATION_270 -> requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                Surface.ROTATION_0 -> requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                Surface.ROTATION_90 -> requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                Surface.ROTATION_180 -> requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                Surface.ROTATION_270 -> requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
             }
         }
     }
@@ -123,7 +133,8 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
     fun executeWithPendingPermission(requestCode: Int, block: unitFun) {
         onPermissionGiven = block
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            val result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            val result =
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             if (result == PackageManager.PERMISSION_GRANTED)
                 block.invoke()
             else

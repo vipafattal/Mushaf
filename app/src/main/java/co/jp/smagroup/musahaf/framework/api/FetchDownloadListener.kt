@@ -2,7 +2,6 @@ package co.jp.smagroup.musahaf.framework.api
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.net.toFile
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
 import co.jp.smagroup.musahaf.framework.commen.Priority
@@ -10,6 +9,7 @@ import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Reciter
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.DownloadingFragment
+import co.jp.smagroup.musahaf.utils.extensions.toFile
 import com.crashlytics.android.Crashlytics
 import com.tonyodev.fetch2.AbstractFetchListener
 import com.tonyodev.fetch2.Download

@@ -39,7 +39,9 @@
                 android:name=".ui.quran.read.ReadQuranActivity"
                 android:configChanges="screenSize|orientation"
                 android:launchMode="singleTask" />
-        <activity android:name=".ui.library.manage.ManageLibraryActivity" />
+        <activity
+            android:launchMode="singleTask"
+            android:name=".ui.library.manage.ManageLibraryActivity" />
         <activity
                 android:name=".ui.quran.sharedComponent.ShortcutsActivity"
                 android:exported="true" />

@@ -3,20 +3,21 @@ package co.jp.smagroup.musahaf.framework
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
-import androidx.core.os.bundleOf
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.DownloadingState
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
+import co.jp.smagroup.musahaf.ui.library.manage.ManageLibraryActivity
+import co.jp.smagroup.musahaf.utils.extensions.bundleOf
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
@@ -84,9 +85,23 @@ class DownloadService : Service() {
 
     private fun createNotification() {
 
-        notifyBuilder = NotificationCompat.Builder(this,
+        val pendingIntent = Intent(applicationContext, ManageLibraryActivity::class.java).run {
+
+            putExtras(bundleOf(ManageLibraryActivity.DOWNLOAD_EDITION_KEY to edition.identifier))
+
+            PendingIntent.getActivity(
+                applicationContext,
+                0,
+                this,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
+
+        notifyBuilder = NotificationCompat.Builder(
+            this,
             CHANNEL_ID
         )
+            .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.ic_downloading_notification)
             .setContentTitle(edition.name)
             .setContentText(edition.language)
@@ -101,9 +116,11 @@ class DownloadService : Service() {
             val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                CHANNEL_NAME, importance)
+                CHANNEL_NAME, importance
+            )
             notificationManager.createNotificationChannel(channel)
         }
+
         notifyBuilder.setProgress(PROGRESS_MAX, currentProgress, false)
 
         // notificationId is a unique int for each notification that you must define
@@ -132,16 +149,11 @@ class DownloadService : Service() {
         releaseProcess()
     }
 
-    private fun finish(message:String) {
+    private fun finish(message: String) {
         isDownloading = false
+        if (message != getString(R.string.cancelled)) showToast(message)
+        notificationManager.cancel(notificationId)
 
-        if (message == getString(R.string.cancelled)) {
-            notifyBuilder.setContentText(getString(R.string.cancelled))
-        } else {
-            showToast(message)
-            notifyBuilder.setContentText(message)
-        }
-        notificationManager.notify(notificationId, notifyBuilder.build())
         stopSelf()
     }
 
@@ -161,7 +173,6 @@ class DownloadService : Service() {
 
 
     companion object {
-
         var isDownloading = false
             private set
 

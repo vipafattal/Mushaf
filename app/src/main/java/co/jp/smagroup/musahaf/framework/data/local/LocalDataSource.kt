@@ -1,7 +1,7 @@
 package co.jp.smagroup.musahaf.framework.data.local
 
 import co.jp.smagroup.musahaf.framework.api.ApiModels
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.framework.database.MushafDao
 import co.jp.smagroup.musahaf.model.*
 import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
@@ -94,7 +94,7 @@ class LocalDataSource : LocalDataSourceProviders {
         dao.getEditionsByType(type)
 
     override suspend fun getAvailableReciters(): List<Edition> =
-        dao.getEditionsByType(MusahafConstants.Audio)
+        dao.getEditionsByType(MushafConstants.Audio)
 
 
     override suspend fun addDownloadReciter(reciters: List<Reciter>) =
@@ -118,6 +118,9 @@ class LocalDataSource : LocalDataSourceProviders {
         return ayatWithInfo.map { Aya(it) }.toMutableList()
     }
 
+    override suspend fun searchQuran(query: String, editionId: String): List<Aya> {
+        val ayatWithInfo = dao.searchQuran("%$query%", editionId)
+        return ayatWithInfo.map { Aya(it) }.toMutableList()    }
 
     override suspend fun getAllAyatByIdentifier(musahafIdentifier: String): MutableList<Aya> {
         val ayatWithInfo = dao.getAyatByEdition(musahafIdentifier)
@@ -160,7 +163,7 @@ class LocalDataSource : LocalDataSourceProviders {
 
 
     override suspend fun getAyatByRange(from: Int, to: Int): MutableList<Aya> {
-        val ayaWithInfo = dao.getAyatByRange(MusahafConstants.MainMusahaf, from, to)
+        val ayaWithInfo = dao.getAyatByRange(MushafConstants.MainMushaf, from, to)
         return ayaWithInfo.map { Aya(it) }.toMutableList()
     }
 

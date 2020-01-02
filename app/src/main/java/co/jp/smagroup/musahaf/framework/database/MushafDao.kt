@@ -1,7 +1,6 @@
 package co.jp.smagroup.musahaf.framework.database
 
 import androidx.room.*
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.model.*
 
 @Dao
@@ -66,6 +65,12 @@ interface MushafDao {
     @Transaction
     @Query("select * from $AYAT_TABLE inner join $EDITIONS_TABLE on identifier == edition_id where type = :type and text like :query")
     suspend fun searchTranslation(query: String, type: String):List<AyaWithInfo>
+
+    @Transaction
+    @Query("select * from $AYAT_TABLE where edition_id = :editionId and text like :query")
+    suspend fun searchQuran(query: String, editionId: String):List<AyaWithInfo>
+
+
 
     //Surahs dao
     @Query("select * from $SURAHS_TABLE")

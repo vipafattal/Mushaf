@@ -1,6 +1,6 @@
 package co.jp.smagroup.musahaf.framework.api
 
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.framework.utils.EditionTypeOpt
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
@@ -14,7 +14,7 @@ interface QuranCloudAPI {
     @GET("juz/{juz}/{edition}?in_client_id=rgZIdzuXTueT0uzhNXXCOzo0KVc2twCv")
     fun getQuran(
         @Path("juz") juz: Int,
-        @Path("edition") identifier: String = MusahafConstants.MainMusahaf
+        @Path("edition") identifier: String = MushafConstants.MainMushaf
     ): Deferred<Response<ApiModels.QuranApi>>
 
     //http://api.alquran.cloud/v1/edition/language

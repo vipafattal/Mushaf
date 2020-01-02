@@ -16,6 +16,6 @@
 
     <item android:title="@string/more"
           android:id="@+id/nav_more"
-          android:icon="@drawable/ic_menu_dark"/>
+          android:icon="@drawable/ic_menu"/>
 
 </menu>

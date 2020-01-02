@@ -12,7 +12,6 @@ import co.jp.smagroup.musahaf.framework.commen.Language
  */
 object Fonts {
 
-
     //Arabic fonts.
     const val NormalArFont = R.font.normal_ar
     const val Tafseer = NormalArFont

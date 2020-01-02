@@ -86,11 +86,11 @@
     </style>
 
     <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="colorControlNormal">@color/colorSecondary</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
         <item name="boxBackgroundMode">filled</item>
         <item name="hintTextAppearance">@style/TextInputLayout.HintText</item>
-        <item name="colorControlActivated">@color/colorSecondary</item>
-        <item name="colorControlHighlight">@color/colorSecondary</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
     </style>
 
     <style name="TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">

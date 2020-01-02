@@ -2,11 +2,14 @@ package co.jp.smagroup.musahaf.ui.library.manage
 
 import android.os.Bundle
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.framework.data.repo.Repository
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
-import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
-import co.jp.smagroup.musahaf.utils.extensions.observeOnMainThread
 import co.jp.smagroup.musahaf.framework.CustomToast
+import co.jp.smagroup.musahaf.framework.data.repo.Repository
+import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
+import co.jp.smagroup.musahaf.ui.commen.dialog.DownloadDialog
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.utils.extensions.observeOnMainThread
+import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
 import kotlinx.android.synthetic.main.activity_manage_library.*
 import javax.inject.Inject
 
@@ -14,9 +17,15 @@ class ManageLibraryActivity : BaseActivity() {
 
     @Inject
     lateinit var repository: Repository
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     init {
         MushafApplication.appComponent.inject(this)
+    }
+
+    private val libraryViewModel: LibraryViewModel by lazy {
+        viewModelOf(LibraryViewModel::class.java, viewModelFactory)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +37,16 @@ class ManageLibraryActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        repository.errorStream.filter { it.isNotEmpty() }.observeOnMainThread { CustomToast.makeLong(this, it) }
+        intent.extras?.apply {
+            val editionId = getString(DOWNLOAD_EDITION_KEY,"")
+
+            if (editionId.isNotEmpty() && supportFragmentManager.findFragmentByTag(DownloadDialog.TAG) == null)
+                showDownloadDialog(editionId)
+        }
+
+
+        repository.errorStream.filter { it.isNotEmpty() }
+            .observeOnMainThread { CustomToast.makeLong(this, it) }
 
         val tabPagerAdapter = TabPagerAdapter(this, supportFragmentManager)
         viewpager_manage_library.adapter = tabPagerAdapter
@@ -38,6 +56,25 @@ class ManageLibraryActivity : BaseActivity() {
             val tab = tabs_manage_library.getTabAt(i)
             tab?.customView = tabPagerAdapter.bindView(i)
         }
+    }
+
+    fun showDownloadDialog(editionId:String){
+
+        val downloadDialog = DownloadDialog()
+
+        downloadDialog.progressListener = object : DownloadDialog.ProgressListener {
+
+            override fun onSuccess(dialog: DownloadDialog) {
+                dialog.dismiss()
+                libraryViewModel.updateDataDownloadState(editionId)
+            }
+
+            override fun onError() = libraryViewModel.updateDataDownloadState(editionId)
+
+            override fun onBackground() = finish()
+        }
+
+        downloadDialog.show(supportFragmentManager, DownloadDialog.TAG)
     }
 
     override fun onResume() {
@@ -54,4 +91,9 @@ class ManageLibraryActivity : BaseActivity() {
         onBackPressed()
         return true
     }
+
+    companion object {
+        const val DOWNLOAD_EDITION_KEY = "current download edition"
+    }
+
 }

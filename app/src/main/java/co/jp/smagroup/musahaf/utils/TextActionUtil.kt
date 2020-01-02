@@ -15,7 +15,7 @@ object TextActionUtil {
     fun copyToClipboard(activity: Activity, text: String) {
         val cm = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(activity.getString(R.string.app_name), text)
-        cm.primaryClip = clip
+        cm.setPrimaryClip(clip)
         Toast.makeText(
             activity, activity.getString(R.string.ayah_copied_popup),
             Toast.LENGTH_SHORT

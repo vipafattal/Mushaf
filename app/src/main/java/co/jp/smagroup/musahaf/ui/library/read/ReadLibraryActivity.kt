@@ -11,11 +11,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import androidx.core.view.GravityCompat
-import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.ReadTranslation
@@ -25,8 +24,10 @@ import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.RecyclerViewItemClickedListener
 import co.jp.smagroup.musahaf.utils.extensions.onScroll
+import co.jp.smagroup.musahaf.utils.extensions.updatePadding
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
 import com.codebox.lib.android.resoures.Colour
+import com.codebox.lib.android.resoures.Image
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.utils.screenHelpers.dp
 import com.github.zawadz88.materialpopupmenu.MaterialPopupMenu
@@ -69,8 +70,10 @@ class ReadLibraryActivity : BaseActivity() {
             toolbar_library_surah.setBackgroundColor(Colour(R.color.colorPrimary))
         }
 
-        toolbar_library_surah.setNavigationIcon(if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_menu_light else R.drawable.ic_menu_dark)
+        val navigationIcon = Image(R.drawable.ic_menu)
+        if (MushafApplication.isDarkThemeEnabled) navigationIcon?.setTint(Color.WHITE)
 
+        toolbar_library_surah.navigationIcon = navigationIcon
         readAdapter = ReadLibraryAdapter(readSurahData, repository,coroutineScope)
 
         val bundle = intent.extras
@@ -165,7 +168,7 @@ class ReadLibraryActivity : BaseActivity() {
     private suspend fun refreshReadingAdapter(surahNumber: Int) {
         val mainQuran: MutableList<Aya> = withContext(Dispatchers.IO) {
             repository.getQuranBySurah(
-                MusahafConstants.MainMusahaf,
+                MushafConstants.MainMushaf,
                 surahNumber
             )
         }

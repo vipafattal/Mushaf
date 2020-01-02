@@ -3,10 +3,10 @@ package co.jp.smagroup.musahaf.framework.di
 import androidx.room.Room
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.api.QuranCloudAPI
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
-import co.jp.smagroup.musahaf.framework.database.MushafDatabase
 import co.jp.smagroup.musahaf.framework.database.MushafDao
+import co.jp.smagroup.musahaf.framework.database.MushafDatabase
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import com.codebox.lib.android.resoures.Stringer
 import com.codebox.lib.extrenalLib.TinyDB
@@ -38,7 +38,7 @@ open class AppModule {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(MusahafConstants.BASE_URL)
+            .baseUrl(MushafConstants.BASE_URL)
             .client(client)
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())

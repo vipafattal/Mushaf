@@ -5,7 +5,7 @@ package co.jp.smagroup.musahaf.framework.commen
  */
 sealed class Language(val code: String, val name: String) {
     init {
-        assert(code.length == 2) { "Please send language name consisted of two chars." }
+        assert(code.length == 2) { "Please send a language name consisted of two chars." }
     }
 
     object Ar : Language("ar", "Arabic")

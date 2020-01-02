@@ -5,12 +5,10 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationCompat
-import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
@@ -22,15 +20,15 @@ import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.Constants.PLAYBACK_CHANNEL_ID
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.Constants.PLAYBACK_NOTIFICATION_ID
-import co.jp.smagroup.musahaf.ui.quran.read.reciter.DescriptionAdapter
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.DownloadingFragment
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.ExoPlayerListener
+import co.jp.smagroup.musahaf.ui.quran.read.reciter.PlayerNotificationAdapter
 import co.jp.smagroup.musahaf.ui.quran.read.reciter.ReciterBottomSheet
 import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.extensions.addOnPageSelectedListener
 import co.jp.smagroup.musahaf.utils.extensions.observer
+import co.jp.smagroup.musahaf.utils.extensions.updatePadding
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
-import co.jp.smagroup.musahaf.utils.notNull
 import co.jp.smagroup.musahaf.utils.toCurrentLanguageNumber
 import com.codebox.lib.android.utils.screenHelpers.dp
 import com.google.android.exoplayer2.DefaultLoadControl
@@ -66,12 +64,17 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
     private var playerNotificationManager: PlayerNotificationManager? = null
     private var playWhenReady = true
     private var currentPageKey = "current read page"
-    private lateinit var viewModel: QuranViewModel
 
     private var disposable: Disposable? = null
     private val job: Job = SupervisorJob()
     val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main + job)
 
+    private val viewModel: QuranViewModel by lazy {
+        viewModelOf(
+            QuranViewModel::class.java,
+            viewModelFactory
+        )
+    }
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,10 +87,12 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         if (savedInstanceState != null) {
             startAtPage = savedInstanceState.getInt(currentPageKey, startAtPage)
         }
-        viewModel = viewModelOf(QuranViewModel::class.java, viewModelFactory)
 
-        viewModel.mainMusahaf.observer(this) {
+
+        viewModel.getMainMushaf().observer(this) {
+
             val data = it.groupBy { it.page }
+
             if (savedInstanceState == null) {
                 val aya = data[startAtPage]!!.last()
                 createHizbToast(aya)
@@ -95,7 +100,6 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
 
             initViewPager(startAtPage, data)
         }
-        viewModel.prepareMainMushaf()
 
         activateClickListener()
     }
@@ -114,13 +118,17 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
     ) {
         quranViewpager.adapter = ReadQuranPagerAdapter(this, data, coroutineScope)
 
+        //quranViewpager.adapter = VerticalAdapter(this, data)
+
         quranViewpager.setCurrentItem(startAtPage - 1, false)
 
         quranViewpager.addOnPageSelectedListener {
+            //updateSystemNavState(true)
             val aya = data[it + 1]!!.last()
             createHizbToast(aya)
             if (playerView.isShown) updatePagerPadding(dp(80))
             else updatePagerPadding(0)
+            updateSystemNavState(true)
         }
 
     }
@@ -164,7 +172,7 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
                 exoPlayer!!
             )
             exoPlayer!!.addListener(playerListener)
-            if (exoMediaSource.notNull) {
+            if (exoMediaSource != null) {
                 //if exoMediaSource not null then resume player with previous media source. This happens when activity configuration changed or resumed.
                 resumePlayer()
                 initNotificationManger(currentPlayedAyat!!)
@@ -203,12 +211,12 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
     ) {
         currentPlayedAyat = selectedAyat
         initNotificationManger(selectedAyat)
-        if (newMediaSource.notNull) {
-            //Resetting the exoMediaSource and re-instantiate exo-player.
-            exoMediaSource = null
-            releasePlayer()
-            initializePlayer()
-        }
+
+        //Resetting the exoMediaSource and re-instantiate exo-player.
+        exoMediaSource = null
+        releasePlayer()
+        initializePlayer()
+
         updatePagerPadding(dp(80))
         exoPlayer?.prepare(newMediaSource, true, true)
         playPauseButton.setImageResource(R.drawable.ic_pause)
@@ -220,10 +228,9 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(
             this, PLAYBACK_CHANNEL_ID,
             R.string.playback_channel_name,
-            PLAYBACK_NOTIFICATION_ID, DescriptionAdapter(playList, this)
+            PLAYBACK_NOTIFICATION_ID, PlayerNotificationAdapter(playList, this)
         )
         playerNotificationManager!!.apply {
-            setOngoing(true)
             setColor(Color.BLACK)
             setColorized(true)
             setUseChronometer(false)
@@ -307,6 +314,22 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         val scrollView =
             quranViewpager.findViewWithTag<NestedScrollView>("pageScroller${quranViewpager.currentItem}")
         scrollView?.updatePadding(bottom = pad)
+    }
+
+    fun updateSystemNavState(ifVisibleOnly: Boolean) {
+
+        val systemUiVisibility = window.decorView.systemUiVisibility
+
+        if (ifVisibleOnly) {
+            if ((systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN) != systemUiVisibility)
+                hideSystemUI()
+        } else {
+            if ((systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN) != systemUiVisibility)
+                hideSystemUI()
+            else
+                showSystemUI()
+        }
+
     }
 
     override fun onSaveInstanceState(bundle: Bundle) {

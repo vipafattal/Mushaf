@@ -8,15 +8,15 @@ import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.text.style.ImageSpan
 import android.widget.TextView
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.text.toSpannable
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
-import co.jp.smagroup.musahaf.utils.toLocalizedNumber
 import co.jp.smagroup.musahaf.utils.ClickableImageSpan
-import co.jp.smagroup.musahaf.utils.clearHighlighted
-import co.jp.smagroup.musahaf.utils.textdrawable.TextDrawable
+import co.jp.smagroup.musahaf.utils.TextDrawable
+import co.jp.smagroup.musahaf.utils.extensions.clearHighlighted
+import co.jp.smagroup.musahaf.utils.extensions.toBitmap
+import co.jp.smagroup.musahaf.utils.extensions.toSpannable
+import co.jp.smagroup.musahaf.utils.toLocalizedNumber
 import com.codebox.lib.android.utils.screenHelpers.dp
 
 /**

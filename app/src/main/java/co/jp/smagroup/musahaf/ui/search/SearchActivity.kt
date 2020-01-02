@@ -4,27 +4,22 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
-import androidx.core.view.isVisible
 import co.jp.smagroup.musahaf.R
+import co.jp.smagroup.musahaf.framework.CustomToast
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.framework.utils.TextTypeOpt
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
-import co.jp.smagroup.musahaf.utils.LocalJsonParser
-import co.jp.smagroup.musahaf.utils.extensions.checked
-import co.jp.smagroup.musahaf.utils.extensions.unChecked
-import co.jp.smagroup.musahaf.framework.CustomToast
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.utils.extensions.*
 import com.codebox.lib.android.views.listeners.onClick
 import com.codebox.lib.android.views.utils.gone
 import com.codebox.lib.android.views.utils.visible
-import com.codebox.lib.standard.stringsUtils.match
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.*
-
-import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.UnstableDefault
 import javax.inject.Inject
 
 
@@ -33,6 +28,8 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
 
     @Inject
     lateinit var repository: Repository
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     @TextTypeOpt
     private var searchType: String = Edition.Quran
@@ -42,6 +39,9 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
     private var quranWithoutTashkil = mutableListOf<Aya>()
     private var isSearchableQuranReady = false
 
+    private val searchableQuranViewModel: SearchableQuranViewModel by lazy {
+        viewModelOf(SearchableQuranViewModel::class.java, viewModelFactory)
+    }
     init {
         MushafApplication.appComponent.inject(this)
     }
@@ -53,10 +53,12 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
         initGroupChipListener()
         initSearch()
         back_button_search.onClick { finish() }
-        coroutineScope.launch(Dispatchers.IO) {
-            quranWithoutTashkil = getSearchableData()
+
+        searchableQuranViewModel.getSearchableMushaf().observer(this) {
+            quranWithoutTashkil = it as MutableList<Aya>
             isSearchableQuranReady = true
         }
+
     }
 
 
@@ -78,14 +80,12 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
                 val searchQuery = search_text_input.text.toString()
                 when (searchType) {
                     Edition.Quran -> {
-                        if (isSearchableQuranReady) {
                             loading_search_result.visible()
 
                             val searchResult =
-                                withContext(Dispatchers.IO) { quranWithoutTashkil.filter { it.text.match(searchQuery) } }
+                                withContext(Dispatchers.IO) { repository.searchQuran(searchQuery,MushafConstants.SearchableQuran) }
+
                             dispatchSearchResult(searchResult, searchQuery)
-                        } else
-                            CustomToast.makeShort(this@SearchActivity, R.string.wait)
                     }
                     else -> {
                         loading_search_result.visible()
@@ -149,13 +149,6 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
         super.onDestroy()
         job.cancelChildren()
         unlockScreenOrientation()
-    }
-
-    @UnstableDefault
-    @UseExperimental(ImplicitReflectionSerializer::class)
-    private fun getSearchableData(): MutableList<Aya> {
-        val parsedData = LocalJsonParser.parse("searchable_quran.json", Models.SearchableQuran.serializer())
-        return parsedData.data.ayahs.toMutableList()
     }
 
 }

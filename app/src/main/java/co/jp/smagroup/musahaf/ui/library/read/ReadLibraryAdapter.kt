@@ -2,20 +2,20 @@ package co.jp.smagroup.musahaf.ui.library.read;
 
 import android.content.Context
 import android.view.ViewGroup
-import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.RecyclerView
 import co.jp.smagroup.musahaf.R
+import co.jp.smagroup.musahaf.framework.CustomToast
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.model.ReadTranslation
 import co.jp.smagroup.musahaf.ui.commen.Fonts
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.more.SettingsPreferencesConstant
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.TextActionUtil
+import co.jp.smagroup.musahaf.utils.extensions.updatePadding
+import co.jp.smagroup.musahaf.utils.extensions.whiteSpaceMagnifier
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
-import co.jp.smagroup.musahaf.utils.whiteSpaceMagnifier
-import co.jp.smagroup.musahaf.framework.CustomToast
 import com.codebox.lib.android.resoures.Colour
 import com.codebox.lib.android.resoures.Stringify
 import com.codebox.lib.android.utils.AppPreferences
@@ -67,7 +67,10 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
 
             val isTranslationWithAya =
                 appPreferences.getBoolean(SettingsPreferencesConstant.TranslationWithAyaKey, true)
-            if (isTranslationWithAya) itemView.aya_text.text = whiteSpaceMagnifier(readTranslation.quranicText)
+            if (isTranslationWithAya) itemView.aya_text.text =
+                whiteSpaceMagnifier(
+                    readTranslation.quranicText
+                )
             else itemView.aya_text.gone()
 
             itemView.translation_tafseer_text_library.typeface = Fonts.getTranslationFont(context,readTranslation.editionInfo.language)

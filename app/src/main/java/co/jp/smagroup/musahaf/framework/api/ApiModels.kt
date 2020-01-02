@@ -1,6 +1,5 @@
 package co.jp.smagroup.musahaf.framework.api
 
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
 import com.google.gson.annotations.SerializedName

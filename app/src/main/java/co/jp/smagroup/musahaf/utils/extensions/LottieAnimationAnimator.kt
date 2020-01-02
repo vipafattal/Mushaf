@@ -1,7 +1,6 @@
 package co.jp.smagroup.musahaf.utils.extensions
 
 import android.animation.ValueAnimator
-import androidx.core.animation.doOnEnd
 import com.airbnb.lottie.LottieAnimationView
 import com.codebox.lib.standard.lambda.unitFun
 

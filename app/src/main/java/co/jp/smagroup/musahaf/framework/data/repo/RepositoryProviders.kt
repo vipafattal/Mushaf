@@ -29,6 +29,7 @@ interface RepositoryProviders {
     suspend fun getDownloadedEditions(): List<Edition>
     suspend fun downloadFullDataReciter(fetch: Fetch, reciterId: String, reciterName: String)
     suspend fun searchTranslation(query: String, type: String): List<Aya>
+    suspend fun searchQuran(query: String, editionId: String): List<Aya>
 
     suspend fun updateBookmarkStatus(ayaNumber: Int, identifier: String, bookmarkStatus: Boolean)
 

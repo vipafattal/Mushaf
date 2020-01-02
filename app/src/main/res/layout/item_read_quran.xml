@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:padding="5dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <include layout="@layout/layout_surah_header"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <include layout="@layout/layout_surah_header" />
 
 
     <co.jp.smagroup.musahaf.ui.quran.read.helpers.QuranTextView
-            android:fontFamily="@font/quran_me"
-            android:paddingEnd="5dp"
-            android:paddingStart="5dp"
-            android:textIsSelectable="true"
-            android:textAlignment="center"
-            android:id="@+id/surahText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:textSize="@dimen/_21sdp"
-            android:lineSpacingExtra="0.5dp"
-            android:lineSpacingMultiplier="1.0"
-            android:paddingLeft="5dp"
-            tools:targetApi="lollipop"/>
+        android:id="@+id/surahText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:fontFamily="@font/quran_me"
+        android:lineSpacingExtra="0.5dp"
+        android:lineSpacingMultiplier="1.0"
+        android:textAlignment="center"
+        android:textIsSelectable="true"
+        android:textSize="@dimen/_21sdp"
+        tools:targetApi="lollipop"
+        tools:text="@string/surah_tools" />
 
 </LinearLayout>
 

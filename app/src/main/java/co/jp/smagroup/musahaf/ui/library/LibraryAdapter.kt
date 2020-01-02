@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.Edition
@@ -15,6 +14,7 @@ import co.jp.smagroup.musahaf.ui.commen.Fonts
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.library.read.ReadLibraryActivity
 import co.jp.smagroup.musahaf.utils.Shortcut
+import co.jp.smagroup.musahaf.utils.extensions.bundleOf
 import co.jp.smagroup.musahaf.utils.extensions.onClicks
 import co.jp.smagroup.musahaf.utils.extensions.onLongClick
 import com.codebox.lib.android.actvity.newIntent

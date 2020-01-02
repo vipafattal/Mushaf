@@ -1,9 +1,6 @@
 package co.jp.smagroup.musahaf.framework.utils
 
-import androidx.annotation.IntDef
 import androidx.annotation.StringDef
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
-import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
 
 /**

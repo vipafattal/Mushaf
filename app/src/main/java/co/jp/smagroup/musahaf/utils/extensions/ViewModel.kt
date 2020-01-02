@@ -26,4 +26,4 @@ fun <T:ViewModel> AppCompatActivity.viewModelOf(viewModelClass: Class<T>,factory
         ViewModelProviders.of(this,factoryViewModel).get(viewModelClass)
 
 fun <T:ViewModel> Fragment.viewModelOf(viewModelClass: Class<T>,factoryViewModel:ViewModelProvider.Factory)=
-        ViewModelProviders.of(this,factoryViewModel).get(viewModelClass)
+        ViewModelProviders.of(this.activity!!,factoryViewModel).get(viewModelClass)

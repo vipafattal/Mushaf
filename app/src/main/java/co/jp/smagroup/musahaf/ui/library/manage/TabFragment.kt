@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
+import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.model.DownloadingState
 import co.jp.smagroup.musahaf.model.Edition
-import co.jp.smagroup.musahaf.framework.DownloadService
 import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
 import co.jp.smagroup.musahaf.ui.commen.dialog.DownloadDialog
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 
 @Suppress("UNCHECKED_CAST")
-class TabFragment : BaseFragment(),DownloadDialog.ProgressListener {
+class TabFragment : BaseFragment(), DownloadDialog.ProgressListener {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -41,7 +41,7 @@ class TabFragment : BaseFragment(),DownloadDialog.ProgressListener {
         parentActivity = activity as ManageLibraryActivity
         viewModel = viewModelOf(LibraryViewModel::class.java, viewModelFactory)
 
-        viewModel.allAvailableEditions.observer(viewLifecycleOwner) {
+        viewModel.getEditions().observer(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 val data = filterDataByTabPosition(it)
                 recycler_library_manage.adapter = getRecyclerAdapter(data)
@@ -57,7 +57,7 @@ class TabFragment : BaseFragment(),DownloadDialog.ProgressListener {
         adapter =
             ManageLibraryAdapter(data, doOnItemClicked = { edition, downloadingState ->
                 if (!downloadingState.isDownloadCompleted)
-                    downloadMusahaf(edition, downloadingState)
+                    downloadMushaf(edition, downloadingState)
                 //else Do nothing
             })
 
@@ -79,38 +79,15 @@ class TabFragment : BaseFragment(),DownloadDialog.ProgressListener {
     }
 
     private var recyclerViewPosition = 0
-    private fun downloadMusahaf(edition: Edition, downloadingState: DownloadingState) {
+    private fun downloadMushaf(edition: Edition, downloadingState: DownloadingState) {
 
         if (parentActivity.supportFragmentManager.findFragmentByTag(DownloadDialog.TAG) == null) {
-
-            if (DownloadService.isDownloading)
-                CustomToast.makeLong(parentActivity, R.string.downloading_please_wait)
-            else {
-                DownloadService.create(parentActivity, edition, downloadingState)
-
-                val progressDialog = DownloadDialog()
-
-                progressDialog.progressListener = object : DownloadDialog.ProgressListener {
-
-                    override fun onSuccess(dialog: DownloadDialog) {
-                        dialog.dismiss()
-                        viewModel.updateDataDownloadState(edition.identifier)
-                    }
-
-                    override fun onError() = viewModel.updateDataDownloadState(edition.identifier)
-
-                    override fun onBackground() {
-                        parentActivity.finish()
-                    }
-                }
-                progressDialog.show(parentActivity.supportFragmentManager, DownloadDialog.TAG)
-            }
+            if (DownloadService.isDownloading) CustomToast.makeLong(parentActivity, R.string.downloading_please_wait)
+            else DownloadService.create(parentActivity, edition, downloadingState)
         }
-    }
 
-    override fun loadData() {
-        super.loadData()
-        viewModel.getEditions()
+        parentActivity.showDownloadDialog(edition.identifier)
+
     }
 
     companion object {

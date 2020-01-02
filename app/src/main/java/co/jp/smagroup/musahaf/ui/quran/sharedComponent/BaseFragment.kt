@@ -53,7 +53,7 @@ abstract class BaseFragment : Fragment() {
             activity?.connectionErrorView!!.visible()
     }
     
-    private fun loadingStarted() {
+    fun loadingStarted() {
         showLoading()
         activity?.connectionErrorView!!.gone()
     }

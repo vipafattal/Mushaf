@@ -2,15 +2,14 @@ package co.jp.smagroup.musahaf.ui.bookmarks
 
 import android.os.Bundle
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.framework.commen.MusahafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.ui.MainActivity
+import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
+import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
 import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseFragment
-import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
-import co.jp.smagroup.musahaf.ui.commen.ViewModelFactory
-import co.jp.smagroup.musahaf.ui.quran.QuranViewModel
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.resoures.Colour
 import com.codebox.lib.android.views.utils.gone
