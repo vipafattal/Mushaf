@@ -14,18 +14,18 @@ import kotlinx.serialization.Serializable
 data class Aya @Ignore constructor(
     @ColumnInfo(name = "number_in_mushaf")
     val number: Int,
-    val surah_number: Int=0,
+    var surah_number: Int = 0,
     val text: String,
     val numberInSurah: Int,
     val juz: Int,
     val page: Int,
     val hizbQuarter: Int,
-    val edition_id: String = "",
+    var edition_id: String = "",
     val isBookmarked: Boolean = false,
     @Ignore
     var surah: Surah?,
     @Ignore
-    var edition: Edition?=null
+    var edition: Edition? = null
 ) {
     constructor(
         number: Int,
@@ -78,4 +78,5 @@ data class Aya @Ignore constructor(
         surah = ayaWithInfo.surah,
         edition = ayaWithInfo.edition
     )
+
 }

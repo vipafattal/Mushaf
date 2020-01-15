@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.jp.smagroup.musahaf.R
-import com.codebox.lib.android.fragments.replaceFragment
+import com.codebox.lib.android.fragments.transaction
 import com.codebox.lib.android.viewGroup.inflater
 import com.codebox.lib.android.views.listeners.onClick
 import kotlinx.android.synthetic.main.item_open_source_license.view.*
@@ -37,7 +37,10 @@ class OpenSourceLicenseAdapter(private val dataList: List<Models.License>) :
             itemView.onClick {
                 val activity = context as OpenSourceLicenseActivity
                 val fragment = OpenSourceDetailsFragment.newInstance(license)
-                activity.replaceFragment(fragment, R.id.licenseViewHolder, OpenSourceDetailsFragment.TAG)
+                activity.supportFragmentManager.transaction {
+                    replace(R.id.licenseViewHolder, fragment, OpenSourceDetailsFragment.TAG)
+                    addToBackStack(null)
+                }
             }
         }
     }

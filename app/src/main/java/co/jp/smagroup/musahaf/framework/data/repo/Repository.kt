@@ -15,6 +15,7 @@ import com.tonyodev.fetch2.Request
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -134,19 +135,16 @@ class Repository : RepositoryProviders {
         localDataSource.searchQuran(query, editionId)
 
 
-    override suspend fun getMusahafAyat(identifier: String): MutableList<Aya> {
+    override suspend fun getMusahafAyat(identifier: String) = runBlocking<MutableList<Aya>> {
         val downloadingState = localDataSource.getDownloadingState(identifier)
         val startingPoint: Int
-        when {
-            !downloadingState.isDownloadCompleted -> {
-                startingPoint = downloadingState.stopPoint ?: 1
-                downloadAyat(identifier, startingPoint)
-            }
-            else -> return localDataSource.getAllAyatByIdentifier(identifier)
+        if (!downloadingState.isDownloadCompleted) {
+            startingPoint = downloadingState.stopPoint ?: 1
+            downloadAyat(identifier, startingPoint)
         }
 
         val musahaf = localDataSource.getAllAyatByIdentifier(identifier)
-        return if (musahaf.size == MushafConstants.AyatNumber) musahaf else mutableListOf()
+        return@runBlocking if (musahaf.size == MushafConstants.AyatNumber) musahaf else mutableListOf()
     }
 
     override suspend fun getAyatByRange(from: Int, to: Int): MutableList<Aya> = localDataSource.getAyatByRange(from, to)

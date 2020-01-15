@@ -21,22 +21,22 @@ interface MushafDao {
     }*/
 
     //Ayat dao
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAya(aya: Aya)
 
     @Query("update $AYAT_TABLE set isBookmarked = :bookmarkState where number_in_mushaf = :ayaNumber and edition_id = :editionId")
     suspend fun updateAyaBookmarkState(ayaNumber: Int, editionId: String, bookmarkState: Boolean)
 
     @Transaction
-    @Query("select * from $AYAT_TABLE where edition_id = :mushafIdentifier order by numberInSurah ASC")
+    @Query("select * from $AYAT_TABLE where edition_id = :mushafIdentifier order by number_in_mushaf ASC")
     suspend fun getAyatByEdition(mushafIdentifier: String): List<AyaWithInfo>
 
     @Transaction
-    @Query("select * from $AYAT_TABLE where page = :page and edition_id = :musahafIdentifier order by numberInSurah ASC")
+    @Query("select * from $AYAT_TABLE where page = :page and edition_id = :musahafIdentifier order by number_in_mushaf ASC")
     suspend fun getAyatOfPage(musahafIdentifier: String, page: Int): List<AyaWithInfo>
 
     @Transaction
-    @Query("select * from $AYAT_TABLE where surah_number = :surahNumber and edition_id = :musahafIdentifier order by numberInSurah ASC")
+    @Query("select * from $AYAT_TABLE where surah_number = :surahNumber and edition_id = :musahafIdentifier order by number_in_mushaf ASC")
     suspend fun getAyatOfSurah(musahafIdentifier: String, surahNumber: Int): List<AyaWithInfo>
 
     @Transaction

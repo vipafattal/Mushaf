@@ -100,6 +100,7 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
 
             initViewPager(startAtPage, data)
         }
+        viewModel.prepareData()
 
         activateClickListener()
     }

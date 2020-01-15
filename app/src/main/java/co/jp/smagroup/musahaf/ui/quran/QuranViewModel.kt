@@ -11,18 +11,21 @@ import kotlinx.coroutines.*
 class QuranViewModel(private val repository: Repository) : ViewModel() {
 
     private val job = SupervisorJob()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
+    private val coroutineScope = CoroutineScope(Dispatchers.Main+job)
     private lateinit var mainMushaf: MutableLiveData<List<Aya>>
 
-    fun getMainMushaf(): LiveData<List<Aya>> {
-        if (!::mainMushaf.isInitialized)
-            mainMushaf = MutableLiveData()
 
+    fun prepareData() {
         coroutineScope.launch {
             if (QuranDataList.isEmpty())
                 withContext(Dispatchers.IO) { loadAyatData() }
             mainMushaf.postValue(QuranDataList)
         }
+    }
+
+    fun getMainMushaf(): LiveData<List<Aya>> {
+        if (!::mainMushaf.isInitialized)
+            mainMushaf = MutableLiveData()
 
         return mainMushaf
     }
@@ -42,7 +45,7 @@ class QuranViewModel(private val repository: Repository) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        job.cancelChildren()
+       job.cancelChildren()
     }
 
     companion object {

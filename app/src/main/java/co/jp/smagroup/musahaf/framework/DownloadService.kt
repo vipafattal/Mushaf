@@ -179,8 +179,7 @@ class DownloadService : Service() {
         private const val CHANNEL_ID = "123"
         private const val CHANNEL_NAME = "DOWNLOAD_SERVICE"
 
-        private const val notificationId = R.string.app_name
-
+        private const val notificationId = R.string.app_name + R.string.downloading
         const val PROGRESS_MAX = 30
 
         const val DOWNLOADING_STATE_KEY = "downloadingState"

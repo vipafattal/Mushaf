@@ -83,7 +83,7 @@
                 android:layout_weight="1"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:fontFamily="@font/quran_me"
+                android:fontFamily="@font/quran"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="0.5dp"
                 android:lineSpacingMultiplier="1.0"

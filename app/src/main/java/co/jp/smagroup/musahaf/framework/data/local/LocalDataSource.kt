@@ -56,14 +56,17 @@ class LocalDataSource : LocalDataSourceProviders {
         }
 
 
-    override suspend fun addAyat(
-        quran: ApiModels.QuranDataApi
-    ) {
-        for (aya in quran.ayahs) {
-            dao.addAya(aya.copy(edition_id = quran.edition.identifier, surah_number = aya.surah!!.number))
+    override suspend fun addAyat(quran: ApiModels.QuranDataApi) {
+
+        for (index in quran.ayahs.indices) {
+            val aya = quran.ayahs[index]
+            aya.edition_id = quran.edition.identifier
+            aya.surah_number = aya.surah!!.number
+            dao.addAya(aya)
             dao.addSurah(aya.surah!!)
-            dao.addEdition(quran.edition)
         }
+
+        dao.addEdition(quran.edition)
     }
 
     override suspend fun getSurahs(): List<Surah> =
@@ -120,7 +123,8 @@ class LocalDataSource : LocalDataSourceProviders {
 
     override suspend fun searchQuran(query: String, editionId: String): List<Aya> {
         val ayatWithInfo = dao.searchQuran("%$query%", editionId)
-        return ayatWithInfo.map { Aya(it) }.toMutableList()    }
+        return ayatWithInfo.map { Aya(it) }.toMutableList()
+    }
 
     override suspend fun getAllAyatByIdentifier(musahafIdentifier: String): MutableList<Aya> {
         val ayatWithInfo = dao.getAyatByEdition(musahafIdentifier)
@@ -154,10 +158,10 @@ class LocalDataSource : LocalDataSourceProviders {
 
 
     override suspend fun getAyaByBookmark(
-        musahafIdentifier: String,
+        editionIdentifier: String,
         bookmarkStatus: Boolean
     ): MutableList<Aya> {
-        val ayaWithInfo = dao.getAyaByBookmarkStatus(musahafIdentifier, bookmarkStatus)
+        val ayaWithInfo = dao.getAyaByBookmarkStatus(editionIdentifier, bookmarkStatus)
         return ayaWithInfo.map { Aya(it) }.toMutableList()
     }
 

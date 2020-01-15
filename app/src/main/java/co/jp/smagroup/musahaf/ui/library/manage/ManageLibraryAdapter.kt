@@ -11,6 +11,7 @@ import com.codebox.lib.android.viewGroup.inflater
 import com.codebox.lib.android.views.listeners.onClick
 import kotlinx.android.synthetic.main.item_library_manage.view.*
 import kotlinx.android.synthetic.main.item_library_manage_lang.view.*
+import kotlin.math.roundToInt
 
 /**
  * Created by ${User} on ${Date}
@@ -62,7 +63,8 @@ class ManageLibraryAdapter(
         @SuppressLint("SetTextI18n")
         private fun bindLibraryItem(data: Pair<Edition, DownloadingState>) {
             itemView.edition_name.text = data.first.name
-            itemView.download_info.text = "${data.second.stopPoint ?: 0} juz' downloaded"
+            val progress = data.second.stopPoint?.div(30f) ?: 0f
+            itemView.download_info.text = "${(progress * 100).roundToInt()}% downloaded"
             
             val icon = if (data.second.isDownloadCompleted) R.drawable.ic_check else R.drawable.ic_cloud_download
             itemView.download_img.setImageResource(icon)

@@ -60,6 +60,11 @@ class QuranIndexFragment : BaseFragment() {
         loadData()
     }
 
+    override fun loadData() {
+        super.loadData()
+        viewModel.prepareData()
+    }
+
 
     private fun dispatchAyatData(ayat: List<Aya>){
         fast_page_transition.visible()
@@ -112,11 +117,11 @@ class QuranIndexFragment : BaseFragment() {
         val adapterList = mutableListOf<Aya>()
         var oldJuz = -1
         var oldSurahNumber = -1
-        ayat.forEach {
-            if (it.surah!!.number != oldSurahNumber || it.juz != oldJuz)
-                adapterList.add(it)
-            oldJuz = it.juz
-            oldSurahNumber = it.surah!!.number
+        for (aya in ayat) {
+            if (aya.surah_number != oldSurahNumber || aya.juz != oldJuz)
+                adapterList.add(aya)
+            oldJuz = aya.juz
+            oldSurahNumber = aya.surah_number
         }
         return adapterList
     }

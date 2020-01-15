@@ -22,9 +22,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -48,7 +45,7 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         setContentView(R.layout.activity_main)
 
         navigationViewModel = viewModelOf(NavigationViewModel::class.java)
-        GlobalScope.launch(Dispatchers.IO) { repository.getAvailableReciters(true) }
+        //GlobalScope.launch(Dispatchers.IO) { repository.getAvailableReciters(true) }
 
         if (savedInstanceState != null) {
             val (navigationId, currentFragment) = navigationViewModel.getCurrentNavigation()
