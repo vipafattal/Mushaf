@@ -274,5 +274,5 @@ private fun Char.equalAnyOf(vararg chars: Char): Boolean {
 }
 
 
-val Char.quranSpecialSimple: Boolean
+val Char.quranicSymbol: Boolean
     get() = equalAnyOf('۞', '۩')

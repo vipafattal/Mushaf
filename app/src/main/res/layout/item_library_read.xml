@@ -39,7 +39,7 @@
             <TextView
                     style="@style/AppTheme.Text.Normal"
                     tools:text="@string/surah_tools"
-                    android:fontFamily="@font/quran_me"
+                    android:fontFamily="@font/me_quran"
                     android:id="@+id/aya_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

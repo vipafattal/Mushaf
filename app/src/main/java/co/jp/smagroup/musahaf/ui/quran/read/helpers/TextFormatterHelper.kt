@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.Aya
-import co.jp.smagroup.musahaf.utils.quranSpecialSimple
+import co.jp.smagroup.musahaf.utils.quranicSymbol
 
 fun textToWords(text: CharSequence): ArrayList<String> {
     val wordToTranslate = arrayListOf<String>()
@@ -14,7 +14,7 @@ fun textToWords(text: CharSequence): ArrayList<String> {
     val textIndices = text.indices
     for (index in textIndices) {
         val currentChar = text[index]
-        if (currentChar != '*' && currentChar != ' ' && !currentChar.quranSpecialSimple) {
+        if (currentChar != '*' && currentChar != ' ' && !currentChar.quranicSymbol) {
             word += currentChar
             isCharAdded = true
         }

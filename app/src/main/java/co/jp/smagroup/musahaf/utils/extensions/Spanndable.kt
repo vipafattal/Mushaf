@@ -5,7 +5,7 @@ import android.text.style.BackgroundColorSpan
 import co.jp.smagroup.musahaf.utils.ClickableImageSpan
 
 fun whiteSpaceMagnifier(text: String): String =
-    text.replace(" ", "   ")
+    text.replace(" ", "     ")
 
 
 fun Spannable.clearHighlighted(start: Int = 0, end: Int = length) {

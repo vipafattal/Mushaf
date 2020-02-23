@@ -40,7 +40,7 @@
 
     <TextView
             android:textStyle="bold"
-            android:fontFamily="@font/quran_me"
+            android:fontFamily="@font/me_quran"
             android:textSize="18sp"
             tools:text="عم"
             android:id="@+id/arabicWord"

@@ -55,7 +55,7 @@ class SearchAdapter(
             itemView.apply {
                 aya_number_search.text = aya.numberInSurah.toString()
                 if (searchType == Edition.Quran) {
-                    val typeface = ResourcesCompat.getFont(context, R.font.quran_me)
+                    val typeface = ResourcesCompat.getFont(context, R.font.me_quran)
                     aya_text_search.typeface = typeface
                     aya_text_search.text =
                         whiteSpaceMagnifier(
