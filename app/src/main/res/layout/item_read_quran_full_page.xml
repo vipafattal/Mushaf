@@ -86,7 +86,7 @@
                 android:fontFamily="@font/me_quran"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="0.5dp"
-                android:lineSpacingMultiplier="1.0"
+                android:lineSpacingMultiplier="1.12"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/_25sdp"
                 tools:text="@string/surah_tools" />

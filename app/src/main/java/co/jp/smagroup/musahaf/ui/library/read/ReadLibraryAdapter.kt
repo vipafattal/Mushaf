@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.framework.CustomToast
+import co.jp.smagroup.musahaf.framework.commen.MushafConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.model.ReadTranslation
@@ -145,22 +146,30 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
 
         private fun convertTranslationToShare(readTranslation: ReadTranslation, context: Context): String {
             var shareText = ""
+
             val ayaNumber = "${context.getString(R.string.aya_number)}: ${readTranslation.numberInSurah}\n"
             val pageNumber = "${context.getString(R.string.page)}: ${readTranslation.page}\n"
             val surahName = "${readTranslation.surah.name}\n"
             val ayaInfo = ayaNumber + pageNumber + surahName
             val ayaText = "{ ${readTranslation.quranicText} }\n$ayaInfo\n"
 
-            val translationText = """ "${readTranslation.translationText}" """ + "\n"
-            val translationInfo = if (readTranslation.translationOrTafsir == Edition.Tafsir)
-                "${Stringify(R.string.tafseer, context)}: ${readTranslation.editionInfo.name}\n"
-            else "${Stringify(R.string.translation, context)}: ${readTranslation.editionInfo.name}\n"
+            shareText += ayaText
 
-            shareText += ayaText + translationText + translationInfo
+            if (readTranslation.editionInfo.identifier == MushafConstants.SimpleQuran) {
+                val translationText = """ "${readTranslation.translationText}" """ + "\n"
+                val translationInfo = if (readTranslation.translationOrTafsir == Edition.Tafsir)
+                    "${Stringify(R.string.tafseer, context)}: ${readTranslation.editionInfo.name}\n"
+                else "${Stringify(
+                    R.string.translation,
+                    context
+                )}: ${readTranslation.editionInfo.name}\n"
+
+                shareText += translationText + translationInfo
+            }
+
             shareText += "via @${Stringify(R.string.app_name, context)} for Android"
 
             return shareText
         }
-
     }
 }

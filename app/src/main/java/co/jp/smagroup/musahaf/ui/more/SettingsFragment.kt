@@ -71,7 +71,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         arabicNumbers.onPreferenceChangeListener = this
 
 
-        onPreferencesClick(R.string.data_validity) {
+        onPreferencesClick(R.string.data_disclaimer) {
             context?.goTo("https://alquran.cloud/")
         }
 

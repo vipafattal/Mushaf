@@ -63,18 +63,18 @@
     <string name="arabic_number_off_summery">عند عدم تفعيل هذا الخيار سوف يتبع للغة التطبيق الحالية</string>
     <string name="arabic_mode_off">عند عدم تفعيل هذا الخيار سوف يتبع للغة النظام الحالية</string>
     <string name="about">حول</string>
-    <string name="data_validity">مصداقية البيانات</string>
+    <string name="data_disclaimer">مصداقية البيانات</string>
     <string name="cancelled">ألغى</string>
     <string name="no_repeating">بلا</string>
-    <string name="data_validity_summery">جميع بيانات التطبيق تم الحصول عليه من موقع \'alquran.cloud\' وتتوقف صحة
-        البيانات على عاتق الموقع, فإن فريق تطوير تطبيق Musahaf غير مسوؤل عن أي خطأ في بيانات الترجمة والتفسير
+    <string name="disclaimer_summery">جميع بيانات التطبيق تم الحصول عليه من موقع \'alquran.cloud\' وتتوقف صحة
+        البيانات على عاتق الموقع, فإن فريق تطوير تطبيق Musahaf غير مسوؤل عن أي خطأ في بيانات الترجمة والتفسير، في حال وجدت خظأ في البيانات الرجاء إعلام
     </string>
     <string name="word">كلمة</string>
     <string name="word_summery">نسأل الله أن يتقبل هذا العمل المتواضع الذي قصدنا به نفع المسلمين في كل مكان ويجعله سبباً
         في رد النار ودخول الجنة لكل فرد عمل على تطوير التطبيق أو ساعد في إنجازه
     </string>
-    <string name="downloading">جار تحميل...</string>
-    <string name="cancel">إلغى</string>
+    <string name="downloading">جار تحميل…</string>
+    <string name="cancel">إلغاء</string>
     <string name="cancel_process">إلغاء</string>
     <string name="app_ِappearance">المظهر</string>
     <string name="reading">القراءة</string>
@@ -108,5 +108,6 @@
     <string name="download_completed">أكتمل التحميل</string>
     <string name="downloading_please_wait">جاري التحميل الرجاء الإنتظار</string>
     <string name="background_download">التحميل في الخلفية</string>
+    <string name="no_translation_tafeer_downloaded">لم يتم تنزيل تفسير أو ترجمة</string>
 
 </resources>

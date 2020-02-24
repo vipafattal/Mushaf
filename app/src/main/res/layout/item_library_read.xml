@@ -1,89 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="12dp"
-        android:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:paddingTop="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:orientation="horizontal">
 
-            android:layout_width="match_parent"
-                  android:orientation="horizontal"
-                  android:layout_height="wrap_content">
         <TextView
-                tools:text="10"
-                android:textColor="@color/colorSecondary"
-                style="@style/AppTheme.Text.Secondary"
-                android:textSize="@dimen/_14ssp"
-                android:id="@+id/aya_number_library"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="6dp"
-                app:layout_constraintTop_toTopOf="parent"/>
+            android:id="@+id/aya_number_library"
+            style="@style/AppTheme.Text.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/colorSecondary"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="10" />
+
         <LinearLayout
-                android:id="@+id/item_read_library_root_view"
+            android:id="@+id/item_read_library_root_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/aya_text"
+                style="@style/AppTheme.Text.Normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:clickable="true"
-                android:paddingBottom="8dp"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginStart="14dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/me_quran"
+                app:layout_constraintBaseline_toBaselineOf="@+id/aya_number_library"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/aya_number_library"
+                tools:text="@string/surah_tools" />
 
             <TextView
-                    style="@style/AppTheme.Text.Normal"
-                    tools:text="@string/surah_tools"
-                    android:fontFamily="@font/me_quran"
-                    android:id="@+id/aya_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:layout_marginLeft="14dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/aya_number_library"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="12dp"
-
-                    android:layout_marginRight="8dp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/aya_number_library"/>
-
-            <TextView
-                    android:lineSpacingExtra="1.5dp"
-                    android:lineSpacingMultiplier="1.2"
-                    android:textStyle="bold"
-                    app:layout_constrainedWidth="true"
-                    style="@style/AppTheme.Text.Normal"
-                    android:id="@+id/translation_tafseer_text_library"
-                    tools:text="@string/translation_tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/aya_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintStart_toEndOf="@+id/aya_number_library"
-                    app:layout_constraintHorizontal_bias="0.0" android:layout_marginLeft="14dp"
-                    android:layout_marginStart="14dp"/>
+                android:id="@+id/translation_tafseer_text_library"
+                style="@style/AppTheme.Text.Normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:lineSpacingExtra="1.5dp"
+                android:lineSpacingMultiplier="1.2"
+                android:textStyle="bold"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/aya_number_library"
+                app:layout_constraintTop_toBottomOf="@+id/aya_text"
+                tools:text="@string/translation_tools" />
         </LinearLayout>
     </LinearLayout>
 
 
     <View
-            app:layout_constrainedWidth="true"
-            android:background="#707070"
-            android:id="@+id/divider_item_library"
-            android:layout_width="wrap_content"
-            android:layout_height="0.8dp"
-            android:layout_marginStart="42dp"
-            app:layout_constraintTop_toBottomOf="@+id/translation_tafseer_text_library"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/aya_number_library"
-            android:layout_marginLeft="42dp"/>
+        android:id="@+id/divider_item_library"
+        android:layout_width="wrap_content"
+        android:layout_height="0.8dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:background="#707070"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/aya_number_library"
+        app:layout_constraintTop_toBottomOf="@+id/translation_tafseer_text_library" />
 </LinearLayout>

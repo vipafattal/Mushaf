@@ -134,7 +134,7 @@ class DownloadService : Service() {
         builder: NotificationCompat.Builder
     ) {
         loadingDisposable = repository.loadingStream.subscribe {
-            if (currentProgress <= PROGRESS_MAX) {
+            if (currentProgress < PROGRESS_MAX) {
                 currentProgress = it
                 builder.setProgress(PROGRESS_MAX, currentProgress, false)
                 // notificationId is a unique int for each notification that you must define
@@ -153,7 +153,6 @@ class DownloadService : Service() {
         isDownloading = false
         if (message != getString(R.string.cancelled)) showToast(message)
         notificationManager.cancel(notificationId)
-
         stopSelf()
     }
 

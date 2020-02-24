@@ -19,11 +19,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="co.jp.smagroup.musahaf.ui.openSourceLicenses.OpenSourceLicenseActivity"></activity>
-        <activity android:name=".ui.search.SearchActivity"></activity>
-        <activity
-                android:name=".ui.library.read.ReadLibraryActivity"
-                android:exported="true" />
+        <activity android:name="co.jp.smagroup.musahaf.ui.openSourceLicenses.OpenSourceLicenseActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
+        <activity android:name=".ui.library.read.ReadLibraryActivity" android:exported="true" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

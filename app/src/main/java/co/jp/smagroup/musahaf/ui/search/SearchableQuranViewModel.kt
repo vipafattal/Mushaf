@@ -21,7 +21,7 @@ class SearchableQuranViewModel(private val repository: Repository) : ViewModel()
 
         coroutineScope.launch {
             val data =
-                withContext(Dispatchers.IO) { repository.getMusahafAyat(MushafConstants.SearchableQuran) }
+                withContext(Dispatchers.IO) { repository.getMusahafAyat(MushafConstants.SimpleQuran) }
             _searchableMushaf.postValue(data)
 
         }

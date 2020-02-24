@@ -83,7 +83,7 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
                             loading_search_result.visible()
 
                             val searchResult =
-                                withContext(Dispatchers.IO) { repository.searchQuran(searchQuery,MushafConstants.SearchableQuran) }
+                                withContext(Dispatchers.IO) { repository.searchQuran(searchQuery,MushafConstants.SimpleQuran) }
 
                             dispatchSearchResult(searchResult, searchQuery)
                     }

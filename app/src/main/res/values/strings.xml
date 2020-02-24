@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Mushaf</string>
     <string name="app_version" translatable="false">V1.0</string>
     <string name="playback_channel_name" translatable="false">Playback</string>
@@ -80,26 +81,24 @@
     <string name="arabic_number_off_summery">When it\'s disabled it will follow current app language</string>
     <string name="arabic_mode_off">When it\'s disabled it will follow current system language</string>
     <string name="about">About</string>
-    <string name="data_validity">Data validity</string>
+    <string name="data_disclaimer">Disclaimer</string>
     <string name="cancelled">Cancelled</string>
     <string name="save_in_bookmarks">Save in bookmarks</string>
     <string name="no_repeating">none</string>
-    <string name="data_validity_summery">All data is retrieved from \'alquran.cloud\' and it\'s user responsibility and
-        the server team to verify the data validity and the app developer team of Musahaf is not responsible for any
-        mistake
-        or incorrectness in the provided data in the app.
+    <string name="disclaimer_summery">All data is retrieved from \'alquran.cloud\' and it\'s their responsibility to verify the data validity so the app developer team of Mushaf is not responsible for any
+        mistake or incorrectness in the provided data in the app, please if you find any error please report them.
     </string>
     <string name="word">A Statement</string>
     <string name="word_summery">May Allah accept this humble work, which was done in good faith to benefit Muslims
         wherever they are. We also hope to make it a reason to save us from the punishment of the Hellfire, and may
         Allah grant those who participated in developing the application or helped accomplishing it, the Paradise.
     </string>
-    <string name="downloading">Downloading...</string>
+    <string name="downloading">Downloading…</string>
     <string name="cancel">Cancel</string>
     <string name="cancel_process">Cancel</string>
     <string name="app_ِappearance">Appearance</string>
     <string name="reading">Reading</string>
-    <string name="privacy_and_details"><![CDATA[Privacy & Details]]></string>
+    <string name="privacy_and_details"><![CDATA[Privacy & Open Source]]></string>
     <string name="aya_number">Aya number</string>
     <string name="select_aya">Select Aya</string>
     <string name="move_to_aya">Move To Aya</string>
@@ -130,6 +129,7 @@
     <string name="download_completed">Download complete</string>
     <string name="downloading_please_wait">Downloading Please Wait</string>
     <string name="background_download">Download in background</string>
+    <string name="no_translation_tafeer_downloaded">No Translation/Tafseer Downloaded</string>
 
 
 </resources>

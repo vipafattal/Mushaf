@@ -9,10 +9,6 @@ import androidx.fragment.app.Fragment
 import com.codebox.lib.android.views.utils.gone
 import com.codebox.lib.android.views.utils.visible
 import kotlinx.android.synthetic.main.layout_connection.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancelChildren
 
 /**
  * Created by ${User} on ${Date}
@@ -20,8 +16,7 @@ import kotlinx.coroutines.cancelChildren
 abstract class BaseFragment : Fragment() {
     abstract val layoutId: Int
     
-    private val job = SupervisorJob()
-    protected val coroutineScope = CoroutineScope(Dispatchers.Main + job)
+
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layoutId, container, false)
@@ -38,12 +33,6 @@ abstract class BaseFragment : Fragment() {
     @CallSuper
     open fun loadData() {
         loadingStarted()
-    }
-    
-    @CallSuper
-    override fun onStop() {
-        super.onStop()
-        job.cancelChildren()
     }
     
     

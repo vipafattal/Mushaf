@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="firstRotationDecorToolbar">180</integer>
+    <integer name="secondRotationDecorToolbar">0</integer>
+</resources>

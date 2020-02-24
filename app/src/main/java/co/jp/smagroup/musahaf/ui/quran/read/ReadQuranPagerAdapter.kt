@@ -82,7 +82,7 @@ class ReadQuranPagerAdapter(
 
         val mainView = collection.inflater(R.layout.item_read_quran_full_page)
         mainView.pageScroller.tag = "pageScroller$position"
-        mainView.pageScroller.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+        mainView.pageScroller.setOnScrollChangeListener { _: NestedScrollView?, _: Int, _: Int, _: Int, _: Int ->
             readQuranActivity.updateSystemNavState(true)
         }
         if (readDataPage.size > 1) {
@@ -325,7 +325,7 @@ class ReadQuranPagerAdapter(
     private fun getTranslation(numberInMusahaf: Int) {
         coroutineScope.launch {
             val downloadedEditions =
-                withContext(Dispatchers.IO) { readQuranActivity.repository.getDownloadedEditions() }.filter { it.format == MushafConstants.Text }
+                withContext(Dispatchers.IO) { readQuranActivity.repository.getDownloadedEditions() }.filter { it.format == MushafConstants.Text || it.identifier != MushafConstants.SimpleQuran}
                     .toMutableList()
 
             val selectedTranslation =
@@ -342,9 +342,9 @@ class ReadQuranPagerAdapter(
                 }
                 downloadedEditions.removeAll(selectedEditions)
                 unSelectedEditions = downloadedEditions
-            } else {
+            } else
                 unSelectedEditions = downloadedEditions.toMutableList()
-            }
+
             readQuranActivity.viewModelOf(TranslationViewModel::class.java)
                 .setTranslationData(selectedEditions, unSelectedEditions, numberInMusahaf)
 

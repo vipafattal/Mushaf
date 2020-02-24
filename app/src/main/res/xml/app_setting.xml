@@ -39,9 +39,9 @@
     <PreferenceCategory android:title="@string/privacy_and_details">
 
         <Preference
-                android:summary="@string/data_validity_summery"
-                android:key="@string/data_validity"
-                android:title="@string/data_validity"/>
+                android:summary="@string/disclaimer_summery"
+                android:key="@string/data_disclaimer"
+                android:title="@string/data_disclaimer"/>
 
         <Preference
             android:title="@string/open_source_license"

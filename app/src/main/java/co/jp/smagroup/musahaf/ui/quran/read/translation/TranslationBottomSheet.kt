@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
-import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
 import co.jp.smagroup.musahaf.framework.data.repo.Repository
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.model.Edition
 import co.jp.smagroup.musahaf.model.Translation
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
+import co.jp.smagroup.musahaf.ui.commen.PreferencesConstants
+import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.library.manage.ManageLibraryActivity
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.onClicks
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
@@ -58,7 +58,8 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
                         )
                     }
 
-                    val ayatText = if (data.isNotEmpty()) data.map { it.text } else listOf("No Translation Downloaded")
+                    val ayatText = if (data.isNotEmpty()) data.map { it.text } else listOf(getString(
+                                            R.string.no_translation_tafeer_downloaded))
                     recycler_translation.adapter = TranslationQuranAdapter(ayatText)
 
                     translation_selection.setImageResource(if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_language_light else R.drawable.ic_language_dark)

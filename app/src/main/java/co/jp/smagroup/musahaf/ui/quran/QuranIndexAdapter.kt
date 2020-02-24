@@ -5,11 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
 import co.jp.smagroup.musahaf.model.Aya
+import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
 import co.jp.smagroup.musahaf.utils.getAyaWord
 import co.jp.smagroup.musahaf.utils.toCurrentLanguageNumber
-import co.jp.smagroup.musahaf.utils.toLocalizedNumber
 import co.jp.smagroup.musahaf.utils.toLocalizedRevelation
 import com.codebox.lib.android.actvity.newIntent
 import com.codebox.lib.android.resoures.Stringify
@@ -86,7 +85,7 @@ class QuranIndexAdapter(private val dataList: List<Aya>,
                 if (isRightToLeft == 1) surahName.text = data.surah!!.englishName
                 else surahName.text = data.surah!!.name
 
-                surahNumber.text = data.surah!!.number.toString().toLocalizedNumber()
+                surahNumber.text = data.surah!!.number.toString().toCurrentLanguageNumber()
                 surahInfo.text = "${data.surah!!.revelationType.toLocalizedRevelation()} - ${data.surah!!.numberOfAyahs} ${data.surah!!.numberOfAyahs.getAyaWord()}"
                 surah_view_root.activeClick(data)
             }

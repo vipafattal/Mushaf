@@ -10,16 +10,20 @@ import co.jp.smagroup.musahaf.model.Translation
  * Created by ${User} on ${Date}
  */
 class TranslationViewModel : ViewModel() {
-    private lateinit var  translations: MutableLiveData<Translation>
-    fun setTranslationData(selected: List<Edition>, unSelected: List<Edition>, numberInMusahaf: Int) {
-        
+    private lateinit var translations: MutableLiveData<Translation>
+    fun setTranslationData(
+        selected: List<Edition>,
+        unSelected: List<Edition>,
+        numberInMusahaf: Int
+    ) {
+
         if (!::translations.isInitialized)
             translations = MutableLiveData()
-        
-        translations.value=Translation(numberInMusahaf,selected,unSelected)
+
+        translations.value = Translation(numberInMusahaf, selected, unSelected)
     }
-    
-    fun getTranslation(): LiveData<Translation> =translations
-    
-    
+
+    fun getTranslation(): LiveData<Translation> = translations
+
+
 }

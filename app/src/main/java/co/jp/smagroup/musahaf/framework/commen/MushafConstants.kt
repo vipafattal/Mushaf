@@ -11,7 +11,7 @@ object MushafConstants {
 
     const val MainMushaf = "quran-uthmani"
     const val WordByWord = "quran-wordbyword"
-    const val SearchableQuran = "quran-simple-clean"
+    const val SimpleQuran = "quran-simple-clean"
 
     const val Text = "text"
     const val Audio = "audio"

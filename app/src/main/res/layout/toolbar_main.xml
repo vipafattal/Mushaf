@@ -1,60 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        app:cardElevation="@dimen/elevation"
-        app:cardCornerRadius="0dp"
-        android:id="@+id/mainToolbar"
-        app:cardBackgroundColor="?colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:orientation="vertical"
+    app:cardBackgroundColor="?colorPrimary"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="@dimen/elevation">
+
     <View
-            android:background="@drawable/ic_decoration_toolbar"
-            android:layout_width="58dp"
-            android:layout_height="wrap_content"/>
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_decoration_toolbar"
+        android:rotation="@integer/secondRotationDecorToolbar" />
+
     <View
-            android:rotation="180"
-            android:layout_gravity="end|bottom"
-            android:background="@drawable/ic_decoration_toolbar"
-            android:layout_width="58dp"
-            android:layout_height="wrap_content"/>
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:background="@drawable/ic_decoration_toolbar"
+        android:rotation="@integer/firstRotationDecorToolbar" />
+
+
     <RelativeLayout
-            android:padding="@dimen/_8sdp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_8sdp">
 
         <ImageView
-                android:background="?selectableItemBackgroundBorderless"
-                android:visibility="gone"
-                android:alpha="0"
-                android:id="@+id/beginToolbar_icon"
-                app:srcCompat="@drawable/ic_search"
-                android:layout_centerVertical="true"
-                android:layout_width="@dimen/_30sdp"
-                android:padding="@dimen/_3sdp"
-                android:layout_height="@dimen/_30sdp"/>
+            android:id="@+id/beginToolbar_icon"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_centerVertical="true"
+            android:alpha="0"
+            android:background="?selectableItemBackgroundBorderless"
+            android:padding="@dimen/_3sdp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_search" />
 
         <TextView
-                style="@style/AppTheme.Title.Bold.Toolbar"
-                android:id="@+id/toolbarTitle"
-                tools:text="Quran"
-                android:textColor="#FFF"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/toolbarTitle"
+            style="@style/AppTheme.Title.Bold.Toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#FFF"
+            tools:text="Quran" />
 
         <ImageView
-                android:background="?selectableItemBackgroundBorderless"
-                android:visibility="gone"
-                android:alpha="0"
-                android:id="@+id/endToolbar_icon"
-                app:srcCompat="@drawable/ic_read"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="@dimen/_30sdp"
-                android:padding="@dimen/_3sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_alignParentRight="true"/>
+            android:id="@+id/endToolbar_icon"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:alpha="0"
+            android:background="?selectableItemBackgroundBorderless"
+            android:padding="@dimen/_3sdp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_read" />
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

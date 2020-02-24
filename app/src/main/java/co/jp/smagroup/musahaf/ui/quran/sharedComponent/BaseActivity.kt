@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Surface
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
@@ -20,11 +19,9 @@ import co.jp.smagroup.musahaf.utils.LocaleHelper
 import com.codebox.lib.android.utils.AppPreferences
 import com.codebox.lib.standard.lambda.unitFun
 
-/**
- * Created by ${User} on ${Date}
- */
-abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) :
-    AppCompatActivity() {
+
+abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) : AppCompatActivity() {
+
     val preferences = AppPreferences()
     protected var onPermissionGiven: unitFun? = null
         private set
@@ -36,7 +33,7 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(MushafApplication.appContext.getAppTheme())
-        if (isRequiringFullScreen) hideFullScreen()
+        if (isRequiringFullScreen) hideSystemUI()
         super.onCreate(savedInstanceState)
         initialLocale = LocaleHelper.getLanguage(this)
     }
@@ -50,12 +47,12 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
     }
 
     protected fun hideSystemUI() {
+        val decorView = window.decorView
+
         if (Build.VERSION.SDK_INT < 19) { // lower api
-            val v = window.decorView
-            v.systemUiVisibility = View.GONE
+            decorView.systemUiVisibility = View.GONE
         } else if (Build.VERSION.SDK_INT >= 19) {
             //for new api versions.
-            val decorView = window.decorView
 
             val uiOptions = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -71,17 +68,22 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
 
 
     fun showSystemUI() {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-    }
+        val decorView = window.decorView
 
-    private fun hideFullScreen() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+        if (Build.VERSION.SDK_INT < 19)
+            decorView.systemUiVisibility = View.VISIBLE
+         else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+
+            val uiOptions = (
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    )
+
+            decorView.systemUiVisibility = uiOptions
+        }
+
     }
 
     fun lockScreenOrientation() {

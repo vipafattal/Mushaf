@@ -20,7 +20,7 @@
         android:lineSpacingMultiplier="1.0"
         android:textAlignment="center"
         android:textIsSelectable="true"
-        android:textSize="@dimen/_21sdp"
+        android:textSize="@dimen/_25sdp"
         tools:targetApi="lollipop"
         tools:text="@string/surah_tools" />
 
