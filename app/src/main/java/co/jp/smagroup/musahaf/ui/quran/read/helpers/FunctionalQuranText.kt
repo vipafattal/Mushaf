@@ -35,6 +35,7 @@ class FunctionalQuranText(private val context: Context, private val popupActions
         var bookmarkState = aya.isBookmarked
         val ayaNumberInSurah = aya.numberInSurah.toString().toLocalizedNumber()
         val text = SpannableString(str)
+
         val startChar = text.length - ayaNumberInSurah.length - 1
         val endChar = text.length - 1
 
@@ -101,6 +102,6 @@ class FunctionalQuranText(private val context: Context, private val popupActions
             .beginConfig().fontSize(dp(16)).textColor(ayaNumberColor).bold().endConfig()
             .buildTextVectorImage(context, numberInSurah.toString().toLocalizedNumber(), ayaDecorImg, dp(38), dp(38))
 
-        return ImageSpan(context, endAyaImage.toBitmap(), ImageSpan.ALIGN_BOTTOM)
+        return ImageSpan(context, endAyaImage.toBitmap(), ImageSpan.ALIGN_BASELINE)
     }
 }

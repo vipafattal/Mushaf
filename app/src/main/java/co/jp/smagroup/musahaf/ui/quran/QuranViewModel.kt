@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 class QuranViewModel(private val repository: Repository) : ViewModel() {
 
     private val job = SupervisorJob()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main+job)
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
     private lateinit var mainMushaf: MutableLiveData<List<Aya>>
 
 
@@ -35,22 +35,23 @@ class QuranViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun updateBookmarkStateInData(aya: Aya) {
-        val index = QuranDataList.indexOf(aya)
+        val index = QuranDataList.indexOfFirst { it.number == aya.number }
 
         val newDatList = QuranDataList.toMutableList()
-        newDatList[index] =  aya.copy(isBookmarked = !aya.isBookmarked)
+        newDatList[index] = aya.copy(isBookmarked = !aya.isBookmarked)
 
         QuranDataList = newDatList
     }
 
     override fun onCleared() {
         super.onCleared()
-       job.cancelChildren()
+        job.cancelChildren()
     }
 
     companion object {
         var QuranDataList = listOf<Aya>()
             private set
+
         fun isQuranDataLoaded() = QuranDataList.isNotEmpty()
     }
 }

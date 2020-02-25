@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.viewpager.widget.PagerAdapter
@@ -154,7 +153,7 @@ class ReadQuranPagerAdapter(
             readData.aya.surah!!.name
     }
 
-    override fun popupItemClicked(aya: Aya, view: ImageView) {
+    override fun popupItemClicked(aya: Aya, view: View) {
         val numberInMusahaf = aya.number
         when (view.id) {
             R.id.bookmark_popup -> {

@@ -1,6 +1,6 @@
 package co.jp.smagroup.musahaf.ui.quran.read.helpers
 
-import android.widget.ImageView
+import android.view.View
 import co.jp.smagroup.musahaf.R
 import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.ui.quran.read.ReadQuranActivity
@@ -73,6 +73,6 @@ class PopupActions(private val activity: ReadQuranActivity, private val clickLis
 
 
     interface OnQuranPopupItemClickListener {
-        fun popupItemClicked(aya: Aya, view: ImageView)
+        fun popupItemClicked(aya: Aya, view: View)
     }
 }

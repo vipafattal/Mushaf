@@ -4,67 +4,147 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/popup_rootView"
     android:layout_width="wrap_content"
-    android:layout_height="65dp"
+    android:layout_height="75dp"
     android:clickable="true"
-    android:elevation="8dp"
+    android:elevation="12dp"
     android:focusable="true"
     android:orientation="vertical"
     app:arrow_posititon_percent="0.5"
-    app:shape_bubble_arrowHeight="10dp"
+    app:shape_bubble_arrowHeight="14dp"
     app:shape_bubble_arrowPosition="bottom"
-    app:shape_bubble_arrowWidth="10dp"
-    app:shape_bubble_borderRadius="10dp"
+    app:shape_bubble_arrowWidth="7dp"
+    app:shape_bubble_borderRadius="12dp"
     tools:targetApi="lollipop">
 
     <LinearLayout
+        android:id="@+id/bookmark_popup"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <ImageView
-            android:id="@+id/bookmark_popup"
-            android:layout_width="@dimen/action_image_size"
-            android:layout_height="@dimen/action_image_size"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/popup_margin_ending"
             android:layout_marginRight="@dimen/popup_margin_ending"
             android:background="?selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_bookmark" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
+
+            <ImageView
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                app:srcCompat="@drawable/ic_bookmark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bookmark"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/translate_popup"
-            android:layout_width="@dimen/action_image_size"
-            android:layout_height="@dimen/action_image_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/popup_margin_ending"
             android:layout_marginRight="@dimen/popup_margin_ending"
             android:background="?selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_translate" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
+
+            <ImageView
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                app:srcCompat="@drawable/ic_translate" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/translation"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/share_popup"
-            android:layout_width="@dimen/action_image_size"
-            android:layout_height="@dimen/action_image_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/popup_margin_ending"
             android:layout_marginRight="@dimen/popup_margin_ending"
             android:background="?selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_share" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
+
+            <ImageView
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                app:srcCompat="@drawable/ic_share" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/wordByWord_popup"
-            android:layout_width="@dimen/action_image_size"
-            android:layout_height="@dimen/action_image_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/popup_margin_ending"
             android:layout_marginRight="@dimen/popup_margin_ending"
             android:background="?selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_language_word" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
+            <ImageView
+                android:layout_width="@dimen/action_image_size"
+
+                android:layout_height="@dimen/action_image_size"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="1dp"
+                app:srcCompat="@drawable/ic_defining" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/definition"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/play_popup"
-            android:layout_width="@dimen/action_image_size"
-            android:layout_height="@dimen/action_image_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="?selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_play" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                android:background="?selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_play" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/play"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </com.github.florent37.shapeofview.shapes.BubbleView>

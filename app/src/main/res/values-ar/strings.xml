@@ -109,5 +109,6 @@
     <string name="downloading_please_wait">جاري التحميل الرجاء الإنتظار</string>
     <string name="background_download">التحميل في الخلفية</string>
     <string name="no_translation_tafeer_downloaded">لم يتم تنزيل تفسير أو ترجمة</string>
+    <string name="definition">معاني الكلمات</string>
 
 </resources>

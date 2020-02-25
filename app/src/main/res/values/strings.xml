@@ -27,7 +27,7 @@
     </string>
     <string name="translate">Translate</string>
     <string name="tafseer">Tafseer</string>
-    <string name="play">play</string>
+    <string name="play">Play</string>
     <string name="word_by_word">Word by word</string>
     <string name="connection_error_full_msg">Check your mobile data or Wi-Fi and try again, if the problem presiste
         contact support.
@@ -130,6 +130,7 @@
     <string name="downloading_please_wait">Downloading Please Wait</string>
     <string name="background_download">Download in background</string>
     <string name="no_translation_tafeer_downloaded">No Translation/Tafseer Downloaded</string>
+    <string name="definition">Definition</string>
 
 
 </resources>

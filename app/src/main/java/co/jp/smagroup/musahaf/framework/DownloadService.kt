@@ -31,9 +31,7 @@ class DownloadService : Service() {
 
     private var loadingDisposable: Disposable? = null
     private var errorDisposable: Disposable? = null
-
     private lateinit var notifyBuilder: NotificationCompat.Builder
-
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
     private lateinit var edition: Edition
