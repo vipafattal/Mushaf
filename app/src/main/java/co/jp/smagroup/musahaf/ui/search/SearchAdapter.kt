@@ -17,6 +17,7 @@ import co.jp.smagroup.musahaf.utils.extensions.whiteSpaceMagnifier
 import com.codebox.lib.android.actvity.newIntent
 import com.codebox.lib.android.utils.AppPreferences
 import com.codebox.lib.android.utils.isRightToLeft
+import com.codebox.lib.android.utils.screenHelpers.dp
 import com.codebox.lib.android.viewGroup.inflater
 import com.codebox.lib.android.views.listeners.onClick
 import com.codebox.lib.android.views.utils.invisible
@@ -55,7 +56,8 @@ class SearchAdapter(
             itemView.apply {
                 aya_number_search.text = aya.numberInSurah.toString()
                 if (searchType == Edition.Quran) {
-                    val typeface = ResourcesCompat.getFont(context, R.font.me_quran)
+                    val typeface = ResourcesCompat.getFont(context, R.font.amiri)
+                    aya_text_search.setLineSpacing(dp(1).toFloat(), 1.2f)
                     aya_text_search.typeface = typeface
                     aya_text_search.text =
                         whiteSpaceMagnifier(

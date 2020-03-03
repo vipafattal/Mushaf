@@ -28,6 +28,11 @@ class QuranTextView : AppCompatTextView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
 
+    fun init() {
+
+    }
+
+
     fun selectionTextCallBack(
         data: Any,
         onActionItemClickListener: TextSelectionCallback.OnActionItemClickListener,

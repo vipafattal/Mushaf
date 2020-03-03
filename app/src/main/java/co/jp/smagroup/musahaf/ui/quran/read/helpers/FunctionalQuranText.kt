@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
-import android.text.style.BackgroundColorSpan
 import android.text.style.ImageSpan
 import android.widget.TextView
 import co.jp.smagroup.musahaf.R
@@ -13,7 +12,6 @@ import co.jp.smagroup.musahaf.model.Aya
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.utils.ClickableImageSpan
 import co.jp.smagroup.musahaf.utils.TextDrawable
-import co.jp.smagroup.musahaf.utils.extensions.clearHighlighted
 import co.jp.smagroup.musahaf.utils.extensions.toBitmap
 import co.jp.smagroup.musahaf.utils.extensions.toSpannable
 import co.jp.smagroup.musahaf.utils.toLocalizedNumber
@@ -70,7 +68,6 @@ class FunctionalQuranText(private val context: Context, private val popupActions
         return text
     }
 
-    private val highlightedColor = Color.parseColor("#73546E7A")
     private fun highlightSelection(view: TextView, text: CharSequence, startAtIndex: Int) {
         val spannable = view.text.toSpannable()
         //On outside popup click clear selection.
@@ -79,7 +76,7 @@ class FunctionalQuranText(private val context: Context, private val popupActions
         clickedEndSpanPosition = startAtIndex + text.length - 1
         clickedStartSpanPosition = startAtIndex
         spannable.setSpan(
-            BackgroundColorSpan(highlightedColor),
+            TouchAyaHighlighter(),
             clickedStartSpanPosition,
             clickedEndSpanPosition,
             0
@@ -91,7 +88,15 @@ class FunctionalQuranText(private val context: Context, private val popupActions
             clickedStartSpanPosition = 0
             clickedEndSpanPosition = spannable.length - 1
         }
-        spannable.clearHighlighted(clickedStartSpanPosition, clickedEndSpanPosition)
+
+        val styleSpans: Array<out TouchAyaHighlighter> =
+            spannable.getSpans(
+                clickedStartSpanPosition,
+                clickedEndSpanPosition,
+                TouchAyaHighlighter::class.java
+            )
+        for (style in styleSpans)
+            spannable.removeSpan(style)
     }
 
     private fun getAyaImageNumber(numberInSurah: Int, isBookmarked: Boolean): ImageSpan {

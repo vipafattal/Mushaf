@@ -12,7 +12,7 @@ import com.codebox.lib.android.resoures.Stringify
 import com.codebox.lib.standard.collections.isLastItem
 
 
-class QuranPageInitializer(private val textAction: FunctionalQuranText, context: Context) {
+class QuranPageTextFormatter(private val textAction: FunctionalQuranText, context: Context) {
     private val basmalia = Stringify(R.string.basmalia, context)
 
     fun format(

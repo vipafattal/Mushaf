@@ -109,6 +109,7 @@ class ReadQuranPagerAdapter(
     }
 
     private fun View.bindFullPage(readData: ReadData) {
+
         if (MushafApplication.isDarkThemeEnabled) bismillah_page.setImageResource(R.drawable.ic_bismillah_light)
         else bismillah_page.setImageResource(R.drawable.ic_bismillah_dark)
 
@@ -120,6 +121,7 @@ class ReadQuranPagerAdapter(
         surahText_page.setText(readData.pagedText, TextView.BufferType.SPANNABLE)
         surahText_page.selectionTextCallBack(readData, this@ReadQuranPagerAdapter)
         surahText_page.onQuranTextClick()
+
     }
 
 
@@ -368,11 +370,11 @@ class ReadQuranPagerAdapter(
 
     }
 
-    private fun getPagerFormatter(): QuranPageInitializer {
+    private fun getPagerFormatter(): QuranPageTextFormatter {
         val popupActions = PopupActions(readQuranActivity, this)
         val textDecorator =
             FunctionalQuranText(readQuranActivity, popupActions)
-        return QuranPageInitializer(textDecorator, readQuranActivity)
+        return QuranPageTextFormatter(textDecorator, readQuranActivity)
     }
 
 }

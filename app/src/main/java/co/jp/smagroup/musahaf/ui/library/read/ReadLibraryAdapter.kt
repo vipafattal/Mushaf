@@ -68,10 +68,9 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
 
             val isTranslationWithAya =
                 appPreferences.getBoolean(SettingsPreferencesConstant.TranslationWithAyaKey, true)
-            if (isTranslationWithAya) itemView.aya_text.text =
-                whiteSpaceMagnifier(
-                    readTranslation.quranicText
-                )
+
+            if (isTranslationWithAya && readTranslation.editionInfo.type != Edition.Quran) itemView.aya_text.text =
+                whiteSpaceMagnifier(readTranslation.quranicText)
             else itemView.aya_text.gone()
 
             itemView.translation_tafseer_text_library.typeface = Fonts.getTranslationFont(context,readTranslation.editionInfo.language)
@@ -157,12 +156,14 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
 
             if (readTranslation.editionInfo.identifier == MushafConstants.SimpleQuran) {
                 val translationText = """ "${readTranslation.translationText}" """ + "\n"
-                val translationInfo = if (readTranslation.translationOrTafsir == Edition.Tafsir)
+                val translationInfo =
+                    if (readTranslation.translationOrTafsir == Edition.Tafsir)
                     "${Stringify(R.string.tafseer, context)}: ${readTranslation.editionInfo.name}\n"
-                else "${Stringify(
-                    R.string.translation,
-                    context
-                )}: ${readTranslation.editionInfo.name}\n"
+                    else
+                        "${Stringify(
+                            R.string.translation,
+                            context
+                        )}: ${readTranslation.editionInfo.name}\n"
 
                 shareText += translationText + translationInfo
             }
