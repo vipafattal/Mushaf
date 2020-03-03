@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2E7D32</color>
-    <color name="colorPrimaryDark">#005005</color>
-    <color name="colorAccent">#607D8A</color>    #D81B60
-    <color name="colorSecondary">#60AD5E</color>
+    <color name="colorPrimary">#37474F</color>
+    <color name="colorPrimaryDark">#263238</color>
+    <color name="colorAccent">#00796B</color>    #D81B60
+    <color name="colorSecondary">#607D8B</color>
     <color name="colorDisabled">#aaaaaa</color>
     <color name="colorActive">#fff</color>
 
-    <color name="colorPlayHighlight">#C668B466</color>
+    <color name="colorPlayHighlight">#BF00796B</color>
 
     <color name="colorTextSecondary">#848484</color>
     <color name="darkBg">#000</color>
     <color name="lightBg">#EAFAEB</color>
     <color name="progress_dialog">#CC000000</color>
 
-    <color name="focusColor">#D50000</color>
+    <color name="focusColor">#b71c1c</color>
     <color name="color_background_dark">#121314</color>
 
 </resources>

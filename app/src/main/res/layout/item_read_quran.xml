@@ -15,14 +15,12 @@
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:fontFamily="@font/me_quran"
-        android:lineSpacingExtra="0.5dp"
-        android:lineSpacingMultiplier="1.0"
         android:textAlignment="center"
         android:textIsSelectable="true"
-        android:textSize="@dimen/_25sdp"
+        style="@style/AppTheme.QuranicText"
         tools:targetApi="lollipop"
-        tools:text="@string/surah_tools" />
+        tools:text="@string/surah_tools"
+        android:gravity="center_horizontal" />
 
 </LinearLayout>
 
