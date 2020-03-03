@@ -54,9 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/back_button_search"
                         android:layout_toRightOf="@+id/back_button_search"
-                        android:theme="@style/TextInputLayout"
-                        app:boxBackgroundColor="@color/colorPlayHighlight"
-                        app:boxBackgroundMode="filled"
+                        style="@style/TextInputLayout"
                         app:boxCornerRadiusBottomEnd="@dimen/text_input_radius"
                         app:boxCornerRadiusBottomStart="@dimen/text_input_radius"
                         app:boxCornerRadiusTopEnd="@dimen/text_input_radius"
@@ -73,8 +71,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:paddingTop="15dp"
-                            android:textColor="@android:color/white"
-                            android:theme="@style/TextInputLayout" />
+                            android:textColor="#121314"
+                            />
                     </com.google.android.material.textfield.TextInputLayout>
                 </RelativeLayout>
 
