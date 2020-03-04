@@ -81,10 +81,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                style="@style/QuranicText"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_horizontal"
-                style="@style/AppTheme.QuranicText"
+                tools:text="@string/surah_tools"
                 android:textIsSelectable="true"
               />
         </LinearLayout>

@@ -17,7 +17,7 @@
         android:focusableInTouchMode="true"
         android:textAlignment="center"
         android:textIsSelectable="true"
-        style="@style/AppTheme.QuranicText"
+        style="@style/QuranicText"
         tools:targetApi="lollipop"
         tools:text="@string/surah_tools"
         android:gravity="center_horizontal" />

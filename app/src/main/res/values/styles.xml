@@ -56,7 +56,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <style name="AppTheme.QuranicText">
+    <style name="QuranicText">
         <item name="android:textSize">@dimen/_27sdp</item>
         <item name="fontFamily">@font/amiri</item>
         <item name="android:lineSpacingExtra">5dp</item>
