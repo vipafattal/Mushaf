@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import co.jp.smagroup.musahaf.R
-import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
+import co.jp.smagroup.musahaf.ui.quran.sharedComponent.BaseActivity
 import co.jp.smagroup.musahaf.utils.extensions.observer
 import co.jp.smagroup.musahaf.utils.extensions.viewModelOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,10 +22,13 @@ class WordByWordBottomSheet : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "WordByWordBottomSheet"
     }
-    
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        
+
+        (activity as BaseActivity).systemUiVisibility(false)
+
         viewModelOf(WordByWordViewModel::class.java).getWordByWord().observer(viewLifecycleOwner) {
             recycler_wordByWord.adapter = WordByWordAdapter(it)
         }

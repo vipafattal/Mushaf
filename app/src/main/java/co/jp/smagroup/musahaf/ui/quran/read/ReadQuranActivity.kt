@@ -124,7 +124,6 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         quranViewpager.setCurrentItem(startAtPage - 1, false)
 
         quranViewpager.addOnPageSelectedListener {
-            //updateSystemNavState(true)
             val aya = data[it + 1]!!.last()
             createHizbToast(aya)
             if (playerView.isShown) updatePagerPadding(dp(80))
@@ -235,6 +234,7 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
             setColor(Color.BLACK)
             setColorized(true)
             setUseChronometer(false)
+            setUseStopAction(true)
             setBadgeIconType(NotificationCompat.BADGE_ICON_NONE)
             setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
         }

@@ -6,10 +6,7 @@ import co.jp.smagroup.musahaf.ui.commen.sharedComponent.MushafApplication
 import co.jp.smagroup.musahaf.ui.more.SettingsPreferencesConstant
 import com.codebox.lib.android.resoures.Stringer
 import com.codebox.lib.android.utils.AppPreferences
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.LoopingMediaSource
-import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
@@ -61,7 +58,8 @@ object MediaSourceBuilder {
                 e.printStackTrace()
             }
             val factoryDataSource = DataSource.Factory { fileDataSource }
-            val audioSource = ExtractorMediaSource.Factory(factoryDataSource).createMediaSource(uri)
+            val audioSource =
+                ProgressiveMediaSource.Factory(factoryDataSource).createMediaSource(uri)
             mediaSourceArray[index] = if (eachVerse > 1) LoopingMediaSource(audioSource, eachVerse) else audioSource
         }
         return if (wholeSet > 1) LoopingMediaSource(

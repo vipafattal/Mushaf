@@ -16,6 +16,7 @@ class OpenSourceLicenseActivity : BaseActivity() {
     }
 
 
+    @Suppress("EXPERIMENTAL_API_USAGE")
     private fun getLicensesData(): List<Models.License> {
         val parsedData = LocalJsonParser.parse("open_sources_licenses.json", Models.Data.serializer())
         return parsedData.licenses

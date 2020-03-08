@@ -16,7 +16,7 @@ suspend inline fun <reified T> Deferred<Response<T>>.onComplete(
 ) {
     var errorMsg: String? = null
     var data: T? = null
-    val className = T::class.java.name
+    val className = T::class
 
     try {
         val response = this@onComplete.await()

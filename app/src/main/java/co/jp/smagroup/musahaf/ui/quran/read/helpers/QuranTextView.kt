@@ -29,7 +29,6 @@ class QuranTextView : AppCompatTextView {
 
 
     fun init() {
-
     }
 
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="320dp"
-    android:minWidth="320dp"
+    android:layout_width="340dp"
     android:layout_height="410dp"
     android:layout_gravity="center"
     android:keepScreenOn="true"
+    android:minWidth="340dp"
     android:orientation="vertical"
     app:cardCornerRadius="10dp">
 
@@ -28,13 +28,18 @@
 
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/loading_view"
         android:layout_marginBottom="@dimen/_35sdp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/download_background_button"
@@ -42,12 +47,14 @@
             android:layout_height="wrap_content"
             android:text="@string/background_download"
             android:textAllCaps="false"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:backgroundTint="@color/colorPrimaryDark" />
 
         <Space
-            android:layout_width="10dp"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/download_cancel_button"
@@ -56,8 +63,14 @@
             android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@color/focusColor"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:backgroundTint="@color/white" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
     </LinearLayout>
 

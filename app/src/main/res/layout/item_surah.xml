@@ -1,56 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:background="?android:selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal"
-        android:padding="@dimen/_8sdp"
-        android:id="@+id/surah_view_root"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_60sdp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/surah_view_root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_60sdp"
+    android:background="?android:selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/_5sdp">
 
     <TextView
-            tools:text="1"
-            android:textSize="@dimen/_18ssp"
-            android:id="@+id/surahNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/surahNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_18ssp"
+        tools:text="1" />
+
     <LinearLayout
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
-            android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/surahName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            tools:text="Al-Fatiha" />
+
         <TextView
-                android:textSize="18sp"
-                android:id="@+id/surahName"
-                tools:text="Al-Fatiha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-               />
-        <TextView
-                android:textColor="@color/colorTextSecondary"
-                tools:text="Makki - 7 verses"
-                android:layout_marginTop="2dp"
-                style="@style/AppTheme.Text.Secondary.Bold"
-                android:id="@+id/surahInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/surahInfo"
+            style="@style/AppTheme.Text.Secondary.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/colorTextSecondary"
+            tools:text="Makki - 7 verses" />
 
     </LinearLayout>
 
     <Space
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"/>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
     <TextView
-            tools:text="1"
-            android:id="@+id/pageNumber_surah"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/pageNumber_surah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1" />
 
 
 </LinearLayout>

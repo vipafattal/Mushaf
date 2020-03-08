@@ -6,8 +6,9 @@
     <dimen name="popup_margin_ending">12dp</dimen>
     <dimen name="action_image_size">30dp</dimen>
     <dimen name="download_reciter_fragment_height">65dp</dimen>
-    <dimen name="text_input_radius">16dp</dimen>
+    <dimen name="text_input_radius">21dp</dimen>
     <dimen name="item_elevation">2dp</dimen>
     <dimen name="fab_extended_height">50dp</dimen>
     <dimen name="dialog_radius">10dp</dimen>
+    <dimen name="chip_padding">15dp</dimen>
 </resources>
