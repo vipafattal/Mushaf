@@ -36,8 +36,6 @@
     <string name="no">No</string>
     <string name="word_by_wrod_confirmation" translatable="false">Word by word is available only in English</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="add_item">Add Item</string>
     <string name="translation">Translation</string>
     <string name="manage_library">Manage Library</string>

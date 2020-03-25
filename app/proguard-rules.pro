@@ -19,8 +19,8 @@
 # If you keep the line ayaNumber information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep public class co.jp.smagroup.musahaf.framework.api.** { *; }
 
+#Room Database
 -keep class * extends androidx.room.RoomDatabase
 -dontwarn androidx.room.paging.**
 
@@ -55,17 +55,28 @@
 #Kotlin serilaztion
 -keepattributes *Annotation*, InnerClasses
 -dontnote kotlinx.serialization.SerializationKt
--keep,includedescriptorclasses class co.jp.smagroup.musahaf.**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class co.jp.smagroup.musahaf.** { # <-- change package name to your app's
+-keep,includedescriptorclasses class com.brilliancesoft.mushaf.**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.brilliancesoft.mushaf.** { # <-- change package name to your app's
     *** Companion;
 }
--keepclasseswithmembers class co.jp.smagroup.musahaf.** { # <-- change package name to your app's
+-keepclasseswithmembers class com.brilliancesoft.mushaf.** { # <-- change package name to your app's
     kotlinx.serialization.KSerializer serializer(...);
 }
 
 -keep class kotlinx.coroutines.android.AndroidDispatcherFactory {*;}
 
--keepclassmembers class co.jp.smagroup.musahaf.model.** { *; }
--keepclassmembers class co.jp.smagroup.musahaf.framework.api.** { *; }
+-keepclassmembers class com.brilliancesoft.mushaf.model.** { *; }
+-keepclassmembers class com.brilliancesoft.mushaf.framework.api.** { *; }
+#-keep class com.brilliancesoft.mushaf.model.Edition$Companion { *; }
+#-keepclassmembers class com.brilliancesoft.mushaf.model.Edition$Companion { *; }
+#-keep class com.brilliancesoft.mushaf.framework.** { *; }
+#-keep class com.brilliancesoft.mushaf.framework.api.ApiModels { *; }
+#-keepclassmembers class com.brilliancesoft.mushaf.framework.api.ApiModels { *; }
+#-keep class com.brilliancesoft.mushaf.ui.quran.sharedComponent.** { *; }
+#-keep class com.brilliancesoft.mushaf.ui.quran.read.reciter.** { *; }
+#-keep class com.brilliancesoft.mushaf.utils.extensions.** { *; }
+#-keep class com.brilliancesoft.mushaf.utils.** { *; }
+
+
 
 

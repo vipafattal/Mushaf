@@ -4,25 +4,23 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "co.jp.smagroup.musahaf"
+        applicationId "com.brilliancesoft.mushaf"
         minSdkVersion 16
         targetSdkVersion 29
         multiDexEnabled true
-        versionCode 1
-        versionName "1.0"
+        versionCode 101
+        versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-    kapt {
-        generateStubs = true
-    }
-    lintOptions {
-        checkReleaseBuilds false
+
+    dexOptions {
+        javaMaxHeapSize "7g"
     }
 
     buildTypes {
@@ -32,7 +30,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
             manifestPlaceholders = [:]
-            debuggable = true
         }
     }
     compileOptions {
@@ -53,7 +50,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     //Support
     implementation "androidx.appcompat:appcompat:$support_version"
     implementation "androidx.recyclerview:recyclerview:$recycler_version"
@@ -121,5 +117,5 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
 
     //Crashlytics
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
 }
