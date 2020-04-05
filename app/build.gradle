@@ -13,10 +13,14 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         multiDexEnabled true
-        versionCode 101
-        versionName "1.0.1"
+        versionCode 104
+        versionName "1.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+    }
+
+    bundle {
+        language.enableSplit = false
     }
 
     dexOptions {
@@ -73,6 +77,7 @@ dependencies {
 
     //ViewModel + LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     //Room Database
     implementation "androidx.room:room-runtime:$room_version"
@@ -92,9 +97,6 @@ dependencies {
     //Dagger
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-
-    //ShapeOfView
-    implementation "com.github.florent37:shapeofview:$shapeView_version"
 
     //Lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
@@ -117,5 +119,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
 
     //Crashlytics
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
+    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+
 }

@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.florent37.shapeofview.shapes.BubbleView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/popup_rootView"
+    android:id="@+id/popup_quran"
+    android:layout_height="@dimen/popup_quran_height"
     android:layout_width="wrap_content"
-    android:layout_height="75dp"
+    android:layout_gravity="center_horizontal"
     android:clickable="true"
-    android:elevation="12dp"
     android:focusable="true"
-    android:orientation="vertical"
-    app:arrow_posititon_percent="0.5"
-    app:shape_bubble_arrowHeight="14dp"
-    app:shape_bubble_arrowPosition="bottom"
-    app:shape_bubble_arrowWidth="7dp"
-    app:shape_bubble_borderRadius="12dp"
-    tools:targetApi="lollipop">
+    android:scaleX="0"
+    android:scaleY="0"
+    app:cardBackgroundColor="@color/colorPrimary"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="12dp"
+    app:cardPreventCornerOverlap="false"
+    tools:scaleX="1"
+    tools:scaleY="1">
 
     <LinearLayout
-        android:id="@+id/bookmark_popup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:padding="8dp">
 
         <LinearLayout
+            android:id="@+id/bookmark_popup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/popup_margin_ending"
@@ -40,11 +41,12 @@
                 app:srcCompat="@drawable/ic_bookmark" />
 
             <TextView
+                android:id="@+id/bookmarkPopupTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bookmark"
+                android:text="@string/bookmark_add"
                 android:textColor="#fff"
-                android:textSize="12sp" />
+                android:textSize="@dimen/popup_quran_text_size" />
 
         </LinearLayout>
 
@@ -67,9 +69,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/translation"
+                android:text="@string/tafseer_translation"
                 android:textColor="#fff"
-                android:textSize="12sp" />
+                android:textSize="@dimen/popup_quran_text_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/share"
                 android:textColor="#fff"
-                android:textSize="12sp" />
+                android:textSize="@dimen/popup_quran_text_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -119,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/definition"
                 android:textColor="#fff"
-                android:textSize="12sp" />
+                android:textSize="@dimen/popup_quran_text_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -141,10 +143,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/play"
                 android:textColor="#fff"
-                android:textSize="12sp" />
+                android:textSize="@dimen/popup_quran_text_size" />
         </LinearLayout>
 
 
     </LinearLayout>
 
-</com.github.florent37.shapeofview.shapes.BubbleView>
+</com.google.android.material.card.MaterialCardView>

@@ -39,13 +39,22 @@ import java.io.File
 import java.io.Serializable
 
 
-inline fun View.updatePadding(
+fun View.updatePadding(
     @Px left: Int = paddingLeft,
     @Px top: Int = paddingTop,
     @Px right: Int = paddingRight,
     @Px bottom: Int = paddingBottom
 ) {
     setPadding(left, top, right, bottom)
+}
+
+fun ViewGroup.MarginLayoutParams.updateMargins(
+    @Px left: Int = leftMargin,
+    @Px top: Int = topMargin,
+    @Px right: Int = rightMargin,
+    @Px bottom: Int = bottomMargin
+) {
+    setMargins(left, top, right, bottom)
 }
 
 
@@ -56,17 +65,16 @@ inline var View.isVisible: Boolean
     }
 
 
-inline fun CharSequence.toSpannable(): Spannable = SpannableString.valueOf(this)
+fun CharSequence.toSpannable(): Spannable = SpannableString.valueOf(this)
 
 
-inline operator fun ViewGroup.plusAssign(view: View) = addView(view)
+operator fun ViewGroup.plusAssign(view: View) = addView(view)
 
 
-
-inline operator fun Rect.component1() = this.left
-inline operator fun Rect.component2() = this.top
-inline operator fun Rect.component3() = this.right
-inline operator fun Rect.component4() = this.bottom
+operator fun Rect.component1() = this.left
+operator fun Rect.component2() = this.top
+operator fun Rect.component3() = this.right
+operator fun Rect.component4() = this.bottom
 
 
 fun Drawable.toBitmap(

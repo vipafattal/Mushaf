@@ -44,4 +44,5 @@ interface LocalDataSourceProviders {
     suspend fun getSurahs(): List<Surah>
 
 
+    suspend fun getAllEditions(type: String): List<Edition>
 }

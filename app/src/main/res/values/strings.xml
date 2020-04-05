@@ -1,12 +1,13 @@
 <resources>
 
-    <string name="app_name">Mushaf</string>
-    <string name="app_version" translatable="false">V1.0</string>
+    <string name="app_name" translatable="false">Mushaf</string>
+    <string name="app_name_google_play" translatable="false">Mushaf for Android</string>
+    <string name="app_version" translatable="false">V1.0.4</string>
     <string name="playback_channel_name" translatable="false">Playback</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="surah">Surah</string>
-    <string name="bookmark">Bookmark</string>
+    <string name="bookmark_add">Bookmark</string>
+    <string name="bookmark_remove">Bookmark</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="Notes">Notes</string>
     <string name="quran">Quran</string>
@@ -18,7 +19,6 @@
     <string name="retry">Retry</string>
     <string name="connection_error">Connection Error</string>
     <string name="juz">Juz\'</string>
-    <string name="basmalia" translatable="false">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</string>
     <string name="surah_tools" translatable="false">الٓمٓ * ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًۭى
         لِّلْمُتَّقِينَ * ٱلَّذِينَ
         يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَٰهُمْ يُنفِقُونَ * وَٱلَّذِينَ يُؤْمِنُونَ
@@ -34,9 +34,9 @@
     </string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="word_by_wrod_confirmation" translatable="false">Word by word is available only in English</string>
+    <string name="word_by_word_confirmation">Word by word is available only in English</string>
 
-    <string name="add_item">Add Item</string>
+    <string name="add_book">Add Book</string>
     <string name="translation">Translation</string>
     <string name="manage_library">Manage Library</string>
     <string name="translation_tools" translatable="false">It is they who follow the guidance [which comes from their
@@ -68,7 +68,7 @@
     <string name="ayah_copied_popup">ayah_coped</string>
     <string name="share_ayah_text">Share aya</string>
     <string name="share_translation">Share translation/tafsir</string>
-    <string name="copy">Copy</string>
+    <string name="copy_text">Copy</string>
     <string name="text_copied">Text Copied</string>
     <string name="share">Share</string>
     <string name="no_bookmarks">No Bookmarks Saved Yet</string>
@@ -129,6 +129,8 @@
     <string name="background_download">Download in background</string>
     <string name="no_translation_tafeer_downloaded">No Translation/Tafseer Downloaded</string>
     <string name="definition">Definition</string>
+    <string name="tafseer_translation">Translation</string>
+    <string name="select_translation">Select Translation</string>
 
 
 </resources>

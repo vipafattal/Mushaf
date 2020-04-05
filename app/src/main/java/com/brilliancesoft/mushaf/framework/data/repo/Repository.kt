@@ -31,6 +31,7 @@ class Repository : RepositoryProviders {
 
     var loadingStream: BehaviorSubject<Int> = BehaviorSubject.create()
         private set
+
     @Inject
     lateinit var quranCloudAPI: QuranCloudAPI
 
@@ -74,7 +75,11 @@ class Repository : RepositoryProviders {
                     localDataSource.addDownloadState(DownloadingState(identifier, false, juz + 1))
                     serverDelay(juz)
                 } else {
-                    localDataSource.addDownloadState(DownloadingState.downloadQuranTextCompleted(identifier))
+                    localDataSource.addDownloadState(
+                        DownloadingState.downloadQuranTextCompleted(
+                            identifier
+                        )
+                    )
                     delay(500)
                     refreshForNewTask()
                 }
@@ -89,7 +94,11 @@ class Repository : RepositoryProviders {
     }
 
     @NewAPI
-    override suspend fun downloadFullDataReciter(fetch: Fetch, reciterId: String, reciterName: String) {
+    override suspend fun downloadFullDataReciter(
+        fetch: Fetch,
+        reciterId: String,
+        reciterName: String
+    ) {
         val allReciterDownloads = localDataSource.getDownloadedDataReciter(reciterName)
         var notDownloadedAyaRequest = mutableListOf<Request>()
 
@@ -97,7 +106,12 @@ class Repository : RepositoryProviders {
             for (ayaNumber in 1..MushafConstants.AyatNumber) if (allReciterDownloads.firstOrNull { it.number == ayaNumber } == null) {
                 val aya = QuranViewModel.QuranDataList[ayaNumber - 1]
                 val request =
-                    ReciterRequestGenerator.createRequestFromFile(reciterName, reciterId, aya.surah!!, ayaNumber)
+                    ReciterRequestGenerator.createRequestFromFile(
+                        reciterName,
+                        reciterId,
+                        aya.surah!!,
+                        ayaNumber
+                    )
                 notDownloadedAyaRequest.add(request)
 
             }
@@ -124,14 +138,18 @@ class Repository : RepositoryProviders {
     }
 
 
-    override suspend fun updateBookmarkStatus(ayaNumber: Int, identifier: String, bookmarkStatus: Boolean) {
+    override suspend fun updateBookmarkStatus(
+        ayaNumber: Int,
+        identifier: String,
+        bookmarkStatus: Boolean
+    ) {
         localDataSource.updateBookmarkStatus(ayaNumber, identifier, bookmarkStatus)
     }
 
 
-
     override suspend fun searchTranslation(query: String, type: String): List<Aya> =
-        localDataSource.searchTranslation(query, type).filter { isDownloaded(it.edition!!.identifier) }
+        localDataSource.searchTranslation(query, type)
+            .filter { isDownloaded(it.edition!!.identifier) }
 
     override suspend fun searchQuran(query: String, editionId: String): List<Aya> =
         localDataSource.searchQuran(query, editionId)
@@ -149,10 +167,14 @@ class Repository : RepositoryProviders {
         return@runBlocking if (musahaf.size == MushafConstants.AyatNumber) musahaf else mutableListOf()
     }
 
-    override suspend fun getAyatByRange(from: Int, to: Int): MutableList<Aya> = localDataSource.getAyatByRange(from, to)
+    override suspend fun getAyatByRange(from: Int, to: Int): MutableList<Aya> =
+        localDataSource.getAyatByRange(from, to)
 
 
-    override suspend fun getQuranBySurah(musahafIdentifier: String, surahNumber: Int): MutableList<Aya> =
+    override suspend fun getQuranBySurah(
+        musahafIdentifier: String,
+        surahNumber: Int
+    ): MutableList<Aya> =
         localDataSource.getQuranBySurah(musahafIdentifier, surahNumber)
 
 
@@ -204,21 +226,30 @@ class Repository : RepositoryProviders {
             }
         return data
     }
-   override suspend fun getAvailableReciters(fromInternet: Boolean ): List<Edition> {
-       var data = listOf<Edition>()
-       if (!fromInternet)
-           data = localDataSource.getAvailableReciters()
-       if (fromInternet || data.isEmpty())
-           quranCloudAPI.getEditionsByType(MushafConstants.Audio).awaitRequest {
-               data = it.editions.removeInGrantedReciters()
-               localDataSource.addEditions(data)
-           }
-      return data
-   }
+
+    override suspend fun getAvailableReciters(fromInternet: Boolean): List<Edition> {
+        var data = listOf<Edition>()
+        if (!fromInternet)
+            data = localDataSource.getAvailableReciters()
+        if (fromInternet || data.isEmpty())
+            quranCloudAPI.getEditionsByType(MushafConstants.Audio).awaitRequest {
+                data = it.editions.removeInGrantedReciters()
+                localDataSource.addEditions(data)
+            }
+        return data
+    }
 
     override suspend fun getDownloadedEditions(): List<Edition> =
-        localDataSource.getAllEditions().distinctBy { it.identifier }.filter { isDownloaded(it.identifier) }
-            .filter { it.identifier != MushafConstants.WordByWord && it.identifier != MushafConstants.MainMushaf }.sortedBy { it.language }
+        localDataSource.getAllEditions().distinctBy { it.identifier }
+            .filter { isDownloaded(it.identifier) }
+            .filter { it.identifier != MushafConstants.WordByWord && it.identifier != MushafConstants.MainMushaf }
+            .sortedBy { it.language }
+
+    override suspend fun getDownloadedEditions(type: String): List<Edition> =
+        localDataSource.getAllEditions(type).distinctBy { it.identifier }
+            .filter { isDownloaded(it.identifier) }
+            .filter { it.identifier != MushafConstants.WordByWord && it.identifier != MushafConstants.MainMushaf }
+            .sortedBy { it.language }
 
 
     override suspend fun isDownloaded(identifier: String): Boolean {
@@ -233,7 +264,10 @@ class Repository : RepositoryProviders {
     override suspend fun getAllByBookmarkStatus(bookmarkStatus: Boolean): MutableList<Aya> =
         localDataSource.getAllByBookmarkStatus(bookmarkStatus)
 
-    override suspend fun getByAyaByBookmark(editionIdentifier: String, bookmarkStatus: Boolean): MutableList<Aya> =
+    override suspend fun getByAyaByBookmark(
+        editionIdentifier: String,
+        bookmarkStatus: Boolean
+    ): MutableList<Aya> =
         localDataSource.getAyaByBookmark(editionIdentifier, bookmarkStatus)
 
     override suspend fun getPage(musahafIdentifier: String, page: Int): List<Aya>? =
@@ -251,7 +285,11 @@ class Repository : RepositoryProviders {
     override suspend fun getReciterDownload(ayaNumber: Int, reciterName: String): Reciter? =
         localDataSource.getReciterDownload(ayaNumber, reciterName)
 
-    override suspend fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter> =
+    override suspend fun getReciterDownloads(
+        from: Int,
+        to: Int,
+        reciterIdentifier: String
+    ): List<Reciter> =
         localDataSource.getReciterDownloads(from, to, reciterIdentifier)
 
     private suspend fun serverDelay(juz: Int) {

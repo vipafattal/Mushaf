@@ -9,12 +9,14 @@ import com.brilliancesoft.mushaf.model.Surah
  * Created by ${User} on ${Date}
  */
 class ReciterViewModel : ViewModel() {
+
     private lateinit var surahLiveData: MutableLiveData<Pair<Int, Surah>>
     private lateinit var playFrom: MutableLiveData<Int>
     private lateinit var playTo: MutableLiveData<Int>
     private lateinit var repeatEachVerse: MutableLiveData<Int>
     private lateinit var repeatWholeSet : MutableLiveData<Int>
     private var firstAyaNumberInQuran = 0
+
     fun setSurah(startAt: Int, firstAyaNumber: Int, surah: Surah) {
         if (!::surahLiveData.isInitialized) {
             surahLiveData = MutableLiveData()

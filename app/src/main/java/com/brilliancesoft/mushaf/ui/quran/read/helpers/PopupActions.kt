@@ -3,76 +3,101 @@ package com.brilliancesoft.mushaf.ui.quran.read.helpers
 import android.view.View
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.model.Aya
+import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
 import com.brilliancesoft.mushaf.utils.extensions.onClicks
+import com.codebox.lib.android.animators.simple.alphaAnimator
+import com.codebox.lib.android.animators.simple.scale.scaleAnimator
 import com.codebox.lib.android.utils.screenHelpers.dp
-import com.codebox.lib.android.utils.screenHelpers.screenWidth
 import com.codebox.lib.android.views.utils.invisible
 import com.codebox.lib.android.views.utils.visible
 import kotlinx.android.synthetic.main.activity_read_quran.*
 import kotlinx.android.synthetic.main.popup_quran.*
+import kotlinx.android.synthetic.main.popup_quran.view.*
 
 /**
  * Created by ${User} on ${Date}
  */
-class PopupActions(private val activity: ReadQuranActivity, private val clickListener: OnQuranPopupItemClickListener) {
+class PopupActions(
+    private val activity: ReadQuranActivity,
+    private val popupOnAyaClickListener: PopupOnAyaClickListener
+) {
     private var lastClickedPopupItemId = 0
-    fun show(x: Int, y: Int, aya: Aya, doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit) {
-        activity.popup_parent.visible()
-        menuSelectionPopup(x, y)
-        activity.enableOnClicks(aya)
-        activity.setOutSideClickListener(doOnHide)
+    private val scalingTime: Long = 250
+
+    private val popupContainer: View
+        get() = activity.popup_container
+
+    private val popupView: View
+        get() = popupContainer.popup_quran
+
+
+    fun show(x: Int, y: Int, ayaNumber: Int, doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit) {
+
+        val aya = QuranViewModel.QuranDataList.first { it.number == ayaNumber }
+
+        popupContainer.visible()
+
+        popupView.alpha = 1f
+        popupView.scaleAnimator(0.5f, 1f, scalingTime, 0)
+
+        updatePopupViewLocation(y)
+        updateClickedAyaClick(aya, doOnHide)
     }
 
-    private inline fun ReadQuranActivity.setOutSideClickListener(crossinline doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit) {
-        popup_parent.setOnClickListener {
-            popup_parent.invisible()
-            doOnHide.invoke(lastClickedPopupItemId == R.id.bookmark_popup)
-            lastClickedPopupItemId = 0
-        }
+    private fun dismiss() {
+        activity.updateSystemNavState(true)
+        popupView.alphaAnimator(scalingTime, valueTo = 0f) { popupContainer.invisible() }
+        lastClickedPopupItemId = 0
     }
 
-    private fun ReadQuranActivity.enableOnClicks(aya: Aya) {
-        onClicks(
-            play_popup,
-            share_popup,
-            translate_popup,
-            wordByWord_popup,
-            bookmark_popup
-        ) {
-            lastClickedPopupItemId = id
-            clickListener.popupItemClicked(aya, this)
-            popup_parent.callOnClick()
-        }
-    }
+    private fun updatePopupViewLocation(y: Int) {
 
-    private fun menuSelectionPopup(x: Int, y: Int) {
+        val popupHeight = activity.resources.getDimension(R.dimen.popup_quran_height)
         val yCoordinate =
-            if (y - activity.popup_rootView.height < 0)
-                activity.popup_rootView.height + dp(100)
-            else {
-                y - activity.popup_rootView.height - dp(50)
-            }
+            if (y - popupHeight < 0) popupHeight + dp(100)
+            else y - popupHeight
 
-        val xCoordinate =
-            if (x + activity.popup_rootView.width > screenWidth) {
-                screenWidth - activity.popup_rootView.width - dp(25)
-            } else {
-                x
-            }
-        val bubblePosition = when {
-            x > activity.popup_rootView.width + dp(10) -> 0.90f
-            x < activity.popup_rootView.width -> 0.1f
-            else -> 0.5f
+        popupView.y = yCoordinate
+    }
+
+    private inline fun setOutSideClickListener(crossinline doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit) {
+        popupContainer.setOnClickListener {
+            doOnHide.invoke(lastClickedPopupItemId == R.id.bookmark_popup)
+            dismiss()
         }
+    }
 
-        activity.popup_rootView.setPositionPer(bubblePosition)
-        activity.popup_rootView.y = yCoordinate.toFloat()
-        activity.popup_rootView.x = xCoordinate.toFloat()
+    private fun updateBookmarkView(aya: Aya) {
+        if (aya.isBookmarked) popupView.bookmarkPopupTextView.setText(R.string.bookmark_remove)
+        else popupView.bookmarkPopupTextView.setText(R.string.bookmark_add)
+    }
+
+    private inline fun updateClickedAyaClick(
+        aya: Aya,
+        crossinline doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit
+    ) {
+        updateBookmarkView(aya)
+
+        activity.apply {
+            setOutSideClickListener(doOnHide)
+
+            onClicks(
+                play_popup,
+                share_popup,
+                translate_popup,
+                wordByWord_popup,
+                bookmark_popup
+            ) {
+                lastClickedPopupItemId = id
+                popupOnAyaClickListener.popupItemClicked(aya, this)
+                popupContainer.callOnClick()
+            }
+        }
     }
 
 
-    interface OnQuranPopupItemClickListener {
+    interface PopupOnAyaClickListener {
         fun popupItemClicked(aya: Aya, view: View)
     }
 }

@@ -12,6 +12,7 @@ import com.brilliancesoft.mushaf.ui.library.manage.TabFragment
 import com.brilliancesoft.mushaf.ui.library.read.ReadLibraryActivity
 import com.brilliancesoft.mushaf.ui.quran.QuranIndexFragment
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
+import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranPagerAdapter
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.ReciterBottomSheet
 import com.brilliancesoft.mushaf.ui.quran.read.translation.TranslationBottomSheet
 import com.brilliancesoft.mushaf.ui.search.SearchActivity
@@ -47,5 +48,6 @@ interface AppComponent {
     fun inject(reciterBottomSheet: ReciterBottomSheet)
     fun inject(bookmarksFragment: BookmarksFragment)
     fun inject(downloadService: DownloadService)
+    fun inject(readQuranPagerAdapter: ReadQuranPagerAdapter)
 
 }

@@ -5,8 +5,10 @@ import android.content.Intent
 import android.content.pm.ShortcutManager
 import android.os.Build
 import android.os.Bundle
+import com.brilliancesoft.mushaf.ui.MainActivity
 import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
+import com.codebox.lib.android.actvity.launchActivity
 import com.codebox.lib.android.actvity.newIntent
 
 class ShortcutsActivity : BaseActivity() {
@@ -27,9 +29,11 @@ class ShortcutsActivity : BaseActivity() {
         }
 
         finish()
+        launchActivity<MainActivity>()
         startActivity(intent)
     }
-   private fun lastPageReadIntent():Intent  {
+
+    private fun lastPageReadIntent(): Intent {
         val intent = newIntent<ReadQuranActivity>()
         val bundle = Bundle()
         val lastPage = preferences.getInt(PreferencesConstants.LastSurahViewed, 0)

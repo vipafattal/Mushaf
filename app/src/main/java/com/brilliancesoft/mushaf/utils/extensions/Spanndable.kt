@@ -1,7 +1,7 @@
 package com.brilliancesoft.mushaf.utils.extensions
 
 import android.text.Spannable
-import com.brilliancesoft.mushaf.utils.ClickableImageSpan
+import com.brilliancesoft.mushaf.utils.CustomClickableSpan
 
 /*fun whiteSpaceMagnifier(text: String): String {
     //text.replace(" ", " ")
@@ -10,12 +10,13 @@ import com.brilliancesoft.mushaf.utils.ClickableImageSpan
 
 
 fun Spannable.isClickableSpan(start: Int, end: Int): Boolean {
-    val styleSpans: Array<out ClickableImageSpan> =
-        getSpans(start, end, ClickableImageSpan::class.java)
+    val styleSpanCustoms: Array<out CustomClickableSpan> =
+        getSpans(start, end, CustomClickableSpan::class.java)
     var isClickableSpan = false
-    for (style in styleSpans) {
+    for (style in styleSpanCustoms) {
         isClickableSpan = true
         break
     }
     return isClickableSpan
 }
+

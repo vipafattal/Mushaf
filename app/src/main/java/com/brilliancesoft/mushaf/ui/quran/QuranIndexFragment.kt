@@ -66,7 +66,7 @@ class QuranIndexFragment : BaseFragment() {
     }
 
 
-    private fun dispatchAyatData(ayat: List<Aya>){
+    private fun dispatchAyatData(ayat: List<Aya>) {
         fast_page_transition.visible()
         parentActivity.bottom_app_nav.visible()
 
@@ -83,19 +83,17 @@ class QuranIndexFragment : BaseFragment() {
         quranlist_recyclerView.adapter = QuranIndexAdapter(data, false)
 
         fast_page_transition.onClick {
-            fragmentManager?.let {
                 val pageNavDialog = NavigateToPageDialog()
-                pageNavDialog.show(it,NavigateToPageDialog.TAG)
-            }
+            pageNavDialog.show(parentFragmentManager, NavigateToPageDialog.TAG)
         }
 
         val layoutManager = quranlist_recyclerView.layoutManager as LinearLayoutManager
         quranlist_recyclerView.onScroll { _, dy ->
-            if (dy > 0) fast_page_transition.shrink()
-            else if (layoutManager.findFirstVisibleItemPosition() < 1) fast_page_transition.extend()
-
+            if (fast_page_transition != null) {
+                if (fast_page_transition.isExtended && dy > 0) fast_page_transition.shrink()
+                else if (!fast_page_transition.isExtended && layoutManager.findFirstVisibleItemPosition() < 1) fast_page_transition.extend()
+            }
         }
-
     }
 
     private fun initToolbar() {

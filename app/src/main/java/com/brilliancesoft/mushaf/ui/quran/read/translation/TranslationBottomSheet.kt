@@ -1,77 +1,84 @@
 package com.brilliancesoft.mushaf.ui.quran.read.translation
 
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import com.brilliancesoft.mushaf.R
+import com.brilliancesoft.mushaf.framework.CustomToast
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.model.Translation
 import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
+import com.brilliancesoft.mushaf.ui.commen.ViewModelFactory
+import com.brilliancesoft.mushaf.ui.commen.dialog.BaseBottomSheetDialog
 import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.library.manage.ManageLibraryActivity
 import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.onClicks
+import com.brilliancesoft.mushaf.utils.extensions.setStartDrawable
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.actvity.launchActivity
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.views.listeners.onClick
-import com.codebox.lib.android.views.utils.gone
-import com.codebox.lib.android.views.utils.visible
 import com.codebox.lib.extrenalLib.TinyDB
 import com.codebox.lib.standard.collections.filters.singleIdx
 import com.github.zawadz88.materialpopupmenu.popupMenu
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_translation.*
 import kotlinx.android.synthetic.main.dialog_word_by_word.close_image
 import kotlinx.android.synthetic.main.popup_translation_checkbox.view.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class TranslationBottomSheet : BottomSheetDialogFragment() {
+class TranslationBottomSheet : BaseBottomSheetDialog() {
 
     @Inject
     lateinit var repository: Repository
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
-    private lateinit var viewModel: TranslationViewModel
+    private val translationViewModel by lazy {
+        viewModelOf(TranslationViewModel::class.java, viewModelFactory)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = viewModelOf(TranslationViewModel::class.java)
-        viewModel.getTranslation()
-            .observer(viewLifecycleOwner) { translation: Translation ->
-                coroutineScope.launch {
-                    val data = withContext(Dispatchers.IO) {
-                        editionsToAyaTranslation(
-                            translation,
-                            translation.numberInMusahaf
-                        )
-                    }
 
-                    val ayatText = if (data.isNotEmpty()) data.map { it.text } else listOf(getString(
-                                            R.string.no_translation_tafeer_downloaded))
-                    recycler_translation.adapter = TranslationQuranAdapter(ayatText)
-
-                    translation_selection.setImageResource(if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_language_light else R.drawable.ic_language_dark)
-                    translation_selection.onClick {
-                        val allData =
-                            translation.selectedEditions.map { true to it } + translation.unSelectedEditions.map { false to it }
-                        showPopup(this, allData, translation.numberInMusahaf)
-                    }
-
+        translationViewModel.translations.observer(viewLifecycleOwner) { translation: Translation ->
+            coroutineScope.launch {
+                //@translationList represent aya in each selected edition.
+                val translationList: List<Aya> = withContext(Dispatchers.IO) {
+                    editionsToAyaTranslation(
+                        translation,
+                        translation.numberInMusahaf
+                    )
                 }
+                if (translationList.isEmpty())
+                    CustomToast.makeLong(
+                        requireContext(),
+                        R.string.no_translation_tafeer_downloaded
+                    )
+                recycler_translation.adapter = TranslationQuranAdapter(translationList)
+
+                val languageImage =
+                    if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_language_light else R.drawable.ic_language_dark
+                translation_selection.setStartDrawable(languageImage)
+                translation_selection.onClick {
+                    val allData =
+                        translation.selectedEditions.map { true to it } + translation.unSelectedEditions.map { false to it }
+                    showPopup(this, allData, translation.numberInMusahaf)
+                }
+
             }
-        val closeIcon = if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
+        }
+        val closeIcon =
+            if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
         close_image.setImageResource(closeIcon)
         close_image.setOnClickListener {
             dismiss()
@@ -91,14 +98,16 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
                         viewBoundCallback = {
                             val isSelected = element.first
                             val edition = element.second
-                            it.text_option.text = if (isRightToLeft == 1) edition.englishName else edition.name
+                            it.text_option.text =
+                                if (isRightToLeft == 1) edition.englishName else edition.name
                             it.checkbox_option.isChecked = isSelected
 
                             onClicks(it.popup_checkbox_root, it.text_option) {
                                 it.checkbox_option.isChecked = !it.checkbox_option.isChecked
                             }
                             it.checkbox_option.setOnCheckedChangeListener { _, isChecked ->
-                                val oldIdx = newData.singleIdx { it.second.identifier == element.second.identifier }
+                                val oldIdx =
+                                    newData.singleIdx { it.second.identifier == element.second.identifier }
                                 newData[oldIdx.second] = isChecked to edition
                             }
                         }
@@ -119,17 +128,15 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
                 val selectedEditions: MutableList<Edition> = mutableListOf()
                 val unSelectedEditions: MutableList<Edition> = mutableListOf()
                 newData.forEach {
-                    if (it.first)
-                        selectedEditions.add(it.second)
-                    else
-                        unSelectedEditions.add(it.second)
+                    if (it.first) selectedEditions.add(it.second)
+                    else unSelectedEditions.add(it.second)
                 }
                 val newSelectedData = selectedEditions.map { it.identifier }
                 TinyDB(requireContext()).putListString(
                     PreferencesConstants.LastUsedTranslation,
                     newSelectedData
                 )
-                viewModel.setTranslationData(selectedEditions, unSelectedEditions, numberInMusahaf)
+                translationViewModel.setAyaNumber(numberInMusahaf)
 
             }
         }
@@ -146,39 +153,22 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
     }
 
 
-    private suspend fun editionsToAyaTranslation(translation: Translation, numberInMusahaf: Int): List<Aya> {
+    private suspend fun editionsToAyaTranslation(
+        translation: Translation,
+        numberInMusahaf: Int
+    ): List<Aya> {
         val editionToGet = extractEdition(translation)
         return editionToGet.map {
             repository.getAyaByNumberInMusahaf(it.identifier, numberInMusahaf)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(R.layout.dialog_translation, container, false)
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-
-        dialog.setOnShowListener { Dialog ->
-            val d = Dialog as BottomSheetDialog
-
-            val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout?
-
-            val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet!!)
-            bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    if (slideOffset > 0.5) close_image.visible()
-                    else close_image.gone()
-                }
-
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == BottomSheetBehavior.STATE_HIDDEN)
-                        dismiss()
-                }
-            })
-        }
-        return dialog
-    }
 
 
     override fun onDestroy() {
@@ -192,6 +182,7 @@ class TranslationBottomSheet : BottomSheetDialogFragment() {
     }
 
     companion object {
-        const val TAG = "TranslationBottomSheet"
+        @JvmField
+        val TAG: String = this::class.java.simpleName
     }
 }

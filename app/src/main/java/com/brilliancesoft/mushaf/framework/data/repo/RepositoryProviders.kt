@@ -41,4 +41,5 @@ interface RepositoryProviders {
     suspend fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter>
 
     suspend fun isDownloaded(identifier: String): Boolean
+    suspend fun getDownloadedEditions(type: String): List<Edition>
 }

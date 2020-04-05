@@ -15,15 +15,21 @@ inline fun <T> LiveData<T>.observer(owner: LifecycleOwner, crossinline doOnObser
     })
 
 
-fun <T: ViewModel> Fragment.viewModelOf(viewModelClass: Class<T>)=
-    ViewModelProviders.of(activity!!).get(viewModelClass)
+fun <T : ViewModel> Fragment.viewModelOf(viewModelClass: Class<T>) =
+    ViewModelProvider(activity!!).get(viewModelClass)
 
 
-fun <T:ViewModel> AppCompatActivity.viewModelOf(viewModelClass: Class<T>)=
-    ViewModelProviders.of(this).get(viewModelClass)
+fun <T : ViewModel> AppCompatActivity.viewModelOf(viewModelClass: Class<T>) =
+    ViewModelProvider(this).get(viewModelClass)
 
-fun <T:ViewModel> AppCompatActivity.viewModelOf(viewModelClass: Class<T>,factoryViewModel:ViewModelProvider.Factory)=
-        ViewModelProviders.of(this,factoryViewModel).get(viewModelClass)
+fun <T : ViewModel> AppCompatActivity.viewModelOf(
+    viewModelClass: Class<T>,
+    factoryViewModel: ViewModelProvider.Factory
+) =
+    ViewModelProvider(this, factoryViewModel).get(viewModelClass)
 
-fun <T:ViewModel> Fragment.viewModelOf(viewModelClass: Class<T>,factoryViewModel:ViewModelProvider.Factory)=
-        ViewModelProviders.of(this.activity!!,factoryViewModel).get(viewModelClass)
+fun <T : ViewModel> Fragment.viewModelOf(
+    viewModelClass: Class<T>,
+    factoryViewModel: ViewModelProvider.Factory
+) =
+    ViewModelProvider(this.activity!!, factoryViewModel).get(viewModelClass)

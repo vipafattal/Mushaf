@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.utils.ClickableImageSpan
+import com.brilliancesoft.mushaf.utils.CustomClickableSpan
 import com.brilliancesoft.mushaf.utils.TextDrawable
 import com.brilliancesoft.mushaf.utils.extensions.toBitmap
 import com.brilliancesoft.mushaf.utils.extensions.toSpannable
@@ -21,49 +21,53 @@ import com.codebox.lib.android.utils.screenHelpers.dp
  * Created by ${User} on ${Date}
  */
 class FunctionalQuranText(private val context: Context, private val popupActions: PopupActions) {
+
     private val ayaNumberColor = if (MushafApplication.isDarkThemeEnabled) Color.WHITE else Color.BLACK
     private var clickedStartSpanPosition = 0
     private var clickedEndSpanPosition = 0
 
     fun getQuranDecoratedText(
-        str: String,
+        formattedAyaText: String,
         previousAyaLength: Int,
         aya: Aya
     ): SpannableString {
+
         var bookmarkState = aya.isBookmarked
         val ayaNumberInSurah = aya.numberInSurah.toString().toLocalizedNumber()
-        val text = SpannableString(str)
+        val text = SpannableString(formattedAyaText)
 
         val startChar = text.length - ayaNumberInSurah.length - 1
         val endChar = text.length - 1
 
-        val span = getAyaImageNumber(aya.numberInSurah, bookmarkState)
-        text.setSpan(span, startChar, endChar, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        text.setSpan(
+            getAyaImageNumber(aya.numberInSurah, bookmarkState),
+            startChar,
+            endChar,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
 
-        text.setSpan(object : ClickableImageSpan() {
+        text.setSpan(object : CustomClickableSpan() {
             override fun onClick(widget: TextView, x: Int, y: Int) {
-
                 highlightSelection(widget, text, previousAyaLength)
-
-                popupActions.show(x, y, aya) { bookmarkStateChanged ->
-                    //Clear Highlighted on touch out side popup.
+                popupActions.show(x, y, aya.number) { bookmarkStateChanged ->
                     val clickedTextSpan = widget.text.toSpannable()
+                    //Update Aya image if bookmark state changed.
                     if (bookmarkStateChanged) {
                         bookmarkState = if (bookmarkStateChanged) !bookmarkState else bookmarkState
-                        val newSpan = getAyaImageNumber(aya.numberInSurah, bookmarkState)
 
                         clickedTextSpan.setSpan(
-                            newSpan,
+                            getAyaImageNumber(aya.numberInSurah, bookmarkState),
                             previousAyaLength + startChar,
                             previousAyaLength + endChar,
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                         )
                     }
-                    clearHighlighted(clickedTextSpan, true)
+                    //Clear Highlighted on touch out side popup.
+                    clearHighlighted(clickedTextSpan)
                 }
-
             }
-        }, startChar, endChar, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }, 0, endChar, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
         //for image clickable
         return text
     }
@@ -72,9 +76,9 @@ class FunctionalQuranText(private val context: Context, private val popupActions
         val spannable = view.text.toSpannable()
         //On outside popup click clear selection.
         //Clear previous selection.
-        clearHighlighted(spannable, false)
         clickedEndSpanPosition = startAtIndex + text.length - 1
         clickedStartSpanPosition = startAtIndex
+
         spannable.setSpan(
             TouchAyaHighlighter(),
             clickedStartSpanPosition,
@@ -83,12 +87,7 @@ class FunctionalQuranText(private val context: Context, private val popupActions
         )
     }
 
-    private fun clearHighlighted(spannable: Spannable, clearAll: Boolean) {
-        if (clearAll) {
-            clickedStartSpanPosition = 0
-            clickedEndSpanPosition = spannable.length - 1
-        }
-
+    private fun clearHighlighted(spannable: Spannable) {
         val styleSpans: Array<out TouchAyaHighlighter> =
             spannable.getSpans(
                 clickedStartSpanPosition,
@@ -100,7 +99,6 @@ class FunctionalQuranText(private val context: Context, private val popupActions
     }
 
     private fun getAyaImageNumber(numberInSurah: Int, isBookmarked: Boolean): ImageSpan {
-
         val ayaDecorImg = if (isBookmarked) R.drawable.ic_aya_number_bookmarked else R.drawable.ic_aya_number
 
         val endAyaImage = TextDrawable.builder()

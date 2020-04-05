@@ -27,7 +27,7 @@
             app:layout_constraintGuide_percent="0.75" />
 
         <TextView
-            android:id="@+id/surahName_read_quran_page"
+            android:id="@+id/surahNameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -41,7 +41,7 @@
             tools:text="Surat Al-Fatihah" />
 
         <TextView
-            android:id="@+id/juzNumber_read_quran_page"
+            android:id="@+id/juzNumberHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
@@ -54,7 +54,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
-
         android:id="@+id/pageScroller"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -65,30 +64,14 @@
         android:soundEffectsEnabled="false">
 
         <LinearLayout
-            android:id="@+id/surahText_rootView"
+            android:id="@+id/quranContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="beforeDescendants"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:padding="5dp">
-
-            <include layout="@layout/layout_surah_header" />
-
-            <com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranTextView
-                android:id="@+id/surahText_page"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                style="@style/QuranicText"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center_horizontal"
-                tools:text="@string/surah_tools"
-                android:textIsSelectable="true"
-              />
-        </LinearLayout>
+            android:padding="5dp" />
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
 

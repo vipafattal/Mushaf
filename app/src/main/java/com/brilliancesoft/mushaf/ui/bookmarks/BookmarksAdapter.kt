@@ -1,5 +1,6 @@
 package com.brilliancesoft.mushaf.ui.bookmarks
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -20,6 +21,7 @@ import com.codebox.lib.android.viewGroup.inflater
 import com.codebox.lib.android.views.listeners.onClick
 import kotlinx.android.synthetic.main.item_bookmark.view.*
 import kotlinx.android.synthetic.main.item_bookmark_with_header.view.*
+import kotlinx.serialization.json.Json
 
 /**
  * Created by ${User} on ${Date}
@@ -67,6 +69,7 @@ class BookmarksAdapter(
             else itemView.bindItem(aya)
         }
 
+        @SuppressLint("SetTextI18n")
         private fun View.bindItem(aya: Aya) {
             surah_name_bookmark.text = if (isRightToLeft == 1) aya.surah!!.englishName else aya.surah!!.name
             val page = context.getString(R.string.page) + " ${aya.page.toString().toCurrentLanguageNumber()}"
@@ -81,6 +84,10 @@ class BookmarksAdapter(
                 if (aya.edition!!.type == Edition.Quran) {
                     intent = context.newIntent<ReadQuranActivity>()
                     bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, aya.page)
+                    bundle.putString(
+                        ReadQuranActivity.SELECTED_AYA_KEY,
+                        Json.stringify(Aya.serializer(), aya)
+                    )
                     intent.putExtras(bundle)
                     context.startActivity(intent)
                 } else {

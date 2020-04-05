@@ -93,6 +93,9 @@ class LocalDataSource : LocalDataSourceProviders {
     override suspend fun getAllEditions(): List<Edition> =
         dao.getAllEditions()
 
+    override suspend fun getAllEditions(type: String): List<Edition> =
+        dao.getAllEditions()
+
     override suspend fun getEditionsByType(type: String): List<Edition> =
         dao.getEditionsByType(type)
 

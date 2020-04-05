@@ -3,7 +3,9 @@ package com.brilliancesoft.mushaf.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
+import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.database.AYAT_TABLE
+import com.brilliancesoft.mushaf.utils.toLocalizedNumber
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -78,5 +80,16 @@ data class Aya @Ignore constructor(
         surah = ayaWithInfo.surah,
         edition = ayaWithInfo.edition
     )
+
+    fun getFormattedAya(): String {
+        //"${whiteSpaceMagnifier(aya.text)} ${aya.numberInSurah.toString().toLocalizedNumber()} "
+        return "${getTextWithoutBasmalih()} ${numberInSurah.toLocalizedNumber()} "
+    }
+
+    fun getTextWithoutBasmalih() =
+        if (surah!!.englishName != MushafConstants.Fatiha && numberInSurah == 1)
+            text.replaceFirst("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ", "")
+        else text
+
 
 }

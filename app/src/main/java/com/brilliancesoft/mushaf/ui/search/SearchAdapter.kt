@@ -1,5 +1,6 @@
 package com.brilliancesoft.mushaf.ui.search
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -22,6 +23,7 @@ import com.codebox.lib.android.views.listeners.onClick
 import com.codebox.lib.android.views.utils.invisible
 import com.codebox.lib.android.views.utils.visible
 import kotlinx.android.synthetic.main.item_search.view.*
+import kotlinx.serialization.json.Json
 
 /**
  * Created by ${User} on ${Date}
@@ -47,10 +49,12 @@ class SearchAdapter(
         holder.bindData(data, isLastPosition)
     }
 
-    class ViewHolder(itemView: View, private val searchType: String) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, private val searchType: String) :
+        RecyclerView.ViewHolder(itemView) {
 
         private var preferences = AppPreferences()
 
+        @SuppressLint("SetTextI18n")
         fun bindData(aya: Aya, isLastPosition: Boolean) {
             itemView.apply {
                 aya_number_search.text = aya.numberInSurah.toString()
@@ -60,11 +64,11 @@ class SearchAdapter(
                     aya_text_search.typeface = typeface
                     aya_text_search.text = aya.text
 
-                }
-                else
+                } else
                     aya_text_search.text = aya.text
 
-                var searchInfo = if (isRightToLeft == 1) aya.surah!!.englishName else aya.surah!!.name
+                var searchInfo =
+                    if (isRightToLeft == 1) aya.surah!!.englishName else aya.surah!!.name
                 searchInfo += if (searchType != Edition.Quran) " ${context.getString(R.string.In)} ${aya.edition!!.name} " else ""
 
                 found_in_search.text = " ${context.getString(R.string.found)} $searchInfo"
@@ -86,6 +90,10 @@ class SearchAdapter(
                 if (searchType == Edition.Quran) {
                     intent = context.newIntent<ReadQuranActivity>()
                     bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, aya.page)
+                    bundle.putString(
+                        ReadQuranActivity.SELECTED_AYA_KEY,
+                        Json.stringify(Aya.serializer(), aya)
+                    )
                     intent.putExtras(bundle)
                     context.startActivity(intent)
                 } else {
@@ -95,8 +103,14 @@ class SearchAdapter(
                     bundle.putString(ReadLibraryActivity.EditionIdKey, editionIdentifier)
                     intent.putExtras(bundle)
 
-                    preferences.put(PreferencesConstants.LastScrollPosition + editionIdentifier,aya.numberInSurah-1)
-                    preferences.put(PreferencesConstants.LastSurahViewed + editionIdentifier, aya.surah!!.number)
+                    preferences.put(
+                        PreferencesConstants.LastScrollPosition + editionIdentifier,
+                        aya.numberInSurah - 1
+                    )
+                    preferences.put(
+                        PreferencesConstants.LastSurahViewed + editionIdentifier,
+                        aya.surah!!.number
+                    )
                     context.startActivity(intent)
                 }
             }

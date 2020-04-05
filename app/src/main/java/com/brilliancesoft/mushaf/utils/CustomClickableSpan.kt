@@ -1,16 +1,23 @@
 package com.brilliancesoft.mushaf.utils
 
 import android.graphics.Rect
-import android.text.SpannableString
+import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
+import com.brilliancesoft.mushaf.utils.extensions.toSpannable
 import kotlin.math.roundToInt
+
 
 /**
  * Created by ${User} on ${Date}
  */
-abstract class ClickableImageSpan : ClickableSpan() {
+abstract class CustomClickableSpan : ClickableSpan() {
+
+    var clickX: Int = -1
+        private set
+    var clickY: Int = -1
+        private set
 
     final override fun onClick(widget: View) {
         val parentTextView = widget as TextView
@@ -18,11 +25,12 @@ abstract class ClickableImageSpan : ClickableSpan() {
         val parentTextViewRect = Rect()
 
         // Initialize values for the computing of clickedText position
-        val completeText = parentTextView.text as SpannableString
+        val completeText = parentTextView.text.toSpannable()
         val textViewLayout = parentTextView.layout
 
         val startOffsetOfClickedText = completeText.getSpanStart(this).toDouble()
         val endOffsetOfClickedText = completeText.getSpanEnd(this).toDouble()
+
         val startXCoordinatesOfClickedText =
             textViewLayout.getPrimaryHorizontal(startOffsetOfClickedText.toInt()).toDouble()
         val endXCoordinatesOfClickedText =
@@ -30,7 +38,8 @@ abstract class ClickableImageSpan : ClickableSpan() {
 
 
         // Get the rectangle of the clicked text
-        val currentLineStartOffset = textViewLayout.getLineForOffset(startOffsetOfClickedText.toInt())
+        val currentLineStartOffset =
+            textViewLayout.getLineForOffset(startOffsetOfClickedText.toInt())
         val currentLineEndOffset = textViewLayout.getLineForOffset(endOffsetOfClickedText.toInt())
         val keywordIsInMultiLine = currentLineStartOffset != currentLineEndOffset
         textViewLayout.getLineBounds(currentLineStartOffset, parentTextViewRect)
@@ -57,7 +66,13 @@ abstract class ClickableImageSpan : ClickableSpan() {
             x = parentTextViewRect.left
         }
 
+        clickX = x; clickY = y
         onClick(parentTextView, x, y)
     }
-    abstract fun onClick(widget: TextView,x:Int,y:Int)
+
+    abstract fun onClick(widget: TextView, x: Int, y: Int)
+
+    override fun updateDrawState(ds: TextPaint) { // override updateDrawState
+        ds.isUnderlineText = false
+    }
 }

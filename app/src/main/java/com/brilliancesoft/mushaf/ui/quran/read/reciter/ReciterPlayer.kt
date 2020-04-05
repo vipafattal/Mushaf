@@ -31,6 +31,7 @@ class ReciterPlayer(
     private val fetch: Fetch? =
         Fetch.Impl.getInstance(MushafApplication.appContext.fetchConfiguration())
     private lateinit var downloadListener: FetchDownloadListener
+
     fun play(
         isStreamingOnline: Boolean,
         playRange: IntRange,

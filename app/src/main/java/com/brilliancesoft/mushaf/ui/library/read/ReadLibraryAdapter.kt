@@ -108,7 +108,7 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
                     }
                     item {
                         val shareText = convertTranslationToShare(readTranslation, activity)
-                        label = Stringify(R.string.copy, activity)
+                        label = Stringify(R.string.copy_text, activity)
                         callback = {
                             TextActionUtil.copyToClipboard(activity, shareText)
                             CustomToast.makeShort(activity, R.string.text_copied)

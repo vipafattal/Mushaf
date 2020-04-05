@@ -37,7 +37,7 @@ fun selectedTextToOutput(context: Context, selectedText: String, aya: Aya): Stri
             "${getString(R.string.surah)}: ${aya.surah!!.name}"
 
         val fullText =
-            "{$selectedText} \n$page \n$surah \nvia @${getString(R.string.app_name)} for Android"
+            "{$selectedText} \n$page \n$surah \nvia @${getString(R.string.app_name_google_play)}"
 
         return@run fullText
     }

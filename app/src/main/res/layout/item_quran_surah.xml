@@ -8,9 +8,8 @@
 
     <include layout="@layout/layout_surah_header" />
 
-
     <com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranTextView
-        android:id="@+id/surahText"
+        android:id="@+id/pageTextQuran"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"

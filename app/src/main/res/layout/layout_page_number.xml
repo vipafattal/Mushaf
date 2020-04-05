@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="65dp">
 <TextView
-        android:id="@+id/pageNumber"
-        android:layout_margin="30dp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:textSize="18sp"
-        android:background="@drawable/ic_page_decore"
-        tools:text="200"
-        android:textStyle="bold"
-        android:fontFamily="@font/title_en"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="70dp"
-        android:layout_height="55dp"
-        xmlns:tools="http://schemas.android.com/tools"/>
+    android:id="@+id/pageNumber"
+    android:layout_width="70dp"
+    android:layout_height="55dp"
+    android:layout_margin="30dp"
+    android:background="@drawable/ic_page_decore"
+    android:fontFamily="@font/title_en"
+    android:gravity="center"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    tools:text="200" />
+</FrameLayout>

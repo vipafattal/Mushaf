@@ -1,60 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:background="?toolbarColor"
-              app:behavior_hideable="true"
-              android:orientation="vertical"
-              android:minHeight="150dp"
-              app:layout_behavior="@string/bottom_sheet_behavior"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?toolbarColor"
+    android:minHeight="150dp"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:layout_behavior="@string/bottom_sheet_behavior">
 
     <LinearLayout
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-        <ImageView
-                android:id="@+id/translation_selection"
-                app:srcCompat="@drawable/ic_language_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
-        <Space android:layout_width="0dp" android:layout_height="wrap_content"
-               android:layout_weight="1"/>
 
-        <ImageView
-                android:padding="5dp"
-                android:background="@drawable/ic_close_circal"
-                android:id="@+id/close_image"
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-                app:srcCompat="@drawable/ic_close_dark"
-                android:visibility="gone"
-                tools:visibility="visible"/>
-    </LinearLayout>
-    <View
-            android:layout_marginTop="8dp"
-            app:layout_constrainedWidth="true"
-            android:background="#707070"
-            android:id="@+id/divider_item_library"
+        <TextView
+            android:id="@+id/translation_selection"
             android:layout_width="wrap_content"
-            android:layout_height="0.8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/aya_number_library"/>
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:drawablePadding="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="@string/select_translation"
+            tools:drawableStart="@drawable/ic_language_dark" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/close_image"
+            android:layout_width="@dimen/action_image_size"
+            android:layout_height="@dimen/action_image_size"
+            android:background="@drawable/ic_close_circal"
+            android:padding="5dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_close_dark"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_item_library"
+        android:layout_width="wrap_content"
+        android:layout_height="0.8dp"
+        android:layout_marginTop="8dp"
+        android:background="#707070"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/aya_number_library" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:padding="10dp"
-            android:clipToPadding="false"
-            tools:listitem="@layout/item_translation"
-            tools:itemCount="10"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:id="@+id/recycler_translation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/recycler_translation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_translation" />
 
 </LinearLayout>

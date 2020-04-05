@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/fab_extended_height"
             android:layout_margin="12dp"
-            android:text="@string/add_item"
+        android:text="@string/add_book"
             android:textAllCaps="false"
             android:textColor="#fff"
             app:iconTint="#fff"

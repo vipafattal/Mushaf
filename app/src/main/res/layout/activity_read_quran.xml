@@ -27,15 +27,17 @@
         tools:targetApi="jelly_bean_mr1"/>
 -->
     <FrameLayout
-        android:id="@+id/popup_parent"
+        android:id="@+id/popup_container"
+        android:soundEffectsEnabled="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:visibility="invisible"
         android:focusable="true"
-        android:soundEffectsEnabled="false"
-        android:visibility="invisible">
+        tools:visibility="visible">
 
         <include layout="@layout/popup_quran" />
+
     </FrameLayout>
 
     <com.google.android.exoplayer2.ui.PlayerControlView

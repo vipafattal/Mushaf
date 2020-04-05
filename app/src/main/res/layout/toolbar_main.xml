@@ -26,19 +26,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/_8sdp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/beginToolbar_icon"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_centerVertical="true"
+            android:layout_margin="8dp"
             android:alpha="0"
             android:background="?selectableItemBackgroundBorderless"
             android:padding="@dimen/_3sdp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_search" />
+            app:srcCompat="@drawable/ic_search"
+            tools:alpha="4"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/toolbarTitle"
@@ -47,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="#FFF"
+            android:textSize="@dimen/_18sdp"
             tools:text="Quran" />
 
         <ImageView
@@ -56,10 +59,13 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_margin="8dp"
             android:alpha="0"
             android:background="?selectableItemBackgroundBorderless"
             android:padding="@dimen/_3sdp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_read" />
+            app:srcCompat="@drawable/ic_read"
+            tools:alpha="4"
+            tools:visibility="visible" />
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -90,6 +90,9 @@ interface MushafDao {
     @Query("select * from $EDITIONS_TABLE")
     suspend fun getAllEditions(): List<Edition>
 
+    @Query("select * from $EDITIONS_TABLE where format = :format")
+    suspend fun getAllEditionsByFormat(format: String): List<Edition>
+
     @Query("select * from $EDITIONS_TABLE where format == :type")
     suspend fun getEditionsByType(type: String): List<Edition>
 
