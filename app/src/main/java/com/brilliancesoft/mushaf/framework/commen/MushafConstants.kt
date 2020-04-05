@@ -1,6 +1,7 @@
 package com.brilliancesoft.mushaf.framework.commen
 
 import com.brilliancesoft.mushaf.R
+import com.codebox.lib.android.resoures.Stringer
 
 /**
  * Created by ${User} on ${Date}
