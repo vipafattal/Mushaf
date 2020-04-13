@@ -1,12 +1,12 @@
 package com.brilliancesoft.mushaf.ui.quran
 
-import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
+import com.brilliancesoft.mushaf.utils.extensions.bundleOf
 import com.brilliancesoft.mushaf.utils.getAyaWord
 import com.brilliancesoft.mushaf.utils.toCurrentLanguageNumber
 import com.brilliancesoft.mushaf.utils.toLocalizedRevelation
@@ -22,8 +22,10 @@ import kotlinx.android.synthetic.main.item_surah.view.*
 /**
  * Created by ${User} on ${Date}
  */
-class QuranIndexAdapter(private val dataList: List<Aya>,
-                        private val isReadingFromLibrary:Boolean) : RecyclerView.Adapter<QuranIndexAdapter.ViewHolder>() {
+class QuranIndexAdapter(
+    private val ayaList: List<Aya>,
+    private val isReadingFromLibrary: Boolean
+) : RecyclerView.Adapter<QuranIndexAdapter.ViewHolder>() {
 
     val headerView = R.layout.item_juz
     val surahView = R.layout.item_surah
@@ -36,8 +38,8 @@ class QuranIndexAdapter(private val dataList: List<Aya>,
     }
 
     override fun getItemViewType(position: Int): Int {
-        val currentData = dataList[position]
-        val prvData = if (position != 0) dataList[position - 1] else dataList[position]
+        val currentData = ayaList[position]
+        val prvData = if (position != 0) ayaList[position - 1] else ayaList[position]
 
         val prvJuz = prvData.juz
         val prvSurah = prvData.surah!!.number
@@ -53,54 +55,59 @@ class QuranIndexAdapter(private val dataList: List<Aya>,
     }
 
     override fun getItemCount(): Int {
-        return dataList.size
+        return ayaList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = dataList[position]
-       // val mContext = holder.itemView.context
-        holder.bindData(data)
+        val aya = ayaList[position]
+        // val mContext = holder.itemView.context
+        holder.bindData(aya)
 
     }
 
-    inner class ViewHolder(itemView: View, private val viewType: Int) : RecyclerView.ViewHolder(itemView) {
-        fun bindData(data: Aya) {
+    inner class ViewHolder(itemView: View, private val viewType: Int) :
+        RecyclerView.ViewHolder(itemView) {
+        fun bindData(aya: Aya) {
             when (viewType) {
-                headerView -> bindHeader(data)
-                surahView -> bindSurah(data)
-                else -> bindHeaderAndSurah(data)
+                headerView -> bindHeader(aya)
+                surahView -> bindSurah(aya)
+                else -> bindHeaderAndSurah(aya)
             }
         }
 
-        private fun bindHeader(data: Aya) {
-            itemView.juzNumber.text = "${Stringify(R.string.juz,itemView.context)} ${data.juz.toString().toCurrentLanguageNumber()}"
-            itemView.pageNumber.text = data.page.toString().toCurrentLanguageNumber()
-            itemView.juz_view_root.activeClick(data)
+        private fun bindHeader(aya: Aya) {
+            itemView.juzNumber.text =
+                "${Stringify(R.string.juz, itemView.context)} ${aya.juz.toCurrentLanguageNumber()}"
+            itemView.pageNumberQuran.text = aya.page.toString().toCurrentLanguageNumber()
+            itemView.juz_view_root.enableOnClick(aya.page,-1)
         }
 
-        private fun bindSurah(data: Aya) {
+        private fun bindSurah(aya: Aya) {
             itemView.apply {
-                pageNumber_surah.text = data.page.toString().toCurrentLanguageNumber()
+                pageNumber_surah.text = aya.page.toString().toCurrentLanguageNumber()
 
-                if (isRightToLeft == 1) surahName.text = data.surah!!.englishName
-                else surahName.text = data.surah!!.name
+                if (isRightToLeft == 1) surahName.text = aya.surah!!.englishName
+                else surahName.text = aya.surah!!.name
 
-                surahNumber.text = data.surah!!.number.toString().toCurrentLanguageNumber()
-                surahInfo.text = "${data.surah!!.revelationType.toLocalizedRevelation()} - ${data.surah!!.numberOfAyahs} ${data.surah!!.numberOfAyahs.getAyaWord()}"
-                surah_view_root.activeClick(data)
+                surahNumber.text = aya.surah!!.number.toString().toCurrentLanguageNumber()
+                surahInfo.text =
+                    "${aya.surah!!.revelationType.toLocalizedRevelation()} - ${aya.surah!!.numberOfAyahs} ${aya.surah!!.numberOfAyahs.getAyaWord()}"
+                surah_view_root.enableOnClick(aya.page, aya.surah_number)
             }
         }
 
-        private fun bindHeaderAndSurah(data: Aya) {
-            bindHeader(data)
-            bindSurah(data)
+        private fun bindHeaderAndSurah(aya: Aya) {
+            bindHeader(aya)
+            bindSurah(aya)
         }
 
-        private fun View.activeClick(data: Aya){
+        private fun View.enableOnClick(startAtPage: Int, startAtSurah: Int) {
             onClick {
                 val intent = context.newIntent<ReadQuranActivity>()
-                val bundle = Bundle()
-                bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, data.page)
+                val bundle = bundleOf(
+                    ReadQuranActivity.START_AT_PAGE_KEY to startAtPage,
+                    ReadQuranActivity.START_AT_SURAH_KEY to startAtSurah
+                )
                 intent.putExtras(bundle)
                 context.startActivity(intent)
             }

@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-              app:behavior_hideable="true"
-              android:orientation="vertical"
-              android:padding="10dp"
-              android:background="?toolbarColor"
-              android:clipToPadding="false"
-              android:minHeight="150dp"
-              app:layout_behavior="@string/bottom_sheet_behavior"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-   <LinearLayout
-           android:layout_width="match_parent"
-                 android:orientation="horizontal"
-                 android:layout_height="wrap_content">
-       <Space android:layout_width="0dp"
-              android:layout_weight="1"
-              android:layout_height="wrap_content"/>
-       <ImageView
-               android:padding="5dp"
-               android:background="@drawable/ic_close_circal"
-               android:layout_gravity="end"
-               android:id="@+id/close_image"
-               android:layout_width="@dimen/action_image_size"
-               android:layout_height="@dimen/action_image_size"
-               app:srcCompat="@drawable/ic_close_dark"
-               android:visibility="gone"
-               tools:visibility="visible"
-       />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?toolbarColor"
+    android:clipToPadding="false"
+    android:minHeight="150dp"
+    android:orientation="vertical"
+    android:padding="10dp"
+    app:behavior_hideable="true"
+    app:layout_behavior="@string/bottom_sheet_behavior">
 
-   </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/close_image"
+            android:layout_width="@dimen/action_image_size"
+            android:layout_height="@dimen/action_image_size"
+            android:layout_gravity="end"
+            android:background="@drawable/ic_close_circal"
+            android:padding="5dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_close_dark"
+            tools:visibility="visible" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="8dp"
-            tools:listitem="@layout/item_word_by_word"
-            tools:itemCount="10"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:id="@+id/recycler_wordByWord"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/recycler_wordByWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_word_by_word" />
 
 </LinearLayout>

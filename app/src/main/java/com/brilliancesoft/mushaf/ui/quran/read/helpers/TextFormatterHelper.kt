@@ -6,7 +6,7 @@ import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.utils.quranicSymbol
 
-fun textToWords(text: CharSequence): ArrayList<String> {
+fun textToWords(text: CharSequence): List<String> {
     val wordToTranslate = arrayListOf<String>()
     var word = ""
     var isCharAdded = false

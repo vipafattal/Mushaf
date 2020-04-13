@@ -4,8 +4,8 @@ import com.brilliancesoft.mushaf.framework.api.ApiModels
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.database.MushafDao
 import com.brilliancesoft.mushaf.model.*
-import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.codebox.lib.extrenalLib.TinyDB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

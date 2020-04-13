@@ -12,10 +12,10 @@ import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Edition
-import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.brilliancesoft.mushaf.utils.toArabicReciterName
@@ -55,7 +55,7 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = viewModelOf(ReciterViewModel::class.java)
+        viewModel = viewModelOf<ReciterViewModel>()
 
         parentActivity = activity as ReadQuranActivity
         parentActivity.coroutineScope.launch {

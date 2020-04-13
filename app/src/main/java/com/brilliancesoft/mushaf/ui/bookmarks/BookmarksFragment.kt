@@ -5,11 +5,11 @@ import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.MainActivity
-import com.brilliancesoft.mushaf.ui.commen.ViewModelFactory
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseFragment
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseFragment
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.resoures.Colour
 import com.codebox.lib.android.views.utils.gone

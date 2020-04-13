@@ -96,9 +96,14 @@
         إلى أن رفع جود الصوت سوف تؤدي لستخدم بيانات أكثر
     </string>
 
+    <string name="preview_translation"> أي الجزاء وهو يوم القيامة، وخص بالذكر لأنه لا ملك ظاهرًا فيه لأحد إلا الله تعالى بدليل «لمن الملك اليوم؟ لله» ومن قرأ مالك فمعناه الأمر كله في يوم القيامة أو هو موصوف بذلك دائمًا «كغافر الذنب» فصح وقوعه صفة لمعرفة.",</string>
     <string name="low">منخفضة</string>
     <string name="medium">متوسطة</string>
     <string name="high">عالية</string>
+    <string name="medium_font_size">متوسط</string>
+    <string name="large_font_size">كبير</string>
+    <string name="x_large_font_size">كبير جداً</string>
+    <string name="small_font_size">صغير</string>
     <string name="select_word_leaset">حدد كلمة واحد على الأقل</string>
     <string name="bookmark_removed">تمت إزالة الإشارة</string>
     <string name="bookmard_saved">تم حفظ الإشارة</string>
@@ -113,5 +118,10 @@
     <string name="definition">شرح مفردات</string>
     <string name="tafseer_translation">تفسير وترجمة</string>
     <string name="select_translation">إختر تفسيراً</string>
+    <string name="vertical_quran_page_summry">الإنتقال بين صفحات القرآن سوف يكون عمودي بدلاً من الأفقي</string>
+    <string name="vertical_quran_page">صفحات قرآن عمودية</string>
+    <string name="font_size_key">حجم الخط</string>
+    <string name="previewing_text">معاينة للنص</string>
+
 
 </resources>

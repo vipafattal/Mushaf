@@ -4,41 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?readBackground"
     android:clickable="true"
     android:focusable="true"
     tools:context=".ui.quran.read.ReadQuranActivity">
 
-    <com.duolingo.open.rtlviewpager.RtlViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/quranViewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?toolbarColor"
         android:keepScreenOn="true"
         android:layoutDirection="rtl"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:targetApi="jelly_bean_mr1" />
 
-    <!--<androidx.viewpager2.widget.ViewPager2
-        android:orientation="vertical"
-        android:id="@+id/quranViewpager2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:keepScreenOn="true"
-        android:layoutDirection="rtl"
-        tools:targetApi="jelly_bean_mr1"/>
--->
-    <FrameLayout
-        android:id="@+id/popup_container"
-        android:soundEffectsEnabled="false"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:visibility="invisible"
-        android:focusable="true"
-        tools:visibility="visible">
-
-        <include layout="@layout/popup_quran" />
-
-    </FrameLayout>
+    <!--<ImageView
+        android:rotation="90"
+        android:id="@+id/openArrow"
+        app:srcCompat="@drawable/ic_open_arrow"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"/>-->
 
     <com.google.android.exoplayer2.ui.PlayerControlView
         android:id="@+id/playerView"
@@ -48,6 +34,19 @@
         android:visibility="invisible"
         app:show_timeout="0"
         tools:visibility="visible" />
+
+    <ImageView
+        android:elevation="@dimen/_12sdp"
+        android:id="@+id/bookmarkedImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:alpha="0"
+        tools:alpha="1"
+        android:layoutDirection="ltr"
+        app:srcCompat="@drawable/ic_bookmarked_image"
+        tools:ignore="UnusedAttribute" />
 
     <FrameLayout
         android:id="@+id/down_reciter_fragment_holder"

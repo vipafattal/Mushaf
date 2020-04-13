@@ -8,7 +8,7 @@ import com.brilliancesoft.mushaf.framework.data.local.LocalDataSource
 import com.brilliancesoft.mushaf.framework.utils.NewAPI
 import com.brilliancesoft.mushaf.framework.utils.ReciterRequestGenerator
 import com.brilliancesoft.mushaf.model.*
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
 import com.brilliancesoft.mushaf.utils.extensions.onComplete
 import com.tonyodev.fetch2.Fetch
@@ -104,7 +104,7 @@ class Repository : RepositoryProviders {
 
         if (allReciterDownloads.isNotEmpty()) {
             for (ayaNumber in 1..MushafConstants.AyatNumber) if (allReciterDownloads.firstOrNull { it.number == ayaNumber } == null) {
-                val aya = QuranViewModel.QuranDataList[ayaNumber - 1]
+                val aya = QuranViewModel.MainQuranList[ayaNumber - 1]
                 val request =
                     ReciterRequestGenerator.createRequestFromFile(
                         reciterName,
@@ -116,7 +116,7 @@ class Repository : RepositoryProviders {
 
             }
         } else {
-            notDownloadedAyaRequest = QuranViewModel.QuranDataList.map {
+            notDownloadedAyaRequest = QuranViewModel.MainQuranList.map {
                 ReciterRequestGenerator.createRequestFromFile(
                     reciterName,
                     reciterId,

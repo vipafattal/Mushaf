@@ -2,7 +2,7 @@ package com.brilliancesoft.mushaf.framework.commen
 
 import android.net.Uri
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.more.SettingsPreferencesConstant
 import com.codebox.lib.android.resoures.Stringer
 import com.codebox.lib.android.utils.AppPreferences

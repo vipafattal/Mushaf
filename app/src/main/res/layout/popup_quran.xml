@@ -1,152 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/popup_quran"
-    android:layout_height="@dimen/popup_quran_height"
-    android:layout_width="wrap_content"
-    android:layout_gravity="center_horizontal"
+    android:id="@+id/popup_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
-    android:scaleX="0"
-    android:scaleY="0"
-    app:cardBackgroundColor="@color/colorPrimary"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="12dp"
-    app:cardPreventCornerOverlap="false"
-    tools:scaleX="1"
-    tools:scaleY="1">
+    android:soundEffectsEnabled="false"
+    android:visibility="invisible"
+    tools:visibility="visible">
+    <com.google.android.material.card.MaterialCardView
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:id="@+id/popup_quran"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/popup_quran_height"
+        android:layout_gravity="center_horizontal"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleX="0"
+        android:scaleY="0"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="12dp"
+        app:cardPreventCornerOverlap="false"
+        tools:scaleX="1"
+        tools:scaleY="1">
 
         <LinearLayout
-            android:id="@+id/bookmark_popup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/popup_margin_ending"
-            android:layout_marginRight="@dimen/popup_margin_ending"
-            android:background="?selectableItemBackgroundBorderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-
-            <ImageView
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-                app:srcCompat="@drawable/ic_bookmark" />
-
-            <TextView
-                android:id="@+id/bookmarkPopupTextView"
+            <LinearLayout
+                android:id="@+id/bookmark_popup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bookmark_add"
-                android:textColor="#fff"
-                android:textSize="@dimen/popup_quran_text_size" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/translate_popup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/popup_margin_ending"
-            android:layout_marginRight="@dimen/popup_margin_ending"
-            android:background="?selectableItemBackgroundBorderless"
-            android:gravity="center"
-            android:orientation="vertical">
-
-
-            <ImageView
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-                app:srcCompat="@drawable/ic_translate" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tafseer_translation"
-                android:textColor="#fff"
-                android:textSize="@dimen/popup_quran_text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/share_popup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/popup_margin_ending"
-            android:layout_marginRight="@dimen/popup_margin_ending"
-            android:background="?selectableItemBackgroundBorderless"
-            android:gravity="center"
-            android:orientation="vertical">
-
-
-            <ImageView
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
-                app:srcCompat="@drawable/ic_share" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/share"
-                android:textColor="#fff"
-                android:textSize="@dimen/popup_quran_text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/wordByWord_popup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/popup_margin_ending"
-            android:layout_marginRight="@dimen/popup_margin_ending"
-            android:background="?selectableItemBackgroundBorderless"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/action_image_size"
-
-                android:layout_height="@dimen/action_image_size"
+                android:layout_marginEnd="@dimen/popup_margin_ending"
+                android:layout_marginRight="@dimen/popup_margin_ending"
                 android:background="?selectableItemBackgroundBorderless"
-                android:padding="1dp"
-                app:srcCompat="@drawable/ic_defining" />
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <TextView
+
+                <ImageView
+                    android:layout_width="@dimen/action_image_size"
+                    android:layout_height="@dimen/action_image_size"
+                    app:srcCompat="@drawable/ic_bookmark" />
+
+                <TextView
+                    android:id="@+id/bookmarkPopupTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bookmark_add"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/popup_quran_text_size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/translate_popup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/definition"
-                android:textColor="#fff"
-                android:textSize="@dimen/popup_quran_text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/play_popup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackgroundBorderless"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"
+                android:layout_marginEnd="@dimen/popup_margin_ending"
+                android:layout_marginRight="@dimen/popup_margin_ending"
                 android:background="?selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_play" />
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <TextView
+
+                <ImageView
+                    android:layout_width="@dimen/action_image_size"
+                    android:layout_height="@dimen/action_image_size"
+                    app:srcCompat="@drawable/ic_translate" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tafseer_translation"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/popup_quran_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/share_popup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/play"
-                android:textColor="#fff"
-                android:textSize="@dimen/popup_quran_text_size" />
+                android:layout_marginEnd="@dimen/popup_margin_ending"
+                android:layout_marginRight="@dimen/popup_margin_ending"
+                android:background="?selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="@dimen/action_image_size"
+                    android:layout_height="@dimen/action_image_size"
+                    app:srcCompat="@drawable/ic_share" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/popup_quran_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/wordByWord_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/popup_margin_ending"
+                android:layout_marginRight="@dimen/popup_margin_ending"
+                android:background="?selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/action_image_size"
+
+                    android:layout_height="@dimen/action_image_size"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:padding="1dp"
+                    app:srcCompat="@drawable/ic_defining" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/definition"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/popup_quran_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/play_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/action_image_size"
+                    android:layout_height="@dimen/action_image_size"
+                    android:background="?selectableItemBackgroundBorderless"
+                    app:srcCompat="@drawable/ic_play" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/play"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/popup_quran_text_size" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
-
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

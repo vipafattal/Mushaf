@@ -4,11 +4,13 @@ import android.os.Bundle
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.CustomToast
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
-import com.brilliancesoft.mushaf.ui.commen.ViewModelFactory
-import com.brilliancesoft.mushaf.ui.commen.dialog.DownloadDialog
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
+import com.brilliancesoft.mushaf.ui.common.dialog.DownloadDialog
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.utils.TabStyle
 import com.brilliancesoft.mushaf.utils.extensions.observeOnMainThread
+import com.brilliancesoft.mushaf.utils.extensions.setTabStyle
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import kotlinx.android.synthetic.main.activity_manage_library.*
 import javax.inject.Inject
@@ -17,6 +19,7 @@ class ManageLibraryActivity : BaseActivity() {
 
     @Inject
     lateinit var repository: Repository
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -38,7 +41,7 @@ class ManageLibraryActivity : BaseActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         intent.extras?.apply {
-            val editionId = getString(DOWNLOAD_EDITION_KEY,"")
+            val editionId = getString(DOWNLOAD_EDITION_KEY, "")
 
             if (editionId.isNotEmpty() && supportFragmentManager.findFragmentByTag(DownloadDialog.TAG) == null)
                 showDownloadDialog(editionId)
@@ -48,17 +51,26 @@ class ManageLibraryActivity : BaseActivity() {
         repository.errorStream.filter { it.isNotEmpty() }
             .observeOnMainThread { CustomToast.makeLong(this, it) }
 
-        val tabPagerAdapter = TabPagerAdapter(this, supportFragmentManager)
-        viewpager_manage_library.adapter = tabPagerAdapter
-        tabs_manage_library.setupWithViewPager(viewpager_manage_library)
-        // Iterate over all tabs and set the custom view
-        for (i in 0 until tabs_manage_library.tabCount) {
-            val tab = tabs_manage_library.getTabAt(i)
-            tab?.customView = tabPagerAdapter.bindView(i)
+        val tabPagerAdapter = TabPagerAdapter(this)
+        libraryManagerPager.adapter = tabPagerAdapter
+        libraryManagerPager.setTabStyle(tabs_manage_library) { position ->
+            val tabTitle: String
+            val tabIcon: Int
+            when (position) {
+                0 -> {
+                    tabTitle = getString(R.string.tafseer)
+                    tabIcon = R.drawable.ic_defining
+                }
+                else -> {
+                    tabTitle = getString(R.string.translate)
+                    tabIcon = R.drawable.ic_translate
+                }
+            }
+            TabStyle(tabTitle, tabIcon)
         }
     }
 
-    fun showDownloadDialog(editionId:String){
+    fun showDownloadDialog(editionId: String) {
 
         val downloadDialog = DownloadDialog()
 

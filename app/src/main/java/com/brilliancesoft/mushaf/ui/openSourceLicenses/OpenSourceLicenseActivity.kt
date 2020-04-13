@@ -2,7 +2,7 @@ package com.brilliancesoft.mushaf.ui.openSourceLicenses
 
 import android.os.Bundle
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.utils.LocalJsonParser
 import kotlinx.android.synthetic.main.activity_open_source_license.*
 

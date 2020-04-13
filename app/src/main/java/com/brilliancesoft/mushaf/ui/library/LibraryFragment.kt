@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.ui.MainActivity
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.library.manage.ManageLibraryActivity
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseFragment
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseFragment
 import com.brilliancesoft.mushaf.ui.search.SearchActivity
 import com.brilliancesoft.mushaf.utils.extensions.onScroll
 import com.codebox.lib.android.actvity.launchActivity

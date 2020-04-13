@@ -7,7 +7,7 @@ import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.framework.database.MushafDao
 import com.brilliancesoft.mushaf.framework.database.MushafDatabase
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.codebox.lib.android.resoures.Stringer
 import com.codebox.lib.extrenalLib.TinyDB
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

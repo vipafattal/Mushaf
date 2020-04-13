@@ -1,32 +1,69 @@
 package com.brilliancesoft.mushaf.utils.extensions
 
 import android.graphics.Color
-import android.graphics.Rect
 import android.os.Build
-import android.os.Handler
+import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.core.widget.NestedScrollView
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.utils.OnPageSelectedListener
 import com.brilliancesoft.mushaf.model.Aya
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.utils.TabStyle
 import com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranTextView
 import com.brilliancesoft.mushaf.utils.CustomClickableSpan
 import com.brilliancesoft.mushaf.utils.toLocalizedNumber
-import com.codebox.lib.android.os.wait
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.views.listeners.onClick
 import com.google.android.material.chip.Chip
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 /**
  * Created by ${User} on ${Date}
  */
 
+/*
+fun ViewPager2.zoomOutPages(pageMarginPx: Int, offsetPx: Int) {
+
+ clipToPadding = false
+    clipChildren = false
+    offscreenPageLimit = 3
+    (adapter as? QuranPagerAdapter)?.updateZoom(this,true,currentItem)
+
+    // Save state
+    setPageTransformer { page, position ->
+
+        val offset = position * -(2 * offsetPx + pageMarginPx)
+        if (this.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
+            if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                page.translationX = -offset
+            } else {
+                page.translationX = offset
+            }
+        } else {
+            page.translationY = -offset
+        }
+    }
+}
+
+fun ViewPager2.restZoom() {
+
+   offscreenPageLimit = 1
+    (adapter as? QuranPagerAdapter)?.updateZoom(this,false,currentItem)
+    setPageTransformer { page, _ ->
+
+        if (this.orientation == ViewPager2.ORIENTATION_HORIZONTAL)
+            page.translationX = 0f
+         else
+            page.translationY = 0f
+
+    }
+}*/
 
 inline fun <T : View> T.onLongClick(crossinline block: T.() -> Unit) {
     setOnLongClickListener {
@@ -58,40 +95,42 @@ fun QuranTextView.callClickOnSpan(aya: Aya) {
 
     val clickableSpan = customClickableSpans[0]
     clickableSpan.onClick(this)
-    (parent.parent.parent as NestedScrollView).smoothScrollTo(
-        clickableSpan.clickX,
-        clickableSpan.clickY
-    )
-    Handler().wait(200) {
-        clickableSpan.onClick(this)
+
+    (parent.parent.parent as RecyclerView).scrollTo(0, clickableSpan.clickY)
+}
+
+fun TextView.setTextSizeFromType(@StringRes type: Int) {
+    val textDimenRes = when (type) {
+        R.string.small_font_size -> R.dimen._16ssp
+        R.string.medium_font_size -> R.dimen._19ssp
+        R.string.large_font_size -> R.dimen._25ssp
+        R.string.x_large_font_size -> R.dimen._29ssp
+        else -> throw IllegalArgumentException("Unknown text size type")
     }
+
+    setTextSize(
+        TypedValue.COMPLEX_UNIT_PX,
+        MushafApplication.appContext.resources.getDimension(textDimenRes)
+    )
 }
 
-fun scrollToView(
-    scrollView: NestedScrollView,
-    scrollableContent: ViewGroup,
-    viewToScroll: View
-) {
-    val delay: Long = 100 //delay to let finish with possible modifications to ScrollView
-    scrollView.postDelayed({
-        val viewToScrollRect =
-            Rect() //coordinates to scroll to
-        viewToScroll.getHitRect(viewToScrollRect) //fills viewToScrollRect with coordinates of viewToScroll relative to its parent (LinearLayout)
-        scrollView.requestChildRectangleOnScreen(
-            scrollableContent,
-            viewToScrollRect,
-            false
-        ) //ScrollView will make sure, the given viewToScrollRect is visible
-    }, delay)
-}
-
-inline fun ViewPager.addOnPageSelectedListener(crossinline block: (position: Int) -> Unit) {
-    addOnPageChangeListener(object : OnPageSelectedListener {
-
+inline fun ViewPager2.addOnPageSelectedListener(crossinline block: (position: Int) -> Unit) {
+    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
             block.invoke(position)
         }
     })
+}
+
+fun ViewPager2.setTabStyle(tabs: TabLayout, tabPosition: (position: Int) -> TabStyle) {
+    TabLayoutMediator(tabs,
+        this,
+        TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+            val tabStyle = tabPosition(position)
+            tab.text = tabStyle.title
+            tab.setIcon(tabStyle.icon)
+        }).attach()
 
 }
 

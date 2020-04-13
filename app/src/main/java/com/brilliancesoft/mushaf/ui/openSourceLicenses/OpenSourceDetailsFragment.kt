@@ -4,7 +4,7 @@ package com.brilliancesoft.mushaf.ui.openSourceLicenses
 import android.os.Bundle
 
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseFragment
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseFragment
 import kotlinx.android.synthetic.main.fragment_open_source_details.*
 
 

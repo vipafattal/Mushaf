@@ -18,7 +18,7 @@ class WordByWordLoader(val repository: Repository) {
 
     fun getDataWordByWord(
         coroutineScope: CoroutineScope,
-        selectedData: ArrayList<String>,
+        selectedData: List<String>,
         ayaFromSelectedText: Aya,
         onSuccess: (List<Pair<String?, String>>) -> Unit,
         doOnEmptyData: () -> Unit

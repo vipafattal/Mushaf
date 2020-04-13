@@ -19,10 +19,11 @@ import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.ReadTranslation
 import com.brilliancesoft.mushaf.model.Surah
-import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
-import com.brilliancesoft.mushaf.utils.RecyclerViewItemClickedListener
+import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
+import com.brilliancesoft.mushaf.ui.common.RecyclerViewItemClickedListener
 import com.brilliancesoft.mushaf.utils.extensions.onScroll
 import com.brilliancesoft.mushaf.utils.extensions.updatePadding
 import com.brilliancesoft.mushaf.utils.toLocalizedNumber
@@ -57,11 +58,11 @@ class ReadLibraryActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= 23) {
-            if (!MushafApplication.isDarkThemeEnabled) window.decorView.systemUiVisibility =
+            if (!UserPreferences.isDarkThemeEnabled) window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
             window.statusBarColor =
-                if (MushafApplication.isDarkThemeEnabled) Colour(R.color.color_background_dark) else Color.WHITE
+                if (UserPreferences.isDarkThemeEnabled) Colour(R.color.color_background_dark) else Color.WHITE
         }
 
         setContentView(R.layout.activity_read_library)
@@ -71,7 +72,7 @@ class ReadLibraryActivity : BaseActivity() {
         }
 
         val navigationIcon = Image(R.drawable.ic_menu)
-        if (MushafApplication.isDarkThemeEnabled) navigationIcon?.setTint(Color.WHITE)
+        if (UserPreferences.isDarkThemeEnabled) navigationIcon?.setTint(Color.WHITE)
 
         toolbar_library_surah.navigationIcon = navigationIcon
         readAdapter = ReadLibraryAdapter(readSurahData, repository,coroutineScope)
@@ -230,14 +231,14 @@ class ReadLibraryActivity : BaseActivity() {
 
         fastScrollButton.setImageResource(R.drawable.ic_move_to_page)
         fastScrollButton.setOnClickListener { showAyaNumberPopup(fastScrollButton) }
-        fastScrollButton.setColorFilter(if (MushafApplication.isDarkThemeEnabled) Color.WHITE else Color.BLACK)
+        fastScrollButton.setColorFilter(if (UserPreferences.isDarkThemeEnabled) Color.WHITE else Color.BLACK)
     }
 
     private var ayaPopupMenu: MaterialPopupMenu? = null
     private fun initAyaNumberPopup() {
         if (readSurahData.isNotEmpty()) {
             ayaPopupMenu = popupMenu {
-                if (MushafApplication.isDarkThemeEnabled)
+                if (UserPreferences.isDarkThemeEnabled)
                     style = R.style.Widget_MPM_Menu_Dark_DarkBackground
                 section {
                     title = getString(R.string.select_aya)

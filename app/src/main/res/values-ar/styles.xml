@@ -1,14 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/normal_ar</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="iconsColor">#838383</item>
+        <item name="iconsColor">@color/colorPrimary</item>
         <item name="android:textColorPrimary">#000</item>
         <item name="android:textColor">#000</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
@@ -19,11 +18,15 @@
         <item name="toolbarColor">#fff</item>
         <item name="transparentBackground">#E6E7F9E8</item>
         <item name="transparentItem">#DEFFFFFF</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@android:color/white</item>
     </style>
 
     <style name="AppTheme.Dark">
         <item name="android:fontFamily">@font/normal_ar</item>
+        <item name="iconsColor">@android:color/white</item>
         <item name="android:textColor">#FFF</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
         <item name="android:textColorPrimary">#FFF</item>
         <item name="android:colorBackground">@color/color_background_dark</item>
         <item name="readBackground">@android:color/black</item>
@@ -31,7 +34,8 @@
         <item name="toolbarColor">@color/color_background_dark</item>
         <item name="transparentBackground">#E6000000</item>
         <item name="transparentItem">#DE121314</item>
-
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@android:color/black</item>
     </style>
 
 

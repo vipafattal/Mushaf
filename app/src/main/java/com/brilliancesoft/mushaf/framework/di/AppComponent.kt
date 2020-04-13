@@ -4,15 +4,16 @@ import com.brilliancesoft.mushaf.framework.DownloadService
 import com.brilliancesoft.mushaf.framework.data.local.LocalDataSource
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.ui.MainActivity
+import com.brilliancesoft.mushaf.ui.SplashActivity
 import com.brilliancesoft.mushaf.ui.bookmarks.BookmarksFragment
-import com.brilliancesoft.mushaf.ui.commen.dialog.DownloadDialog
+import com.brilliancesoft.mushaf.ui.common.dialog.DownloadDialog
 import com.brilliancesoft.mushaf.ui.library.LibraryFragment
 import com.brilliancesoft.mushaf.ui.library.manage.ManageLibraryActivity
 import com.brilliancesoft.mushaf.ui.library.manage.TabFragment
 import com.brilliancesoft.mushaf.ui.library.read.ReadLibraryActivity
 import com.brilliancesoft.mushaf.ui.quran.QuranIndexFragment
+import com.brilliancesoft.mushaf.ui.quran.read.page.QuranActions
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
-import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranPagerAdapter
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.ReciterBottomSheet
 import com.brilliancesoft.mushaf.ui.quran.read.translation.TranslationBottomSheet
 import com.brilliancesoft.mushaf.ui.search.SearchActivity
@@ -48,6 +49,7 @@ interface AppComponent {
     fun inject(reciterBottomSheet: ReciterBottomSheet)
     fun inject(bookmarksFragment: BookmarksFragment)
     fun inject(downloadService: DownloadService)
-    fun inject(readQuranPagerAdapter: ReadQuranPagerAdapter)
+    fun inject(quranActions: QuranActions)
+    fun inject(splashActivity: SplashActivity)
 
 }

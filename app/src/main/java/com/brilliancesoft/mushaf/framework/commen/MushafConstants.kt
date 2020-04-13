@@ -17,7 +17,7 @@ object MushafConstants {
     const val Audio = "audio"
 
     const val AyatNumber = 6236
-    const val SurahsNumber = 604
+    const val QuranPages = 604
     const val Fatiha = "Al-Faatiha"
     const val Tawba = "At-Tawba"
 

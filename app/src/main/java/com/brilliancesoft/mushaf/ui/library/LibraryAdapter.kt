@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.model.ShortcutDetails
-import com.brilliancesoft.mushaf.ui.commen.Fonts
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.Fonts
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
 import com.brilliancesoft.mushaf.ui.library.read.ReadLibraryActivity
 import com.brilliancesoft.mushaf.utils.Shortcut
 import com.brilliancesoft.mushaf.utils.extensions.bundleOf
@@ -69,7 +69,7 @@ class LibraryAdapter(private val dataList: List<Edition>) : RecyclerView.Adapter
         private fun createShortcutPopup(edition: Edition) {
 
             val shortcutPopup = popupMenu {
-                if (MushafApplication.isDarkThemeEnabled)
+                if (UserPreferences.isDarkThemeEnabled)
                     style = R.style.Widget_MPM_Menu_Dark_DarkBackground
                 section {
                     item {
@@ -77,7 +77,7 @@ class LibraryAdapter(private val dataList: List<Edition>) : RecyclerView.Adapter
                         callback =
                             {
                                 val shortcutDetails =
-                                    ShortcutDetails(edition.identifier, edition.name, R.drawable.ic_book)
+                                    ShortcutDetails(edition.identifier, edition.name, R.drawable.ic_icon_book)
                                 Shortcut.create(itemView.context, shortcutDetails, getShortcutIntent(edition))
                             }
                     }
@@ -93,7 +93,7 @@ class LibraryAdapter(private val dataList: List<Edition>) : RecyclerView.Adapter
             val bundle = editionToBundle(edition)
             intent.putExtras(bundle)
 
-            val shortcutDetails = ShortcutDetails(edition.identifier, edition.name, R.drawable.ic_book)
+            val shortcutDetails = ShortcutDetails(edition.identifier, edition.name, R.drawable.ic_icon_book)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
                 Shortcut.createDynamicShortcut(itemView.context, shortcutDetails, getShortcutIntent(edition))
 

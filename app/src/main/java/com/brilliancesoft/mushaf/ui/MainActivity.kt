@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.ui.bookmarks.BookmarksFragment
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.library.LibraryFragment
 import com.brilliancesoft.mushaf.ui.more.SettingsFragment
 import com.brilliancesoft.mushaf.ui.quran.QuranIndexFragment
 import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.fragments.replaceFragment
 import com.codebox.lib.android.views.utils.invisible
@@ -29,26 +29,19 @@ import javax.inject.Inject
 
 
 class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
-    @Inject
-    lateinit var repository: Repository
     private var disposable: Disposable? = null
     private lateinit var navigationViewModel: NavigationViewModel
-
-
-    init {
-        MushafApplication.appComponent.inject(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        navigationViewModel = viewModelOf(NavigationViewModel::class.java)
-        GlobalScope.launch(Dispatchers.IO) { repository.getAvailableReciters(true) }
+        navigationViewModel = viewModelOf<NavigationViewModel>()
 
         if (savedInstanceState != null) {
             val (navigationId, currentFragment) = navigationViewModel.getCurrentNavigation()

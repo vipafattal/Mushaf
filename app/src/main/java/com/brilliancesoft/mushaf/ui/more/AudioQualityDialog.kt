@@ -28,7 +28,7 @@ class AudioQualityDialog : DialogFragment() {
             else -> high_audio_quality.isChecked = true
         }
 
-        audioQualityGroup.setOnCheckedChangeListener { group, checkedId ->
+        audioQualityGroup.setOnCheckedChangeListener { _, checkedId ->
             val qualityNumber: Int = when (checkedId) {
                 R.id.low_audio_quality -> 0
                 R.id.medium_audio_quality -> 1

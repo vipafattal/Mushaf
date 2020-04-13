@@ -86,10 +86,15 @@ data class Aya @Ignore constructor(
         return "${getTextWithoutBasmalih()} ${numberInSurah.toLocalizedNumber()} "
     }
 
+    private fun getEndIndexOfBasmalih(): Int {
+        val string = "ٱلرَّحِيمِ"
+        return text.indexOf(string, 0) + string.length
+    }
+
     fun getTextWithoutBasmalih() =
-        if (surah!!.englishName != MushafConstants.Fatiha && numberInSurah == 1)
-            text.replaceFirst("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ", "")
-        else text
+        if (numberInSurah == 1 && surah!!.englishName != MushafConstants.Fatiha) {
+            text.replaceRange(0, getEndIndexOfBasmalih(), "")
+        } else text
 
 
 }

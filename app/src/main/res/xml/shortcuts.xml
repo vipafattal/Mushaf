@@ -7,8 +7,8 @@
       android:shortcutShortLabel="@string/last_page"
       android:shortcutLongLabel="@string/last_page">
     <intent
-        android:action="com.brilliancesoft.mushaf.ui.commen.last_page"
-        android:targetClass="com.brilliancesoft.mushaf.ui.quran.sharedComponent.ShortcutsActivity"
+        android:action="com.brilliancesoft.mushaf.ui.common.last_page"
+        android:targetClass="com.brilliancesoft.mushaf.ui.common.sharedComponent.ShortcutsActivity"
         android:targetPackage="com.brilliancesoft.mushaf"
         />
   </shortcut>

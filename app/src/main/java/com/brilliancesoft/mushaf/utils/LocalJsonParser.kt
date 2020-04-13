@@ -1,6 +1,6 @@
 package com.brilliancesoft.mushaf.utils
 
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication.Companion.appContext
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication.Companion.appContext
 import kotlinx.io.IOException
 import kotlinx.io.InputStream
 import kotlinx.serialization.DeserializationStrategy

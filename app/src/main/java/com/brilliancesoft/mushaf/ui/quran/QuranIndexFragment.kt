@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.MainActivity
-import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
-import com.brilliancesoft.mushaf.ui.commen.ViewModelFactory
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.ui.quran.read.NavigateToPageDialog
+import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
+import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.quran.read.page.NavigateToPageDialog
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseFragment
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseFragment
 import com.brilliancesoft.mushaf.ui.search.SearchActivity
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.onScroll
@@ -48,6 +48,7 @@ class QuranIndexFragment : BaseFragment() {
         viewModel = viewModelOf(QuranViewModel::class.java, viewModelFactory)
 
         initToolbar()
+        activity?.runOnUiThread {  }
 
         viewModel.getMainMushaf().observer(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -57,14 +58,7 @@ class QuranIndexFragment : BaseFragment() {
                 errorViewVisible()
             }
         }
-        loadData()
     }
-
-    override fun loadData() {
-        super.loadData()
-        viewModel.prepareData()
-    }
-
 
     private fun dispatchAyatData(ayat: List<Aya>) {
         fast_page_transition.visible()
@@ -78,12 +72,12 @@ class QuranIndexFragment : BaseFragment() {
         showToolbarActions()
     }
 
-
     private fun initRecyclerView(data: List<Aya>) {
         quranlist_recyclerView.adapter = QuranIndexAdapter(data, false)
 
         fast_page_transition.onClick {
-                val pageNavDialog = NavigateToPageDialog()
+                val pageNavDialog =
+                    NavigateToPageDialog()
             pageNavDialog.show(parentFragmentManager, NavigateToPageDialog.TAG)
         }
 

@@ -8,7 +8,7 @@ import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.model.Translation
-import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
+import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
 import com.brilliancesoft.mushaf.utils.extensions.addIfNotNull
 import com.codebox.lib.extrenalLib.TinyDB
 import kotlinx.coroutines.Dispatchers

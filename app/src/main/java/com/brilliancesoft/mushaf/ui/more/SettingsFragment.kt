@@ -6,10 +6,15 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.ui.MainActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
+import com.brilliancesoft.mushaf.ui.more.textSize.TextSizeBottomSheet
+import com.brilliancesoft.mushaf.ui.more.textSize.TextSizeViewModel
 import com.brilliancesoft.mushaf.ui.openSourceLicenses.OpenSourceLicenseActivity
 import com.brilliancesoft.mushaf.utils.LocaleHelper
 import com.brilliancesoft.mushaf.utils.extensions.goTo
+import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.onPreferencesClick
+import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.actvity.launchActivity
 import com.codebox.lib.android.utils.AppPreferences
 
@@ -19,7 +24,6 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
     override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
         newValue as Boolean
-
         when (preference.key) {
             getString(R.string.dark_mode) -> {
                 sharedPreference.put(SettingsPreferencesConstant.AppThemeKey, newValue)
@@ -36,6 +40,10 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 else LocaleHelper.setAppLocale(activity!!, "en")
                 activity?.recreate()
             }
+
+            getString(R.string.vertical_quran_page) ->
+                sharedPreference.put(SettingsPreferencesConstant.VerticalQuranPageKey, newValue)
+
             getString(R.string.arabic_numbers) -> sharedPreference.put(
                 SettingsPreferencesConstant.ArabicNumbersKey,
                 newValue
@@ -56,6 +64,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         val translationWithAya =
             findPreference<CheckBoxPreference>(getString(R.string.translation_with_aya))!!
         val arabicNumbers = findPreference<CheckBoxPreference>(getString(R.string.arabic_numbers))!!
+        val verticalQuranPage =
+            findPreference<CheckBoxPreference>(getString(R.string.vertical_quran_page))!!
+        val textSize = findPreference<Preference>(getString(R.string.font_size_key))!!
 
         darkMode.isChecked = sharedPreference.getBoolean(SettingsPreferencesConstant.AppThemeKey)
         val currentLocal = sharedPreference.getStr(SettingsPreferencesConstant.AppLanguageKey)
@@ -65,11 +76,21 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         arabicNumbers.isChecked =
             sharedPreference.getBoolean(SettingsPreferencesConstant.ArabicNumbersKey)
 
+        verticalQuranPage.isChecked =
+            sharedPreference.getBoolean(SettingsPreferencesConstant.VerticalQuranPageKey, false)
+        textSize.summary = getString(UserPreferences.getFontSize())
         darkMode.onPreferenceChangeListener = this
         languageMode.onPreferenceChangeListener = this
         translationWithAya.onPreferenceChangeListener = this
         arabicNumbers.onPreferenceChangeListener = this
+        verticalQuranPage.onPreferenceChangeListener = this
 
+        onPreferencesClick(R.string.font_size_key){
+            TextSizeBottomSheet.show(parentFragmentManager)
+            viewModelOf<TextSizeViewModel>().selectedTextSize.observer(this){
+                textSize.summary = getString(it)
+            }
+        }
 
         onPreferencesClick(R.string.data_disclaimer) {
             context?.goTo("https://alquran.cloud/")
@@ -77,13 +98,15 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         onPreferencesClick(R.string.audio_quality_options) {
             val audioQualityDialog = AudioQualityDialog()
-            fragmentManager?.let { audioQualityDialog.show(it, AudioQualityDialog.TAG) }
+            audioQualityDialog.show(parentFragmentManager, AudioQualityDialog.TAG)
         }
         onPreferencesClick(R.string.open_source_license) {
             context?.launchActivity<OpenSourceLicenseActivity>()
         }
+    }
 
-
+    companion object {
+        private const val TEXT_SIZE_DIALOG_DISMISS = 0
     }
 
 }

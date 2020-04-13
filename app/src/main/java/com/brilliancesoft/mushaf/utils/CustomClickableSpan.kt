@@ -62,11 +62,11 @@ abstract class CustomClickableSpan : ClickableSpan() {
 
         var x = (parentTextViewRect.left + parentTextViewRect.right) / 2
         val y = parentTextViewRect.bottom
-        if (keywordIsInMultiLine) {
+        if (keywordIsInMultiLine)
             x = parentTextViewRect.left
-        }
 
-        clickX = x; clickY = y
+        clickX = x
+        clickY = y
         onClick(parentTextView, x, y)
     }
 

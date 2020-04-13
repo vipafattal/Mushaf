@@ -9,9 +9,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-sdk tools:overrideLibrary="com.github.zawadz88.materialpopupmenu" />
 
     <application
-        android:name="com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication"
+        android:name=".ui.common.sharedComponent.MushafApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,36 +21,38 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name="com.brilliancesoft.mushaf.ui.openSourceLicenses.OpenSourceLicenseActivity" />
-        <activity android:name="com.brilliancesoft.mushaf.ui.search.SearchActivity" />
         <activity
-            android:name="com.brilliancesoft.mushaf.ui.library.read.ReadLibraryActivity"
-            android:exported="true" />
-        <activity android:name="com.brilliancesoft.mushaf.ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
+            android:name=".ui.SplashActivity"
+            android:theme="@style/AppTheme.Launcher">
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.openSourceLicenses.OpenSourceLicenseActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
         <activity
-            android:name="com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity"
+            android:name=".ui.library.read.ReadLibraryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.quran.read.ReadQuranActivity"
             android:configChanges="screenSize|orientation"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.brilliancesoft.mushaf.ui.library.manage.ManageLibraryActivity"
+            android:name=".ui.library.manage.ManageLibraryActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.brilliancesoft.mushaf.ui.quran.sharedComponent.ShortcutsActivity"
+            android:name=".ui.common.sharedComponent.ShortcutsActivity"
             android:exported="true" />
 
         <service
-            android:name="com.brilliancesoft.mushaf.framework.DownloadService"
-            android:enabled="true"></service>
+            android:name=".framework.DownloadService"
+            android:enabled="true" />
     </application>
 
 </manifest>

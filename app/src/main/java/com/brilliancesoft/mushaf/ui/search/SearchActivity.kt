@@ -11,9 +11,9 @@ import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.framework.utils.TextTypeOpt
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Edition
-import com.brilliancesoft.mushaf.ui.commen.ViewModelFactory
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.utils.extensions.*
 import com.codebox.lib.android.views.listeners.onClick
 import com.codebox.lib.android.views.utils.gone

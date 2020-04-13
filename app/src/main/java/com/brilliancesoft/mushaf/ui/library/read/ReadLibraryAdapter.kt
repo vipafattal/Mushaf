@@ -9,11 +9,13 @@ import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.model.ReadTranslation
-import com.brilliancesoft.mushaf.ui.commen.Fonts
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.Fonts
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.more.SettingsPreferencesConstant
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
 import com.brilliancesoft.mushaf.utils.TextActionUtil
+import com.brilliancesoft.mushaf.utils.extensions.setTextSizeFromType
 import com.brilliancesoft.mushaf.utils.extensions.updatePadding
 import com.brilliancesoft.mushaf.utils.toLocalizedNumber
 import com.codebox.lib.android.resoures.Colour
@@ -39,24 +41,21 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
                          private val coroutineScope:CoroutineScope) :
     RecyclerView.Adapter<ReadLibraryAdapter.ViewHolder>() {
 
+    private val textSizeType = UserPreferences.getFontSize()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(R.layout.item_library_read, parent)
 
     override fun getItemCount(): Int = dataList.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = dataList[position]
         val isLastPosition = dataList.size - 1 == position
         holder.bindData(data, position, isLastPosition)
     }
-
     inner class ViewHolder(
         viewType: Int,
         parent: ViewGroup) :
         RecyclerView.ViewHolder(parent.inflater(viewType)) {
-
-
 
         private val appPreferences = AppPreferences()
 
@@ -68,13 +67,17 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
             val isTranslationWithAya =
                 appPreferences.getBoolean(SettingsPreferencesConstant.TranslationWithAyaKey, true)
 
-            if (isTranslationWithAya && readTranslation.editionInfo.type != Edition.Quran) itemView.aya_text.text =
-                readTranslation.quranicText
+            if (isTranslationWithAya && readTranslation.editionInfo.type != Edition.Quran){
+                itemView.aya_text.text =
+                    readTranslation.quranicText
+                itemView.aya_text.setTextSizeFromType(textSizeType)
+            }
             //whiteSpaceMagnifier(readTranslation.quranicText)
             else itemView.aya_text.gone()
 
             itemView.translation_tafseer_text_library.typeface = Fonts.getTranslationFont(context,readTranslation.editionInfo.language)
             itemView.translation_tafseer_text_library.text = readTranslation.translationText
+            itemView.translation_tafseer_text_library.setTextSizeFromType(textSizeType)
             updateViewToBookmarked(readTranslation.isBookmarked)
 
             itemView.aya_number_library.text = readTranslation.numberInSurah.toString().toLocalizedNumber()
@@ -82,10 +85,9 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
             itemView.item_read_library_root_view.onClick {
                 createPopup(readTranslation, context as BaseActivity,position)
             }
-            if (isLastPosition)
-                itemView.divider_item_library.invisible()
-            else
-                itemView.divider_item_library.visible()
+
+            if (isLastPosition) itemView.divider_item_library.invisible()
+            else itemView.divider_item_library.visible()
         }
 
         private fun updateViewToBookmarked(isBookmarked: Boolean) {
@@ -95,7 +97,7 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
 
         private fun createPopup(readTranslation: ReadTranslation, activity: BaseActivity, index: Int) {
             val popupMenu = popupMenu {
-                if (MushafApplication.isDarkThemeEnabled)
+                if (UserPreferences.isDarkThemeEnabled)
                     style = R.style.Widget_MPM_Menu_Dark_DarkBackground
                 section {
                     item {
@@ -108,7 +110,7 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
                     }
                     item {
                         val shareText = convertTranslationToShare(readTranslation, activity)
-                        label = Stringify(R.string.copy_text, activity)
+                        label = Stringify(R.string.copy_text , activity)
                         callback = {
                             TextActionUtil.copyToClipboard(activity, shareText)
                             CustomToast.makeShort(activity, R.string.text_copied)

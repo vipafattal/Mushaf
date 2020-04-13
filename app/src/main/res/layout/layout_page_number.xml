@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="65dp">
+    android:paddingBottom="40dp">
 <TextView
-    android:id="@+id/pageNumber"
+    android:id="@+id/pageNumberQuran"
     android:layout_width="70dp"
     android:layout_height="55dp"
     android:layout_margin="30dp"

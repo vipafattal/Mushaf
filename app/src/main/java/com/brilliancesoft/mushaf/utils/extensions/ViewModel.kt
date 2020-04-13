@@ -15,12 +15,12 @@ inline fun <T> LiveData<T>.observer(owner: LifecycleOwner, crossinline doOnObser
     })
 
 
-fun <T : ViewModel> Fragment.viewModelOf(viewModelClass: Class<T>) =
-    ViewModelProvider(activity!!).get(viewModelClass)
+inline fun <reified  T : ViewModel> Fragment.viewModelOf() =
+    ViewModelProvider(activity!!).get(T::class.java)
 
 
-fun <T : ViewModel> AppCompatActivity.viewModelOf(viewModelClass: Class<T>) =
-    ViewModelProvider(this).get(viewModelClass)
+inline fun <reified  T : ViewModel> AppCompatActivity.viewModelOf() =
+    ViewModelProvider(this).get(T::class.java)
 
 fun <T : ViewModel> AppCompatActivity.viewModelOf(
     viewModelClass: Class<T>,

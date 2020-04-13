@@ -16,7 +16,7 @@ import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.DownloadingState
 import com.brilliancesoft.mushaf.model.Edition
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.library.manage.ManageLibraryActivity
 import com.brilliancesoft.mushaf.utils.extensions.bundleOf
 import io.reactivex.disposables.Disposable

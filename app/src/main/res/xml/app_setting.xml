@@ -1,61 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-            android:title="@string/app_ِappearance">
+    <PreferenceCategory android:title="@string/app_ِappearance">
 
         <CheckBoxPreference
-                android:defaultValue="false"
-                android:title="@string/dark_mode"
-                android:key="@string/dark_mode"/>
+            android:defaultValue="false"
+            android:key="@string/dark_mode"
+            android:title="@string/dark_mode" />
 
         <CheckBoxPreference
-                android:summaryOff="@string/arabic_mode_off"
-                android:defaultValue="false"
-                android:title="@string/arabic_mode"
-                android:key="@string/arabic_mode"/>
+            android:defaultValue="false"
+            android:key="@string/arabic_mode"
+            android:summaryOff="@string/arabic_mode_off"
+            android:title="@string/arabic_mode" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/reading">
 
-        <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="@string/translation_with_aya"
-                android:title="@string/translation_with_aya"/>
+        <Preference
+            android:key="@string/font_size_key"
+            android:summary="@string/medium"
+            android:title="@string/font_size_key" />
 
         <CheckBoxPreference
-                android:summaryOff="@string/arabic_number_off_summery"
-                android:key="@string/arabic_numbers"
-                android:title="@string/arabic_numbers"
-                android:defaultValue="false"/>
+            android:defaultValue="true"
+            android:key="@string/translation_with_aya"
+            android:title="@string/translation_with_aya" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/arabic_numbers"
+            android:summaryOff="@string/arabic_number_off_summery"
+            android:title="@string/arabic_numbers" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/vertical_quran_page"
+            android:summary="@string/vertical_quran_page_summry"
+            android:title="@string/vertical_quran_page" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Reciting">
 
         <Preference
-                android:key="@string/audio_quality_options"
-                android:title="@string/audio_quality_title"
-                android:summary="@string/audio_quality_summary"/>
+            android:key="@string/audio_quality_options"
+            android:summary="@string/audio_quality_summary"
+            android:title="@string/audio_quality_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/privacy_and_details">
 
         <Preference
-                android:summary="@string/disclaimer_summery"
-                android:key="@string/data_disclaimer"
-                android:title="@string/data_disclaimer"/>
+            android:key="@string/data_disclaimer"
+            android:summary="@string/disclaimer_summery"
+            android:title="@string/data_disclaimer" />
 
         <Preference
-            android:title="@string/open_source_license"
-            android:key="@string/open_source_license" />
+            android:key="@string/open_source_license"
+            android:title="@string/open_source_license" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">
         <Preference
-                android:summary="@string/app_version"
-                android:title="@string/app_name"/>
+            android:summary="@string/app_version"
+            android:title="@string/app_name" />
         <Preference
-                android:summary="@string/word_summery"
-                android:title="@string/word"/>
+            android:summary="@string/word_summery"
+            android:title="@string/word" />
     </PreferenceCategory>
 
 </PreferenceScreen>

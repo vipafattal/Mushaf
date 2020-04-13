@@ -6,17 +6,20 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
+import android.view.animation.AnticipateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.CustomToast
-import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
-import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
-import com.brilliancesoft.mushaf.ui.commen.ViewModelFactory
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
+import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.more.SettingsPreferencesConstant
 import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
 import com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranTextView
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.Constants.PLAYBACK_CHANNEL_ID
@@ -25,13 +28,14 @@ import com.brilliancesoft.mushaf.ui.quran.read.reciter.DownloadingFragment
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.ExoPlayerListener
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.PlayerNotificationAdapter
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.ReciterBottomSheet
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.utils.extensions.addOnPageSelectedListener
 import com.brilliancesoft.mushaf.utils.extensions.callClickOnSpan
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.brilliancesoft.mushaf.utils.toCurrentLanguageNumber
-import com.codebox.lib.android.viewGroup.get
+import com.codebox.lib.android.animators.simple.alphaAnimator
+import com.codebox.lib.android.os.wait
+import com.codebox.lib.android.utils.AppPreferences
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayer
@@ -59,18 +63,17 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
     }
 
     @Inject
-    lateinit var repository: Repository
-
-    @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private var exoPlayer: ExoPlayer? = null
     private var playerListener: ExoPlayerListener? = null
     private var playerNotificationManager: PlayerNotificationManager? = null
     private var playWhenReady = true
     private var currentPageKey = "current read page"
+    private val appPreference = AppPreferences()
 
     private var disposable: Disposable? = null
     private val job: Job = SupervisorJob()
+    private lateinit var quranPagerAdapter: QuranPagerAdapter
     val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main + job)
 
     private val viewModel: QuranViewModel by lazy {
@@ -80,84 +83,137 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         )
     }
 
+    private var startAtPage = 1
+    private var startAtSurah = -1
+
     @Suppress("EXPERIMENTAL_API_USAGE")
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read_quran)
+        val bundle = intent.extras
 
-        var startAtPage = 1
-        intent.extras?.run {
-            startAtPage = getInt(START_AT_PAGE_KEY)
-            val selectedAyaJson = getString(SELECTED_AYA_KEY) ?: ""
+        var startAtAya: Aya? = null
+        if (bundle != null) {
+            val selectedAyaJson = bundle.getString(START_AT_AYA) ?: ""
 
             if (selectedAyaJson.isNotEmpty()) {
-                val aya = Json.parse(Aya.serializer(), selectedAyaJson)
-                coroutineScope.launch(Dispatchers.IO) {
-                    var textView: QuranTextView? = null
-                    while (true) {
-                        if (textView != null) {
-                            withContext(Dispatchers.Main) { textView?.callClickOnSpan(aya) }
-                            break
-                        } else {
-                            delay(150)
-                            textView = withContext(Dispatchers.Main) { getSurahTextView(aya) }
-                        }
-                    }
-                }
-
+                startAtAya = Json.parse(Aya.serializer(), selectedAyaJson)
+                startAtPage = startAtAya.page
+                startAtSurah = startAtAya.surah_number
+            } else {
+                startAtSurah = bundle.getInt(START_AT_SURAH_KEY, -1)
+                startAtPage = bundle.getInt(START_AT_PAGE_KEY)
             }
-
         }
-        //Extract the data.
 
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null)
             startAtPage = savedInstanceState.getInt(currentPageKey, startAtPage)
-        }
-
 
         viewModel.getMainMushaf().observer(this) { quranRawList ->
-
             val quranFormattedByPage = quranRawList.groupBy { it.page }
-
             if (savedInstanceState == null) {
                 val aya = quranFormattedByPage.getValue(startAtPage).last()
-                createHizbToast(aya)
+                //createHizbToast(aya)
             }
 
-            initViewPager(startAtPage, quranFormattedByPage)
+            initViewPager(startAtPage, startAtAya, quranFormattedByPage)
         }
-        viewModel.prepareData()
-
+        viewModel.getMainMushaf()
         activateClickListener()
     }
 
-
-    fun updateBookmarkState(aya: Aya) {
+    private fun goToAya(aya: Aya) {
         coroutineScope.launch(Dispatchers.IO) {
-            repository.updateBookmarkStatus(aya.number, aya.edition!!.identifier, !aya.isBookmarked)
+            var textView: QuranTextView? = null
+            while (true) {
+                if (textView != null) {
+                    withContext(Dispatchers.Main) { textView?.callClickOnSpan(aya) }
+                    break
+                } else {
+                    delay(150)
+                    textView = withContext(Dispatchers.Main) { getSurahTextView(aya) }
+                }
+            }
         }
-        viewModel.updateBookmarkStateInData(aya)
     }
+
 
     private fun initViewPager(
         startAtPage: Int,
-        data: Map<Int, List<Aya>>
+        startAtAya: Aya?,
+        quranFormattedByPage: Map<Int, List<Aya>>
     ) {
-        quranViewpager.adapter = ReadQuranPagerAdapter(this, data, coroutineScope)
-        //quranViewpager2.adapter = VerticalPagerAdapter(this, data)
+        quranViewpager.orientation =
+            if (appPreference.getBoolean(SettingsPreferencesConstant.VerticalQuranPageKey))
+                ViewPager2.ORIENTATION_VERTICAL
+            else ViewPager2.ORIENTATION_HORIZONTAL
+
+        quranPagerAdapter =
+            QuranPagerAdapter(
+                coroutineScope,
+                this,
+                quranFormattedByPage,
+                startAtSurah
+            )
+        quranViewpager.adapter = quranPagerAdapter
         quranViewpager.setCurrentItem(startAtPage - 1, false)
+        startAtAya?.let { goToAya(it) }
+
+        /*openArrow.onClick {
+            if (quranPagerAdapter.zoomOut)
+                quranViewpager.restZoom()
+            else
+                quranViewpager.zoomOutPages(
+                    resources.getDimension(R.dimen.pageMargin).toInt(),
+                    resources.getDimension(R.dimen.pagerOffset).toInt()
+                )
+        }*/
 
         quranViewpager.addOnPageSelectedListener {
-            val aya = data.getValue(it + 1).last()
-            createHizbToast(aya)
-            updateSystemNavState(true)
+            //val aya = quranFormattedByPage.getValue(it + 1).last()
+            //createHizbToast(aya)
+            hideSystemUI()
+        }
+        viewModel.bookmarkedAyaBookmarked.observer(this) {
+            bookmarkedImage.apply {
+                translationY = (-height).toFloat()
+                animate().translationY(0f).alpha(1f).setDuration(800)
+                    .setInterpolator(AnticipateInterpolator()).withEndAction {
+                        handler.wait(500) {
+                            this.alphaAnimator(time = 450, valueTo = 0f)
+                        }
+                    }.start()
+            }
         }
     }
 
-    private fun createHizbToast(aya: Aya) {
+    fun getSurahTextView(aya: Aya): QuranTextView? {
+        var quranTextView: QuranTextView? = null
+        val ayaFormatted = aya.getFormattedAya()
 
+        // if (quranViewpager.currentItem != page)
+        // quranViewpager.currentItem = page
+
+        val surahsContainer: RecyclerView? =
+            quranViewpager.findViewWithTag(QuranPagerAdapter.PAGE_CONTAINER_VIEW_TAG + aya.page)
+
+        if (surahsContainer != null) {
+            for (childNumber in 0 until surahsContainer.adapter!!.itemCount) {
+                quranTextView =
+                    surahsContainer.findViewHolderForAdapterPosition(childNumber)?.itemView?.pageTextQuran
+
+                if (quranTextView == null) continue
+
+                val currentAyaIdx = quranTextView.text.indexOf(ayaFormatted)
+                if (currentAyaIdx != -1) break
+            }
+        }
+        return quranTextView
+    }
+
+    private fun createHizbToast(aya: Aya) {
         val hizbQuarters = aya.hizbQuarter
         val integerNumberOfHizb = hizbQuarters / 4
         val floatingNumberOfHizb = hizbQuarters % 4
@@ -328,22 +384,6 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         }
     }
 
-    fun updateSystemNavState(ifVisibleOnly: Boolean) {
-
-        val systemUiVisibility = window.decorView.systemUiVisibility
-
-        if (ifVisibleOnly) {
-            if ((systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN) != systemUiVisibility)
-                hideSystemUI()
-        } else {
-            if ((systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN) != systemUiVisibility)
-                hideSystemUI()
-            else
-                showSystemUI()
-        }
-
-    }
-
     override fun onSaveInstanceState(bundle: Bundle) {
         super.onSaveInstanceState(bundle)
         bundle.putInt(currentPageKey, quranViewpager.currentItem + 1)
@@ -364,32 +404,12 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         }
     }
 
-    fun getSurahTextView(aya: Aya): QuranTextView? {
-        var quranTextView: QuranTextView? = null
-        val page = aya.page - 1
-        val ayaFormatted = aya.getFormattedAya()
-
-        if (quranViewpager.currentItem != page)
-            quranViewpager.currentItem = page
-
-        val pageTextContainer: LinearLayout? =
-            quranViewpager.findViewWithTag(ReadQuranPagerAdapter.PAGE_CONTAINER_VIEW_TAG + page)
-
-        if (pageTextContainer != null) {
-            for (childNumber in 0..pageTextContainer.childCount) {
-                quranTextView = pageTextContainer[childNumber].pageTextQuran
-                val currentAyaIdx = quranTextView.text.indexOf(ayaFormatted)
-                if (currentAyaIdx != -1) break
-            }
-        }
-        return quranTextView
-    }
-
     companion object {
         private var exoMediaSource: MediaSource? = null
         const val REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 101
-        const val SELECTED_AYA_KEY = "selected-aya"
+        const val START_AT_AYA = "start-at-aya"
         const val START_AT_PAGE_KEY = "start-at-page"
+        const val START_AT_SURAH_KEY = "start-at-surah"
         private var currentPlayedAyat: List<Aya>? = null
         private var currentWindow = 0
         private var playbackPosition: Long = 0

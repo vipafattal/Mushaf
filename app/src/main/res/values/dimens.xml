@@ -14,4 +14,8 @@
     <dimen name="popup_quran_text_size">12dp</dimen>
     <dimen name="popup_quran_width">329dp</dimen>
     <dimen name="popup_quran_height">70dp</dimen>
+
+    <dimen name="pageMargin">20dp</dimen>
+    <dimen name="pagerOffset">30dp</dimen>
+    <dimen name="pageMarginAndoffset">50dp</dimen>
 </resources>

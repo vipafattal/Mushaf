@@ -56,6 +56,14 @@ fun ViewGroup.MarginLayoutParams.updateMargins(
 ) {
     setMargins(left, top, right, bottom)
 }
+fun ViewGroup.setMargins(
+    @Px left: Int ,
+    @Px top: Int ,
+    @Px right: Int ,
+    @Px bottom: Int
+) {
+    (layoutParams as ViewGroup.MarginLayoutParams).setMargins(left, top, right, bottom)
+}
 
 
 inline var View.isVisible: Boolean

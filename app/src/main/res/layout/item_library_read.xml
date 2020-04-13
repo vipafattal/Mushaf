@@ -54,7 +54,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/aya_number_library"
-                tools:text="@string/surah_tools" />
+                tools:text="@string/preview_quran" />
 
             <TextView
                 android:id="@+id/translation_tafseer_text_library"

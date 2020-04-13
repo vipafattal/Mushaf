@@ -9,7 +9,7 @@ import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.framework.utils.ReciterRequestGenerator
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Reciter
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
 import com.brilliancesoft.mushaf.utils.extensions.observeOnMainThread
 import com.codebox.lib.android.fragments.replaceFragment

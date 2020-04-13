@@ -1,8 +1,7 @@
 <resources>
-
     <string name="app_name" translatable="false">Mushaf</string>
     <string name="app_name_google_play" translatable="false">Mushaf for Android</string>
-    <string name="app_version" translatable="false">V1.0.4</string>
+    <string name="app_version" translatable="false">V1.1.0.2</string>
     <string name="playback_channel_name" translatable="false">Playback</string>
 
     <string name="surah">Surah</string>
@@ -19,12 +18,9 @@
     <string name="retry">Retry</string>
     <string name="connection_error">Connection Error</string>
     <string name="juz">Juz\'</string>
-    <string name="surah_tools" translatable="false">الٓمٓ * ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًۭى
-        لِّلْمُتَّقِينَ * ٱلَّذِينَ
-        يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَٰهُمْ يُنفِقُونَ * وَٱلَّذِينَ يُؤْمِنُونَ
-        بِمَآ أُنزِلَ إِلَيْكَ وَمَآ أُنزِلَ مِن قَبْلِكَ وَبِٱلْءَاخِرَةِ هُمْ يُوقِنُونَ * أُو۟لَٰٓئِكَ عَلَىٰ
-        هُدًۭى مِّن رَّبِّهِمْ ۖ وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ *
+    <string name="preview_quran" translatable="false">الم 1 ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِلْمُتَّقِينَ 2 الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنْفِقُونَ 3
     </string>
+    <string name="preview_translation">In the name of God, The Most Gracious, The Dispenser of Grace:</string>
     <string name="translate">Translate</string>
     <string name="tafseer">Tafseer</string>
     <string name="play">Play</string>
@@ -73,7 +69,7 @@
     <string name="share">Share</string>
     <string name="no_bookmarks">No Bookmarks Saved Yet</string>
     <string name="dark_mode">Dark mode</string>
-    <string name="arabic_mode">Arabic Mode</string>
+    <string name="arabic_mode">Arabic mode</string>
     <string name="translation_with_aya">Display translation with Aya</string>
     <string name="arabic_numbers">Show Arabic numbers</string>
     <string name="arabic_number_off_summery">When it\'s disabled it will follow current app language</string>
@@ -113,10 +109,13 @@
     <string name="audio_quality_summary">Changing this setting will only affect audio online streaming. Increasing audio
         quality will increase data usage
     </string>
-
     <string name="low">Low</string>
-    <string name="medium">Medium</string>
     <string name="high">High</string>
+    <string name="small_font_size">Small</string>
+    <string name="medium">Medium</string>
+    <string name="medium_font_size">Medium</string>
+    <string name="large_font_size">Large</string>
+    <string name="x_large_font_size">Very Large</string>
     <string name="select_word_leaset">Please select at least one word</string>
     <string name="bookmark_removed">Bookmarked removed</string>
     <string name="bookmard_saved">Bookmark saved</string>
@@ -131,6 +130,9 @@
     <string name="definition">Definition</string>
     <string name="tafseer_translation">Translation</string>
     <string name="select_translation">Select Translation</string>
-
+    <string name="vertical_quran_page_summry">Sliding between Quran pages will be vertical instead of horizontal</string>
+    <string name="vertical_quran_page">Vertical Quran page</string>
+    <string name="font_size_key">Font size</string>
+    <string name="previewing_text">Text preview</string>
 
 </resources>

@@ -3,56 +3,52 @@ package com.brilliancesoft.mushaf.ui.quran
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class QuranViewModel(private val repository: Repository) : ViewModel() {
 
-    private val job = SupervisorJob()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
     private lateinit var mainMushaf: MutableLiveData<List<Aya>>
 
-
-    fun prepareData() {
-        coroutineScope.launch {
-            if (QuranDataList.isEmpty())
-                withContext(Dispatchers.IO) { loadAyatData() }
-            mainMushaf.postValue(QuranDataList)
-        }
-    }
+    private val _bookmarkedAyaBookmarked: MutableLiveData<Boolean> = MutableLiveData()
+    val bookmarkedAyaBookmarked: LiveData<Boolean>
+        get() = _bookmarkedAyaBookmarked
 
     fun getMainMushaf(): LiveData<List<Aya>> {
         if (!::mainMushaf.isInitialized)
             mainMushaf = MutableLiveData()
 
+            viewModelScope.launch {
+                if (MainQuranList.isEmpty())
+                MainQuranList =
+                    withContext(Dispatchers.IO) { repository.getMusahafAyat(MushafConstants.MainMushaf) }
+                mainMushaf.postValue(MainQuranList)
+            }
+
         return mainMushaf
     }
 
-    private suspend fun loadAyatData() {
-        QuranDataList = repository.getMusahafAyat(MushafConstants.MainMushaf)
-    }
 
     fun updateBookmarkStateInData(aya: Aya) {
-        val index = QuranDataList.indexOfFirst { it.number == aya.number }
-
-        val newDatList = QuranDataList.toMutableList()
-        newDatList[index] = aya.copy(isBookmarked = !aya.isBookmarked)
-
-        QuranDataList = newDatList
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancelChildren()
+        val index = MainQuranList.indexOfFirst { it.number == aya.number }
+        val newDatList = MainQuranList.toMutableList()
+        val newAya = aya.copy(isBookmarked = !aya.isBookmarked)
+        newDatList[index] = newAya
+        if (newAya.isBookmarked)
+            _bookmarkedAyaBookmarked.postValue(true)
+        MainQuranList = newDatList
     }
 
     companion object {
-        var QuranDataList = listOf<Aya>()
+        var MainQuranList = listOf<Aya>()
             private set
 
-        fun isQuranDataLoaded() = QuranDataList.isNotEmpty()
+        fun isQuranDataLoaded() = MainQuranList.isNotEmpty()
     }
 }
 

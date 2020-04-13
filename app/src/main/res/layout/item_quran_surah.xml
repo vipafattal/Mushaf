@@ -18,7 +18,7 @@
         android:textIsSelectable="true"
         style="@style/QuranicText"
         tools:targetApi="lollipop"
-        tools:text="@string/surah_tools"
+        tools:text="@string/preview_quran"
         android:gravity="center_horizontal" />
 
 </LinearLayout>

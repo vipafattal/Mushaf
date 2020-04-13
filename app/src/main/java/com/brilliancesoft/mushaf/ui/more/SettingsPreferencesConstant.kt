@@ -9,4 +9,6 @@ object SettingsPreferencesConstant {
     const val ArabicNumbersKey = "Arabic-number-key"
     const val TranslationWithAyaKey = "Translation-With-Aya"
     const val AudioQualityKey = "Audio-Quality-Key"
+    const val VerticalQuranPageKey = "VerticalQuran"
+    const val SelectedTextSizeKey = "SelectedTextSize"
 }

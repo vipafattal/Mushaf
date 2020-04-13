@@ -1,22 +1,20 @@
 package com.brilliancesoft.mushaf.ui.quran.read.translation
 
-
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.CustomToast
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.model.Translation
-import com.brilliancesoft.mushaf.ui.commen.PreferencesConstants
-import com.brilliancesoft.mushaf.ui.commen.ViewModelFactory
-import com.brilliancesoft.mushaf.ui.commen.dialog.BaseBottomSheetDialog
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
+import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
+import com.brilliancesoft.mushaf.ui.common.dialog.BaseBottomSheetDialog
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
 import com.brilliancesoft.mushaf.ui.library.manage.ManageLibraryActivity
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.onClicks
 import com.brilliancesoft.mushaf.utils.extensions.setStartDrawable
@@ -24,16 +22,17 @@ import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.actvity.launchActivity
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.views.listeners.onClick
+import com.codebox.lib.android.views.utils.gone
+import com.codebox.lib.android.views.utils.visible
 import com.codebox.lib.extrenalLib.TinyDB
 import com.codebox.lib.standard.collections.filters.singleIdx
 import com.github.zawadz88.materialpopupmenu.popupMenu
 import kotlinx.android.synthetic.main.dialog_translation.*
-import kotlinx.android.synthetic.main.dialog_word_by_word.close_image
 import kotlinx.android.synthetic.main.popup_translation_checkbox.view.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class TranslationBottomSheet : BaseBottomSheetDialog() {
+class TranslationBottomSheet : BaseBottomSheetDialog(R.layout.dialog_translation) {
 
     @Inject
     lateinit var repository: Repository
@@ -48,7 +47,6 @@ class TranslationBottomSheet : BaseBottomSheetDialog() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
 
         translationViewModel.translations.observer(viewLifecycleOwner) { translation: Translation ->
             coroutineScope.launch {
@@ -67,7 +65,7 @@ class TranslationBottomSheet : BaseBottomSheetDialog() {
                 recycler_translation.adapter = TranslationQuranAdapter(translationList)
 
                 val languageImage =
-                    if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_language_light else R.drawable.ic_language_dark
+                    if (UserPreferences.isDarkThemeEnabled) R.drawable.ic_language_light else R.drawable.ic_language_dark
                 translation_selection.setStartDrawable(languageImage)
                 translation_selection.onClick {
                     val allData =
@@ -78,7 +76,7 @@ class TranslationBottomSheet : BaseBottomSheetDialog() {
             }
         }
         val closeIcon =
-            if (MushafApplication.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
+            if (UserPreferences.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
         close_image.setImageResource(closeIcon)
         close_image.setOnClickListener {
             dismiss()
@@ -88,7 +86,7 @@ class TranslationBottomSheet : BaseBottomSheetDialog() {
     private fun showPopup(view: View, data: List<Pair<Boolean, Edition>>, numberInMusahaf: Int) {
         val newData = data.toMutableList()
         val popupMenu = popupMenu {
-            if (MushafApplication.isDarkThemeEnabled)
+            if (UserPreferences.isDarkThemeEnabled)
                 style = R.style.Widget_MPM_Menu_Dark_DarkBackground
             section {
                 for (element in data) {
@@ -163,13 +161,10 @@ class TranslationBottomSheet : BaseBottomSheetDialog() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? =
-        inflater.inflate(R.layout.dialog_translation, container, false)
-
+    override fun onDialogScrolled(slideOffset: Float) {
+        if (dialogOffsetLimit < slideOffset) close_image?.visible()
+        else close_image?.gone()
+    }
 
     override fun onDestroy() {
         super.onDestroy()

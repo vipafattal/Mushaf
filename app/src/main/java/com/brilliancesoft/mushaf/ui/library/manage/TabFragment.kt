@@ -8,10 +8,10 @@ import com.brilliancesoft.mushaf.framework.CustomToast
 import com.brilliancesoft.mushaf.framework.DownloadService
 import com.brilliancesoft.mushaf.model.DownloadingState
 import com.brilliancesoft.mushaf.model.Edition
-import com.brilliancesoft.mushaf.ui.commen.ViewModelFactory
-import com.brilliancesoft.mushaf.ui.commen.dialog.DownloadDialog
-import com.brilliancesoft.mushaf.ui.commen.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.ui.quran.sharedComponent.BaseFragment
+import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
+import com.brilliancesoft.mushaf.ui.common.dialog.DownloadDialog
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseFragment
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.widgets.recyclerView.onScroll

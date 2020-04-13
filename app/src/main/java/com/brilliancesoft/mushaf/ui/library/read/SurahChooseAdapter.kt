@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.model.Surah
-import com.brilliancesoft.mushaf.utils.RecyclerViewItemClickedListener
+import com.brilliancesoft.mushaf.ui.common.RecyclerViewItemClickedListener
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.viewGroup.inflater
 import com.codebox.lib.android.views.listeners.onClick

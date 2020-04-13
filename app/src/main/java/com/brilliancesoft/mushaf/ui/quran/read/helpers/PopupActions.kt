@@ -4,56 +4,48 @@ import android.view.View
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
-import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
 import com.brilliancesoft.mushaf.utils.extensions.onClicks
 import com.codebox.lib.android.animators.simple.alphaAnimator
 import com.codebox.lib.android.animators.simple.scale.scaleAnimator
 import com.codebox.lib.android.utils.screenHelpers.dp
 import com.codebox.lib.android.views.utils.invisible
 import com.codebox.lib.android.views.utils.visible
-import kotlinx.android.synthetic.main.activity_read_quran.*
-import kotlinx.android.synthetic.main.popup_quran.*
 import kotlinx.android.synthetic.main.popup_quran.view.*
 
 /**
  * Created by ${User} on ${Date}
  */
 class PopupActions(
-    private val activity: ReadQuranActivity,
+    private val popupView: View,
     private val popupOnAyaClickListener: PopupOnAyaClickListener
 ) {
     private var lastClickedPopupItemId = 0
     private val scalingTime: Long = 250
 
-    private val popupContainer: View
-        get() = activity.popup_container
+    private val popupContainer: View = popupView.parent as View
 
-    private val popupView: View
-        get() = popupContainer.popup_quran
+    fun show(y: Int, ayaNumber: Int, doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit) {
 
-
-    fun show(x: Int, y: Int, ayaNumber: Int, doOnHide: (isBookmarkStatusChanged: Boolean) -> Unit) {
-
-        val aya = QuranViewModel.QuranDataList.first { it.number == ayaNumber }
-
+        val aya = QuranViewModel.MainQuranList.first { it.number == ayaNumber }
         popupContainer.visible()
-
         popupView.alpha = 1f
         popupView.scaleAnimator(0.5f, 1f, scalingTime, 0)
 
         updatePopupViewLocation(y)
         updateClickedAyaClick(aya, doOnHide)
+        popupOnAyaClickListener.onShow()
+
     }
 
     private fun dismiss() {
-        activity.updateSystemNavState(true)
         popupView.alphaAnimator(scalingTime, valueTo = 0f) { popupContainer.invisible() }
         lastClickedPopupItemId = 0
+        popupOnAyaClickListener.onDismissed()
     }
 
     private fun updatePopupViewLocation(y: Int) {
-
-        val popupHeight = activity.resources.getDimension(R.dimen.popup_quran_height)
+        val context = popupView.context
+        val popupHeight = context.resources.getDimension(R.dimen.popup_quran_height)
         val yCoordinate =
             if (y - popupHeight < 0) popupHeight + dp(100)
             else y - popupHeight
@@ -79,7 +71,7 @@ class PopupActions(
     ) {
         updateBookmarkView(aya)
 
-        activity.apply {
+        popupView.apply {
             setOutSideClickListener(doOnHide)
 
             onClicks(
@@ -99,5 +91,7 @@ class PopupActions(
 
     interface PopupOnAyaClickListener {
         fun popupItemClicked(aya: Aya, view: View)
+        fun onDismissed(){}
+        fun onShow(){}
     }
 }
