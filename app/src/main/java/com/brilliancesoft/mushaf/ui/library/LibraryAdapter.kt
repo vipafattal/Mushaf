@@ -93,9 +93,15 @@ class LibraryAdapter(private val dataList: List<Edition>) : RecyclerView.Adapter
             val bundle = editionToBundle(edition)
             intent.putExtras(bundle)
 
-            val shortcutDetails = ShortcutDetails(edition.identifier, edition.name, R.drawable.ic_icon_book)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
-                Shortcut.createDynamicShortcut(itemView.context, shortcutDetails, getShortcutIntent(edition))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                val shortcutDetails = ShortcutDetails(edition.identifier, edition.name, R.drawable.ic_icon_book)
+
+                Shortcut.createDynamicShortcut(
+                    itemView.context,
+                    shortcutDetails,
+                    getShortcutIntent(edition)
+                )
+            }
 
             context.startActivity(intent)
 

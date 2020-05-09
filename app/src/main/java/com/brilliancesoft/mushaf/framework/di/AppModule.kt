@@ -4,8 +4,8 @@ import androidx.room.Room
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.api.QuranCloudAPI
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
+import com.brilliancesoft.mushaf.framework.data.local.MetadataRepository
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
-import com.brilliancesoft.mushaf.framework.database.MushafDao
 import com.brilliancesoft.mushaf.framework.database.MushafDatabase
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.codebox.lib.android.resoures.Stringer
@@ -54,16 +54,22 @@ open class AppModule {
     @Singleton
     fun repository(): Repository = Repository()
 
+    @Provides
+    @Singleton
+    fun metadataRepository(): MetadataRepository = MetadataRepository()
+
     @Suppress("DEPRECATION")
     @Provides
-    fun databaseDao(): MushafDao {
+    fun databaseDao(): MushafDatabase {
         val database = Room.databaseBuilder(
             MushafApplication.appContext,
             MushafDatabase::class.java,
             Stringer(R.string.app_name)
-        ).createFromAsset("Mushaf.db").build()
-
-        return database.mushafDao()
+        ).createFromAsset("Mushaf.db")
+            .addMigrations(MushafDatabase.MIGRATION_1_2)
+            .build()
+        return database
     }
+
 
 }

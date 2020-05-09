@@ -1,7 +1,7 @@
 package com.brilliancesoft.mushaf.ui.library.read
 
-import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +10,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brilliancesoft.mushaf.R
@@ -20,15 +22,15 @@ import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.ReadTranslation
 import com.brilliancesoft.mushaf.model.Surah
 import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
-import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
-import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
 import com.brilliancesoft.mushaf.ui.common.RecyclerViewItemClickedListener
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
 import com.brilliancesoft.mushaf.utils.extensions.onScroll
+import com.brilliancesoft.mushaf.utils.extensions.putElevation
 import com.brilliancesoft.mushaf.utils.extensions.updatePadding
 import com.brilliancesoft.mushaf.utils.toLocalizedNumber
 import com.codebox.lib.android.resoures.Colour
-import com.codebox.lib.android.resoures.Image
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.utils.screenHelpers.dp
 import com.github.zawadz88.materialpopupmenu.MaterialPopupMenu
@@ -54,7 +56,6 @@ class ReadLibraryActivity : BaseActivity() {
     private var editionName = ""
     private var scrollPosition = 0
 
-    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= 23) {
@@ -67,15 +68,17 @@ class ReadLibraryActivity : BaseActivity() {
 
         setContentView(R.layout.activity_read_library)
 
-        if (Build.VERSION.SDK_INT < 23) {
+        if (Build.VERSION.SDK_INT < 23)
             toolbar_library_surah.setBackgroundColor(Colour(R.color.colorPrimary))
-        }
 
-        val navigationIcon = Image(R.drawable.ic_menu)
-        if (UserPreferences.isDarkThemeEnabled) navigationIcon?.setTint(Color.WHITE)
+        val navigationIcon = AppCompatResources.getDrawable(this, R.drawable.ic_menu)
+
+        if (UserPreferences.isDarkThemeEnabled)
+            DrawableCompat.setTint(navigationIcon!!, Color.WHITE)
 
         toolbar_library_surah.navigationIcon = navigationIcon
-        readAdapter = ReadLibraryAdapter(readSurahData, repository,coroutineScope)
+
+        readAdapter = ReadLibraryAdapter(readSurahData, repository, coroutineScope)
 
         val bundle = intent.extras
         //Extract the readSurahData…
@@ -91,17 +94,15 @@ class ReadLibraryActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-
-
         recycler_read_library.adapter = readAdapter
         val layoutManger = recycler_read_library.layoutManager as LinearLayoutManager
         recycler_read_library.onScroll { _, dy ->
 
             scrollPosition = layoutManger.findFirstCompletelyVisibleItemPosition()
             if (scrollPosition > 0)
-                app_bar_library_surah.elevation = dp(5).toFloat()
+                app_bar_library_surah.putElevation(dp(5).toFloat())
             else
-                app_bar_library_surah.elevation = dp(0).toFloat()
+                app_bar_library_surah.putElevation(dp(0).toFloat())
 
             if (dy > 0 && layoutManger.findFirstVisibleItemPosition() >= 2)
                 hideToolbar()
@@ -226,8 +227,6 @@ class ReadLibraryActivity : BaseActivity() {
         fastScrollButton.setBackgroundResource(outValue.resourceId)
         if (isRightToLeft == 1) fastScrollButton.updatePadding(right = dp(16))
         else fastScrollButton.updatePadding(left = dp(16))
-
-
 
         fastScrollButton.setImageResource(R.drawable.ic_move_to_page)
         fastScrollButton.setOnClickListener { showAyaNumberPopup(fastScrollButton) }

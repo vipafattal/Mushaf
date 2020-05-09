@@ -1,24 +1,11 @@
-package com.brilliancesoft.mushaf.framework.database
+package com.brilliancesoft.mushaf.framework.database.daos
 
 import androidx.room.*
+import com.brilliancesoft.mushaf.framework.database.helpers.*
 import com.brilliancesoft.mushaf.model.*
 
 @Dao
 interface MushafDao {
-
-/*    suspend fun insertAyaWithInfo(ayaWithInfo: AyaWithInfo) {
-        addEdition(ayaWithInfo.edition)
-        addSurah(ayaWithInfo.surah)
-        addAya(ayaWithInfo.aya)
-    }
-
-    suspend fun insertAllAyaWithInfo(ayaWithInfoList: List<AyaWithInfo>) {
-        for (ayaWithInfo in ayaWithInfoList) {
-            addEdition(ayaWithInfo.edition)
-            addSurah(ayaWithInfo.surah)
-            addAya(ayaWithInfo.aya)
-        }
-    }*/
 
     //Ayat dao
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -64,13 +51,11 @@ interface MushafDao {
 
     @Transaction
     @Query("select * from $AYAT_TABLE inner join $EDITIONS_TABLE on identifier == edition_id where type = :type and text like :query")
-    suspend fun searchTranslation(query: String, type: String):List<AyaWithInfo>
+    suspend fun searchTranslation(query: String, type: String): List<AyaWithInfo>
 
     @Transaction
     @Query("select * from $AYAT_TABLE where edition_id = :editionId and text like :query")
-    suspend fun searchQuran(query: String, editionId: String):List<AyaWithInfo>
-
-
+    suspend fun searchQuran(query: String, editionId: String): List<AyaWithInfo>
 
     //Surahs dao
     @Query("select * from $SURAHS_TABLE")
@@ -81,7 +66,6 @@ interface MushafDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addSurahs(surahs: List<Surah>)
-
 
     //Editions dao
     @Query("select * from $EDITIONS_TABLE where format == :format and language == :lang")
@@ -102,30 +86,7 @@ interface MushafDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addEdition(edition: Edition)
 
-    //Recipters dao
-    @Transaction
-    @Query("select * from $RECITERS_TABLE")
-    suspend fun getReciters(): List<ReciterInfo>
-
-    @Transaction
-    @Query("select * from $RECITERS_TABLE where number_in_mushaf = :ayaNumber and name = :reciterName limit 1")
-    suspend fun getReciterByAyaNumber(ayaNumber: Int, reciterName: String): ReciterInfo?
-
-    @Transaction
-    @Query("select * from $RECITERS_TABLE where number_in_mushaf between :startNumber AND :endNumber and edition_id = :reciterIdentifier and edition_id = :reciterIdentifier")
-    suspend fun getReciterDownloadsByRang(startNumber: Int, endNumber: Int, reciterIdentifier: String): List<ReciterInfo>
-
-    @Transaction
-    @Query("select * from $RECITERS_TABLE where name = :reciterName")
-    suspend fun getReciterDataByName(reciterName: String): List<ReciterInfo>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addReciter(reciter: Reciter)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addReciters(reciters: List<Reciter>)
-
-   //DownloadState dao
+    //DownloadState dao
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addDownloadState(downloadingState: DownloadingState)
 

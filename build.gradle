@@ -33,7 +33,6 @@ buildscript {
         materialPopup_version = "4.0.1"
         magentaX_version = "0.7"
         exoplayer_version = "2.10.4"
-        fetch_version = '3.1.0'
         scalablePiexl_version = "1.0.6"
     }
     repositories {
@@ -42,7 +41,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.3'
-        classpath 'com.android.tools.build:gradle:3.6.0'
+        classpath 'com.android.tools.build:gradle:3.6.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta03'

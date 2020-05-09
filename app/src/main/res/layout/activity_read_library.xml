@@ -38,7 +38,6 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_width="@dimen/_200sdp"
                 android:layout_height="match_parent"/>
-
     </LinearLayout>
 
 

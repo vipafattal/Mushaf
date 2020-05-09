@@ -16,6 +16,7 @@ import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.brilliancesoft.mushaf.utils.toArabicReciterName
@@ -24,7 +25,6 @@ import com.codebox.lib.android.utils.AppPreferences
 import com.codebox.lib.android.utils.isRightToLeft
 import com.codebox.lib.android.views.listeners.onClick
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.activity_read_quran.*
 import kotlinx.android.synthetic.main.dialog_reciter_playing.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,12 +41,10 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
     private val reciters = mutableListOf<Edition>()
     private lateinit var viewModel: ReciterViewModel
     private var numberOfAyaInSurah = 0
-    private var selectedReciterId = ""
-    private var selectedReciterName = ""
+    private var selectedReciterEdition = Edition("", "", "", "", "", "")
     private val sharedPrefs = AppPreferences()
     private var isStreamingOnline = true
     private lateinit var parentActivity: ReadQuranActivity
-
     var isComingFromMediaPlayer = false
 
     init {
@@ -60,7 +58,8 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
         parentActivity = activity as ReadQuranActivity
         parentActivity.coroutineScope.launch {
             var data = repository.getAvailableReciters()
-            if (isRightToLeft != 1) data = data.map { it.copy(name = it.identifier.toArabicReciterName(it.name)) }
+            if (isRightToLeft != 1) data =
+                data.map { it.copy(name = it.identifier.toArabicReciterName(it.name)) }
 
             reciters.addAll(data)
             reciterNameSpinner.init(reciters.map(Edition::name).toTypedArray())
@@ -69,8 +68,7 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
                     sharedPrefs.getStr(PreferencesConstants.LastChosenReciter, data[0].identifier)
                 val reciter = data.first { it.identifier == lastSelectedReciterId }
                 reciterNameSpinner.setSelection(data.indexOf(reciter))
-                selectedReciterId = reciter.identifier
-                selectedReciterName = reciter.name
+                selectedReciterEdition = reciter
             }
         }
 
@@ -100,45 +98,64 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
 
         //Selecting last repeat times if user clicks on setting buttons previously.
         if (viewModel.getRepeatEachVerse() > 1)
-            repeatEachVerseSpinner.setSelection(repeatTimesArray.indexOf(viewModel.getRepeatEachVerse().toString()))
+            repeatEachVerseSpinner.setSelection(
+                repeatTimesArray.indexOf(
+                    viewModel.getRepeatEachVerse().toString()
+                )
+            )
         if (viewModel.getRepeatWholeSet() > 1)
-            repeatWholeSetSpinner.setSelection(repeatTimesArray.indexOf(viewModel.getRepeatWholeSet().toString()))
+            repeatWholeSetSpinner.setSelection(
+                repeatTimesArray.indexOf(
+                    viewModel.getRepeatWholeSet().toString()
+                )
+            )
 
 
         play_button.onClick {
             play()
         }
-        isStreamingOnline = sharedPrefs.getBoolean(PreferencesConstants.LastPlayOfflineOrOnline, true)
+        isStreamingOnline =
+            sharedPrefs.getBoolean(PreferencesConstants.LastPlayOfflineOrOnline, true)
         saveFiles.isChecked = isStreamingOnline
 
         saveFiles.setOnCheckedChangeListener { _, isChecked ->
             sharedPrefs.put(PreferencesConstants.LastPlayOfflineOrOnline, isChecked)
             isStreamingOnline = isChecked
         }
+
+
+        play_surah_to_end_checkbox.isChecked = false
+        play_surah_to_end_checkbox.setOnCheckedChangeListener { _, isChecked ->
+            endPointSpinner.isEnabled = !isChecked
+            if (isChecked) {
+                viewModel.updatePlayTo(numberOfAyaInSurah)
+                previousEndAyaNumber = numberOfAyaInSurah
+            }
+        }
     }
 
 
     fun <T> Spinner.init(items: Array<T>) {
         context?.let { mContext ->
-            val spinnerArrayAdapter = ArrayAdapter(mContext, android.R.layout.simple_spinner_item, items)
+            val spinnerArrayAdapter =
+                ArrayAdapter(mContext, android.R.layout.simple_spinner_item, items)
             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             adapter = spinnerArrayAdapter
             onItemSelectedListener = this@ReciterBottomSheet
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(R.layout.dialog_reciter_playing, container, false)
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-    }
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         (parent?.selectedView as? TextView)?.let { selectedTextView ->
-            /* if (selectedDateType != it.text) {
-                 selectedDateType = it.text
-                 drawChart(gameType)
-             }*/
 
             val textSelected = selectedTextView.text.toString()
             when (parent.id) {
@@ -158,9 +175,11 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
 
                 R.id.reciterNameSpinner -> {
                     val reciterEdition = reciters.first { it.name == textSelected }
-                    sharedPrefs.put(PreferencesConstants.LastChosenReciter, reciterEdition.identifier)
-                    selectedReciterId = reciterEdition.identifier
-                    selectedReciterName = reciterEdition.name.toEnglishReciterName()
+                    sharedPrefs.put(
+                        PreferencesConstants.LastChosenReciter,
+                        reciterEdition.identifier
+                    )
+                    selectedReciterEdition = reciterEdition
                 }
                 R.id.repeatEachVerseSpinner -> viewModel.updateRepeatEachVerse(if (textSelected.length >= 2) 1 else textSelected.toInt())
                 R.id.repeatWholeSetSpinner -> viewModel.updateRepeatWholeSet(if (textSelected.length >= 2) 1 else textSelected.toInt())
@@ -200,28 +219,43 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
             val eachAyaRepeat = viewModel.getRepeatEachVerse()
             val wholeSetRepeat = viewModel.getRepeatWholeSet()
 
-            val ayat = withContext(Dispatchers.IO) { repository.getAyatByRange(playRange.first, playRange.last) }
+            val ayat = withContext(Dispatchers.IO) {
+                repository.getAyatByRange(
+                    playRange.first,
+                    playRange.last
+                )
+            }
             val playList = repeatablePlayList(ayat, eachAyaRepeat, wholeSetRepeat)
+
+            if (UserPreferences.isArabicLocal)
+                selectedReciterEdition = selectedReciterEdition.copy(
+                    name = selectedReciterEdition.name.toEnglishReciterName(),
+                    englishName = ""
+                )
+
             val reciterPlayer = ReciterPlayer(
-                parentActivity,
-                repository,
                 playList,
+                parentActivity,
+                repository.localRepositoryMetadata,
+                selectedReciterEdition,
                 viewModel.getRepeatEachVerse(),
                 viewModel.getRepeatWholeSet()
             )
             //Releasing previous exo player.
-            if (parentActivity.playerView.isShown)
-                parentActivity.releasePlayer()
+            // if (parentActivity.playerView.isShown)
+            //   parentActivity.releasePlayer()
 
-            if (isRightToLeft != 1) selectedReciterName = selectedReciterName.toEnglishReciterName()
-
-            reciterPlayer.play(isStreamingOnline, playRange, selectedReciterId, selectedReciterName)
+            reciterPlayer.play(isStreamingOnline, playRange)
             dismiss()
         }
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun repeatablePlayList(ayaList: List<Aya>, repeatEachVerse: Int, wholeSet: Int): List<Aya> {
+    private fun repeatablePlayList(
+        ayaList: List<Aya>,
+        repeatEachVerse: Int,
+        wholeSet: Int
+    ): List<Aya> {
         if (wholeSet != 1 || repeatEachVerse != 1) {
             val playList = arrayListOf<Aya>()
             //repeat for Each Verse.

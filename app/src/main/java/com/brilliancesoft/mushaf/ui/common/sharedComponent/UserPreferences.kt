@@ -11,6 +11,9 @@ import java.util.*
 
 object UserPreferences {
 
+    val isArabicLocal: Boolean
+        get() = Locale.getDefault().language == "ar"
+
     private lateinit var appPreferences:AppPreferences
 
     fun init(context: Context,preferences: AppPreferences) {
@@ -45,6 +48,11 @@ object UserPreferences {
         if (systemLanguage == "ar") appPreferences.put(SettingsPreferencesConstant.AppLanguageKey, "ar")
         //If system local is not english then forcing the app to English language.
         else if (systemLanguage != "en") LocaleHelper.setAppLocale(context, "en")
+    }
+
+    fun getAppLocale(){
+        TODO()
+
     }
 
 }

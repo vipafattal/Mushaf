@@ -3,7 +3,6 @@ package com.brilliancesoft.mushaf.framework.data.repo
 import androidx.annotation.Keep
 import com.brilliancesoft.mushaf.framework.utils.EditionTypeOpt
 import com.brilliancesoft.mushaf.model.*
-import com.tonyodev.fetch2.Fetch
 
 /**
  * Created by ${User} on ${Date}
@@ -29,16 +28,10 @@ interface RepositoryProviders {
     suspend fun getAvailableReciters(fromInternet: Boolean = false): List<Edition>
     suspend fun getAllEditionsWithState(): List<Pair<Edition, DownloadingState>>
     suspend fun getDownloadedEditions(): List<Edition>
-    suspend fun downloadFullDataReciter(fetch: Fetch, reciterId: String, reciterName: String)
     suspend fun searchTranslation(query: String, type: String): List<Aya>
     suspend fun searchQuran(query: String, editionId: String): List<Aya>
 
     suspend fun updateBookmarkStatus(ayaNumber: Int, identifier: String, bookmarkStatus: Boolean)
-
-    suspend fun addDownloadedReciter(reciter: Reciter)
-    suspend fun addDownloadReciter(data: List<Reciter>)
-    suspend fun getReciterDownload(ayaNumber: Int, reciterName: String): Reciter?
-    suspend fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter>
 
     suspend fun isDownloaded(identifier: String): Boolean
     suspend fun getDownloadedEditions(type: String): List<Edition>

@@ -75,9 +75,7 @@ class TranslationBottomSheet : BaseBottomSheetDialog(R.layout.dialog_translation
 
             }
         }
-        val closeIcon =
-            if (UserPreferences.isDarkThemeEnabled) R.drawable.ic_close_light else R.drawable.ic_close_dark
-        close_image.setImageResource(closeIcon)
+
         close_image.setOnClickListener {
             dismiss()
         }

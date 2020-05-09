@@ -14,7 +14,8 @@
     <color name="lightBg">#EAFAEB</color>
     <color name="progress_dialog">#CC000000</color>
 
-    <color name="focusColor">#b71c1c</color>
+    <color name="colorAlert">#b71c1c</color>
     <color name="color_background_dark">#121314</color>
-
+    <color name="colorLightToolbar">#fff</color>
+    <color name="colorDarkToolbar">#121314</color>
 </resources>

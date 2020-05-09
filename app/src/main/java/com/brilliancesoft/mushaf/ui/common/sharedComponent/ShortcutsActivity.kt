@@ -34,11 +34,11 @@ class ShortcutsActivity : BaseActivity() {
     }
 
     private fun lastPageReadIntent(): Intent {
-        val intent = newIntent<ReadQuranActivity>()
         val bundle = Bundle()
         val lastPage = preferences.getInt(PreferencesConstants.LastSurahViewed, 0)
         bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, lastPage + 1)
-        intent.putExtras(bundle)
+        ReadQuranActivity.startNewActivity(this, bundle)
+
         return intent
     }
 

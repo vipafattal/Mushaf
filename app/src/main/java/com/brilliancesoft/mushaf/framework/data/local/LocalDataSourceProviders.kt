@@ -14,8 +14,6 @@ interface LocalDataSourceProviders {
     suspend fun addEditions(editions: List<Edition>)
     suspend fun addEdition(edition: Edition)
     suspend fun addDownloadState(downloadState: DownloadingState)
-    suspend fun addDownloadReciter(reciters: List<Reciter>)
-    suspend fun addDownloadReciter(reciter: Reciter)
 
     suspend fun updateBookmarkStatus(ayaNumber: Int,identifier: String, bookmarkStatus: Boolean)
 
@@ -25,7 +23,6 @@ interface LocalDataSourceProviders {
     suspend fun getEditionsByType(@EditionTypeOpt type: String): List<Edition>
     suspend fun getAvailableReciters(): List<Edition>
     suspend fun getDownloadingState(identifier: String): DownloadingState?
-    suspend fun getDownloadedDataReciter(reciterName: String): List<Reciter>
 
     suspend fun getAllAyatByIdentifier(musahafIdentifier: String): MutableList<Aya>
     suspend fun getPage(musahafIdentifier: String, page: Int): MutableList<Aya>
@@ -37,12 +34,6 @@ interface LocalDataSourceProviders {
 
     suspend fun searchTranslation(query: String,  type: String): MutableList<Aya>
     suspend fun searchQuran(query: String, editionId: String): List<Aya>
-
-
-    suspend fun getReciterDownload(ayaNumber: Int, reciterIdentifier: String): Reciter?
-    suspend fun getReciterDownloads(from: Int, to: Int, reciterIdentifier: String): List<Reciter>
     suspend fun getSurahs(): List<Surah>
-
-
     suspend fun getAllEditions(type: String): List<Edition>
 }

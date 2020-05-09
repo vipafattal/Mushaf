@@ -42,7 +42,7 @@ class DownloadService : Service() {
         MushafApplication.appComponent.inject(this)
     }
 
-    var currentProgress = 0
+    private var currentProgress = 0
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -102,7 +102,6 @@ class DownloadService : Service() {
             CHANNEL_ID
         )
             .setContentIntent(pendingIntent)
-            .setSmallIcon(R.drawable.ic_downloading_notification)
             .setContentTitle(edition.name)
             .setContentText(edition.language)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -110,6 +109,9 @@ class DownloadService : Service() {
                 NotificationCompat.BigTextStyle()
                     .bigText(edition.identifier)
             ).setOngoing(true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            notifyBuilder.setSmallIcon(R.drawable.ic_downloading_notification)
 
         // Register the channel with the system
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

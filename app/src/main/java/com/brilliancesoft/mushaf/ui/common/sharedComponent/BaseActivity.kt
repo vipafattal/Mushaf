@@ -19,7 +19,6 @@ import com.brilliancesoft.mushaf.utils.LocaleHelper
 import com.codebox.lib.android.utils.AppPreferences
 import com.codebox.lib.standard.lambda.unitFun
 
-
 abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) : AppCompatActivity() {
 
     val preferences = AppPreferences()
@@ -28,14 +27,12 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
 
     var currentSystemVisibility: Boolean = false
         protected set
-    private var initialLocale: String? = null
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(UserPreferences.getAppTheme())
         if (isRequiringFullScreen) hideSystemUI()
         super.onCreate(savedInstanceState)
-        initialLocale = LocaleHelper.getLanguage(this)
     }
 
     fun systemUiVisibility(hide: Boolean) {
@@ -52,7 +49,6 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
             decorView.systemUiVisibility = View.GONE
          else if (Build.VERSION.SDK_INT >= 19) {
             //for new api versions.
-
             val uiOptions = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_FULLSCREEN

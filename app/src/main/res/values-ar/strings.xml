@@ -19,7 +19,7 @@
     <string name="word_by_word">شرح المفردات</string>
     <string name="word_by_word_confirmation">شرح المفردات حالياً متوافر فقط في لغة الإنكليزية</string>
     <string name="connection_error_full_msg">تحقق من الإتصال في الإنترنت ثم حاول مجدداً، في حال أستمرت المشكلة بالظهور
-        تواصل مع معنا
+        تواصل معنا
     </string>
     <string name="yes">موافق</string>
     <string name="no">لا</string>
@@ -40,7 +40,7 @@
     <string name="error_downloading">خطأ في التحميل</string>
     <string name="search_the_quran">بحث في القرآن</string>
     <string name="found">في</string>
-    <string name="type_to_search">أكتب للقيم بلبحث</string>
+    <string name="type_to_search">أكتب جزء من الآية أو التفسير للبحث</string>
     <string name="result_for">نتيجة بحث ل</string>
     <string name="wait">الرجاء الإنتظار!!</string>
     <string name="empty_search_query">أكتب في مربع البحث أولاً</string>
@@ -64,11 +64,11 @@
     <string name="arabic_number_off_summery">عند عدم تفعيل هذا الخيار سوف يتبع للغة التطبيق الحالية</string>
     <string name="arabic_mode_off">عند عدم تفعيل هذا الخيار سوف يتبع للغة النظام الحالية</string>
     <string name="about">حول</string>
-    <string name="data_disclaimer">مصداقية البيانات</string>
+    <string name="data_disclaimer">تنازلات</string>
     <string name="cancelled">ألغى</string>
     <string name="no_repeating">بلا</string>
     <string name="disclaimer_summery">جميع بيانات التطبيق تم الحصول عليه من موقع \'alquran.cloud\' وتتوقف صحة
-        البيانات على عاتق الموقع, فإن فريق تطوير تطبيق Musahaf غير مسوؤل عن أي خطأ في بيانات الترجمة والتفسير، في حال وجدت خظأ في البيانات الرجاء إعلام
+        البيانات على عاتق الموقع، فإن فريق تطوير تطبيق Mushaf غير مسوؤل عن أي خطأ في بيانات الترجمة والتفسير، في حال وجد خظأ في البيانات الرجاء الإعلام
     </string>
     <string name="word">كلمة</string>
     <string name="word_summery">نسأل الله أن يتقبل هذا العمل المتواضع الذي قصدنا به نفع المسلمين في كل مكان ويجعله سبباً
@@ -92,8 +92,8 @@
     <string name="quarter">الربع</string>
     <string name="playing_error">حدث خطأ أثناء التشغيل</string>
     <string name="audio_quality_title">جودة صوت القارئ</string>
-    <string name="audio_quality_summary">تغير إعدادت هذا الخير سوف يؤثر فقط على الأستماع المباشر من الإنترنت مع الإنتبه
-        إلى أن رفع جود الصوت سوف تؤدي لستخدم بيانات أكثر
+    <string name="audio_quality_summary">تغير إعدادت هذا الخير سوف يؤثر فقط على الأستماع المباشر من الإنترنت مع الإنتباه
+        إلى أن رفع جود الصوت سوف تؤدي لاستخدم بيانات أكثر
     </string>
 
     <string name="preview_translation"> أي الجزاء وهو يوم القيامة، وخص بالذكر لأنه لا ملك ظاهرًا فيه لأحد إلا الله تعالى بدليل «لمن الملك اليوم؟ لله» ومن قرأ مالك فمعناه الأمر كله في يوم القيامة أو هو موصوف بذلك دائمًا «كغافر الذنب» فصح وقوعه صفة لمعرفة.",</string>
@@ -122,6 +122,6 @@
     <string name="vertical_quran_page">صفحات قرآن عمودية</string>
     <string name="font_size_key">حجم الخط</string>
     <string name="previewing_text">معاينة للنص</string>
-
+    <string name="play_surah_to_end">شغل السورة للآخر</string>
 
 </resources>

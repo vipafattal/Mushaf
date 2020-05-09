@@ -1,12 +1,17 @@
 package com.brilliancesoft.mushaf.utils.extensions
 
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Build
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.brilliancesoft.mushaf.R
@@ -16,7 +21,10 @@ import com.brilliancesoft.mushaf.utils.TabStyle
 import com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranTextView
 import com.brilliancesoft.mushaf.utils.CustomClickableSpan
 import com.brilliancesoft.mushaf.utils.toLocalizedNumber
+import com.codebox.lib.android.os.appHandler
+import com.codebox.lib.android.os.wait
 import com.codebox.lib.android.utils.isRightToLeft
+import com.codebox.lib.android.utils.screenHelpers.dp
 import com.codebox.lib.android.views.listeners.onClick
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
@@ -27,43 +35,6 @@ import com.google.android.material.tabs.TabLayoutMediator
  * Created by ${User} on ${Date}
  */
 
-/*
-fun ViewPager2.zoomOutPages(pageMarginPx: Int, offsetPx: Int) {
-
- clipToPadding = false
-    clipChildren = false
-    offscreenPageLimit = 3
-    (adapter as? QuranPagerAdapter)?.updateZoom(this,true,currentItem)
-
-    // Save state
-    setPageTransformer { page, position ->
-
-        val offset = position * -(2 * offsetPx + pageMarginPx)
-        if (this.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-            if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                page.translationX = -offset
-            } else {
-                page.translationX = offset
-            }
-        } else {
-            page.translationY = -offset
-        }
-    }
-}
-
-fun ViewPager2.restZoom() {
-
-   offscreenPageLimit = 1
-    (adapter as? QuranPagerAdapter)?.updateZoom(this,false,currentItem)
-    setPageTransformer { page, _ ->
-
-        if (this.orientation == ViewPager2.ORIENTATION_HORIZONTAL)
-            page.translationX = 0f
-         else
-            page.translationY = 0f
-
-    }
-}*/
 
 inline fun <T : View> T.onLongClick(crossinline block: T.() -> Unit) {
     setOnLongClickListener {
@@ -96,7 +67,12 @@ fun QuranTextView.callClickOnSpan(aya: Aya) {
     val clickableSpan = customClickableSpans[0]
     clickableSpan.onClick(this)
 
-    (parent.parent.parent as RecyclerView).scrollTo(0, clickableSpan.clickY)
+    val recyclerView = parent.parent.parent as RecyclerView
+    recyclerView.smoothScrollToPosition(clickableSpan.clickY)
+
+    appHandler.wait(200) {
+        clickableSpan.onClick(this)
+    }
 }
 
 fun TextView.setTextSizeFromType(@StringRes type: Int) {
@@ -123,6 +99,15 @@ inline fun ViewPager2.addOnPageSelectedListener(crossinline block: (position: In
     })
 }
 
+inline fun View.addTopInsetPadding(crossinline onApplyInsets: (WindowInsets) -> Unit) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+        setOnApplyWindowInsetsListener { v, insets ->
+            onApplyInsets(insets)
+            insets
+        }
+    }
+}
+
 fun ViewPager2.setTabStyle(tabs: TabLayout, tabPosition: (position: Int) -> TabStyle) {
     TabLayoutMediator(tabs,
         this,
@@ -133,6 +118,9 @@ fun ViewPager2.setTabStyle(tabs: TabLayout, tabPosition: (position: Int) -> TabS
         }).attach()
 
 }
+
+
+
 
 inline fun RecyclerView.onScroll(crossinline action: (dx: Int, dy: Int) -> Unit) {
 

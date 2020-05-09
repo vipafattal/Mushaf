@@ -103,13 +103,11 @@ class QuranIndexAdapter(
 
         private fun View.enableOnClick(startAtPage: Int, startAtSurah: Int) {
             onClick {
-                val intent = context.newIntent<ReadQuranActivity>()
                 val bundle = bundleOf(
                     ReadQuranActivity.START_AT_PAGE_KEY to startAtPage,
                     ReadQuranActivity.START_AT_SURAH_KEY to startAtSurah
                 )
-                intent.putExtras(bundle)
-                context.startActivity(intent)
+                ReadQuranActivity.startNewActivity(context,bundle)
             }
         }
     }

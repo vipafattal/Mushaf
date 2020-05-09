@@ -1,10 +1,12 @@
 package com.brilliancesoft.mushaf.framework.di
 
 import com.brilliancesoft.mushaf.framework.DownloadService
-import com.brilliancesoft.mushaf.framework.data.local.LocalDataSource
+import com.brilliancesoft.mushaf.framework.data.local.LocalRepository
+import com.brilliancesoft.mushaf.framework.data.local.MetadataRepository
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.ui.MainActivity
 import com.brilliancesoft.mushaf.ui.SplashActivity
+import com.brilliancesoft.mushaf.ui.audioPlayer.MediaDownloadService
 import com.brilliancesoft.mushaf.ui.bookmarks.BookmarksFragment
 import com.brilliancesoft.mushaf.ui.common.dialog.DownloadDialog
 import com.brilliancesoft.mushaf.ui.library.LibraryFragment
@@ -30,7 +32,7 @@ interface AppComponent {
     //Framework
     fun inject(repository: Repository)
 
-    fun inject(localDataSource: LocalDataSource)
+    fun inject(localRepository: LocalRepository)
 
     //Activities
     fun inject(mainActivity: MainActivity)
@@ -51,5 +53,7 @@ interface AppComponent {
     fun inject(downloadService: DownloadService)
     fun inject(quranActions: QuranActions)
     fun inject(splashActivity: SplashActivity)
+    fun inject(metadataRepository: MetadataRepository)
+    fun inject(mediaDownloadService: MediaDownloadService)
 
 }

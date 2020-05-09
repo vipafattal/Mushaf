@@ -14,10 +14,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
-
 import androidx.annotation.DrawableRes;
-
-import com.codebox.lib.android.utils.Images.DrawableToBitmap;
 
 
 public class TextDrawable extends ShapeDrawable {

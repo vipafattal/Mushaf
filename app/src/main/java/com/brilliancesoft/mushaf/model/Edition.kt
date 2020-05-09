@@ -2,7 +2,7 @@ package com.brilliancesoft.mushaf.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.brilliancesoft.mushaf.framework.database.EDITIONS_TABLE
+import com.brilliancesoft.mushaf.framework.database.helpers.EDITIONS_TABLE
 import kotlinx.serialization.Serializable
 
 @Serializable

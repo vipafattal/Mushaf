@@ -13,7 +13,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.FileDataSource
 import com.google.android.exoplayer2.util.Util
 
-object MediaSourceBuilder {
+object MediaLinkBuilder {
     private val preferences = AppPreferences()
 
     private val qualityValues = arrayOf("low", "", "high")

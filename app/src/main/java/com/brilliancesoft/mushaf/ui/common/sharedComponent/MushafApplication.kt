@@ -8,7 +8,6 @@ import com.brilliancesoft.mushaf.framework.di.DaggerAppComponent
 import com.codebox.lib.android.os.MagentaX
 import com.codebox.lib.android.utils.AppPreferences
 import com.codebox.lib.standard.delegation.DelegatesExt
-import com.tonyodev.fetch2.FetchConfiguration
 
 
 /**
@@ -21,7 +20,6 @@ class MushafApplication : MultiDexApplication() {
 
         var appContext: MushafApplication by DelegatesExt.notNullSingleValue()
             private set
-
 
     }
 
@@ -37,14 +35,6 @@ class MushafApplication : MultiDexApplication() {
     private fun initDagger() {
         appComponent = DaggerAppComponent.builder().build()
     }
-
-    fun fetchConfiguration(): FetchConfiguration =
-        FetchConfiguration.Builder(this)
-            .enableLogging(true)
-            .setDownloadConcurrentLimit(2)
-            .setAutoRetryMaxAttempts(3)
-            .build()
-
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)

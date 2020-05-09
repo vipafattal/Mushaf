@@ -2,7 +2,8 @@ package com.brilliancesoft.mushaf.framework.data.local
 
 import com.brilliancesoft.mushaf.framework.api.ApiModels
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
-import com.brilliancesoft.mushaf.framework.database.MushafDao
+import com.brilliancesoft.mushaf.framework.database.daos.MushafDao
+import com.brilliancesoft.mushaf.framework.database.MushafDatabase
 import com.brilliancesoft.mushaf.model.*
 import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
@@ -15,32 +16,19 @@ import javax.inject.Inject
  * Created by ${User} on ${Date}
  */
 
-class LocalDataSource : LocalDataSourceProviders {
-    private val sajdaList: List<Int> =
-        listOf(
-            1160,
-            1722,
-            1951,
-            2138,
-            2308,
-            2613,
-            2672,
-            2915,
-            3185,
-            3518,
-            3994,
-            4256,
-            4846,
-            5905,
-            6125
-        )
+class LocalRepository : LocalDataSourceProviders {
     @Inject
     lateinit var tinyDB: TinyDB
     @Inject
-    lateinit var dao: MushafDao
+    lateinit var database: MushafDatabase
+    private  val dao: MushafDao
+    @Inject
+    lateinit var metadataRepository: MetadataRepository
+
 
     init {
         MushafApplication.appComponent.inject(this)
+        dao = database.mushafDao()
     }
 
 
@@ -101,14 +89,6 @@ class LocalDataSource : LocalDataSourceProviders {
 
     override suspend fun getAvailableReciters(): List<Edition> =
         dao.getEditionsByType(MushafConstants.Audio)
-
-
-    override suspend fun addDownloadReciter(reciters: List<Reciter>) =
-        dao.addReciters(reciters)
-
-
-    override suspend fun addDownloadReciter(reciter: Reciter) =
-        dao.addReciter(reciter)
 
 
     override suspend fun updateBookmarkStatus(
@@ -175,22 +155,5 @@ class LocalDataSource : LocalDataSourceProviders {
     }
 
 
-    override suspend fun getReciterDownload(ayaNumber: Int, reciterName: String): Reciter? {
-        val reciterWithInfo = dao.getReciterByAyaNumber(ayaNumber, reciterName)
-        return if (reciterWithInfo != null) Reciter(reciterWithInfo) else null
-    }
 
-    override suspend fun getReciterDownloads(
-        from: Int,
-        to: Int,
-        reciterIdentifier: String
-    ): List<Reciter> {
-        val reciterWithInfo = dao.getReciterDownloadsByRang(from, to, reciterIdentifier)
-        return reciterWithInfo.map { Reciter(it) }
-    }
-
-    override suspend fun getDownloadedDataReciter(reciterName: String): List<Reciter> {
-        val reciterWithInfo = dao.getReciterDataByName(reciterName)
-        return reciterWithInfo.map { Reciter(it) }
-    }
 }

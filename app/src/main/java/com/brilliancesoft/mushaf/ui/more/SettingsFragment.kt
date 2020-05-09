@@ -17,6 +17,7 @@ import com.brilliancesoft.mushaf.utils.extensions.onPreferencesClick
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.actvity.launchActivity
 import com.codebox.lib.android.utils.AppPreferences
+import java.util.*
 
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
@@ -70,7 +71,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         darkMode.isChecked = sharedPreference.getBoolean(SettingsPreferencesConstant.AppThemeKey)
         val currentLocal = sharedPreference.getStr(SettingsPreferencesConstant.AppLanguageKey)
-        languageMode.isChecked = currentLocal == "ar"
+
+        languageMode.isChecked = Locale.getDefault().language == "ar"
+
         translationWithAya.isChecked =
             sharedPreference.getBoolean(SettingsPreferencesConstant.TranslationWithAyaKey, true)
         arabicNumbers.isChecked =
@@ -78,6 +81,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         verticalQuranPage.isChecked =
             sharedPreference.getBoolean(SettingsPreferencesConstant.VerticalQuranPageKey, false)
+
         textSize.summary = getString(UserPreferences.getFontSize())
         darkMode.onPreferenceChangeListener = this
         languageMode.onPreferenceChangeListener = this
@@ -100,6 +104,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
             val audioQualityDialog = AudioQualityDialog()
             audioQualityDialog.show(parentFragmentManager, AudioQualityDialog.TAG)
         }
+
         onPreferencesClick(R.string.open_source_license) {
             context?.launchActivity<OpenSourceLicenseActivity>()
         }

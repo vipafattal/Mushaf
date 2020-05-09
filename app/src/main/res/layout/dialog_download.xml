@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:text="@string/cancel"
             android:textAllCaps="false"
-            android:textColor="@color/focusColor"
+            android:textColor="@color/colorAlert"
             android:textSize="12sp"
             android:textStyle="bold"
             app:backgroundTint="@color/white" />

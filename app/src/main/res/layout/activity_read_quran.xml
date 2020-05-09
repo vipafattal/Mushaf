@@ -19,39 +19,26 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:targetApi="jelly_bean_mr1" />
 
-    <!--<ImageView
-        android:rotation="90"
-        android:id="@+id/openArrow"
-        app:srcCompat="@drawable/ic_open_arrow"
-        android:layout_width="@dimen/_24sdp"
-        android:layout_height="@dimen/_24sdp"/>-->
-
     <com.google.android.exoplayer2.ui.PlayerControlView
-        android:id="@+id/playerView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_gravity="bottom"
         android:visibility="invisible"
         app:show_timeout="0"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/playerHeight"
+        android:layout_gravity="bottom" />
 
     <ImageView
-        android:elevation="@dimen/_12sdp"
         android:id="@+id/bookmarkedImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginHorizontal="@dimen/_12sdp"
         android:alpha="0"
-        tools:alpha="1"
+        android:elevation="@dimen/_12sdp"
         android:layoutDirection="ltr"
         app:srcCompat="@drawable/ic_bookmarked_image"
+        tools:alpha="1"
         tools:ignore="UnusedAttribute" />
-
-    <FrameLayout
-        android:id="@+id/down_reciter_fragment_holder"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/download_reciter_fragment_height"
-        android:layout_gravity="bottom" />
 
 </FrameLayout>

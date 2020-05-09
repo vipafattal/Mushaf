@@ -10,17 +10,19 @@
     app:cardCornerRadius="0dp"
     app:cardElevation="@dimen/elevation">
 
-    <View
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_decoration_toolbar"
+    <ImageView
+        android:layout_width="56dp"
+        android:scaleType="fitXY"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/ic_decoration_toolbar"
         android:rotation="@integer/secondRotationDecorToolbar" />
 
-    <View
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="56dp"
+        android:scaleType="fitXY"
+        android:layout_height="match_parent"
         android:layout_gravity="end|bottom"
-        android:background="@drawable/ic_decoration_toolbar"
+        app:srcCompat="@drawable/ic_decoration_toolbar"
         android:rotation="@integer/firstRotationDecorToolbar" />
 
 

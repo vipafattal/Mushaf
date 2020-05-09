@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="40dp">
-<TextView
-    android:id="@+id/pageNumberQuran"
-    android:layout_width="70dp"
-    android:layout_height="55dp"
-    android:layout_margin="30dp"
-    android:background="@drawable/ic_page_decore"
-    android:fontFamily="@font/title_en"
-    android:gravity="center"
-    android:textSize="18sp"
-    android:textStyle="bold"
-    tools:text="200" />
-</FrameLayout>
+    android:layout_marginBottom="40dp">
+
+    <ImageView
+        android:layout_margin="@dimen/_55sdp"
+        android:id="@+id/page_number_image"
+        android:layout_width="70dp"
+        android:layout_height="55dp"
+        app:srcCompat="@drawable/ic_page_decore"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pageNumberQuran"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:fontFamily="@font/title_en"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/page_number_image"
+        app:layout_constraintEnd_toEndOf="@+id/page_number_image"
+        app:layout_constraintStart_toStartOf="@+id/page_number_image"
+        app:layout_constraintTop_toTopOf="@+id/page_number_image"
+        app:layout_constraintVertical_bias="0.52"
+        tools:text="200" />
+</androidx.constraintlayout.widget.ConstraintLayout>

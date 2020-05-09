@@ -10,7 +10,6 @@ import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.model.ReadTranslation
 import com.brilliancesoft.mushaf.ui.common.Fonts
-import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.more.SettingsPreferencesConstant
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
@@ -81,6 +80,7 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
             updateViewToBookmarked(readTranslation.isBookmarked)
 
             itemView.aya_number_library.text = readTranslation.numberInSurah.toString().toLocalizedNumber()
+            itemView.aya_number_library.setTextSizeFromType(textSizeType)
 
             itemView.item_read_library_root_view.onClick {
                 createPopup(readTranslation, context as BaseActivity,position)
@@ -91,7 +91,7 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
         }
 
         private fun updateViewToBookmarked(isBookmarked: Boolean) {
-            if (isBookmarked) itemView.aya_number_library.setTextColor(Colour(R.color.focusColor))
+            if (isBookmarked) itemView.aya_number_library.setTextColor(Colour(R.color.colorAlert))
             else itemView.aya_number_library.setTextColor(Colour(R.color.colorSecondary))
         }
 

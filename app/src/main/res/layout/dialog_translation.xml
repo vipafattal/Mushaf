@@ -35,13 +35,13 @@
             android:layout_weight="1" />
 
         <ImageView
+            android:background="?selectableItemBackgroundBorderless"
             android:id="@+id/close_image"
             android:layout_width="@dimen/action_image_size"
             android:layout_height="@dimen/action_image_size"
-            android:background="@drawable/ic_close_circal"
             android:padding="5dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_close_dark"
+            app:srcCompat="@drawable/ic_close"
             tools:visibility="visible" />
     </LinearLayout>
 

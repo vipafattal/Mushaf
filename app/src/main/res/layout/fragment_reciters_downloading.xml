@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        app:cardElevation="10dp"
-        app:cardBackgroundColor="?transparentBackground"
-        app:cardCornerRadius="0dp"
-        android:layout_width="match_parent"
-        tools:context=".ui.quran.read.reciter.DownloadingFragment"
-        android:layout_height="@dimen/download_reciter_fragment_height">
-<LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-      >
-
-    <TextView
-            android:layout_margin="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/downloading"/>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/download_reciter_fragment_height"
+    android:orientation="vertical"
+    app:cardBackgroundColor="?transparentBackground"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="10dp">
 
     <LinearLayout
-            android:layout_margin="4dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ProgressBar
-                android:secondaryProgress="100"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="6dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                tools:progress="5"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/downloading" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/playerDownloadingProgress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_6sdp"
-                android:id="@+id/playerDownloadingProgress" android:layout_marginLeft="4dp"
-                android:layout_marginRight="6dp"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:secondaryProgress="100"
+                tools:progress="5" />
 
-        <View
+            <View
                 android:layout_width="2dp"
-                android:layout_height="match_parent"/>
-        <ImageView
-                android:padding="2dp"
-                android:focusable="true"
-                android:clickable="true"
-                android:background="?selectableItemBackgroundBorderless"
+                android:layout_height="match_parent" />
+
+            <ImageView
                 android:id="@+id/playerDownloadingCancel"
-                tools:srcCompat="@drawable/ic_close_dark"
                 android:layout_width="@dimen/action_image_size"
-                android:layout_height="@dimen/action_image_size"/>
+                android:layout_height="@dimen/action_image_size"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="2dp"
+                android:tint="@color/colorAlert"
+                app:srcCompat="@drawable/ic_close" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 </com.google.android.material.card.MaterialCardView>

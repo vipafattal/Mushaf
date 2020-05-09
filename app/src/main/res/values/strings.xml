@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Mushaf</string>
     <string name="app_name_google_play" translatable="false">Mushaf for Android</string>
-    <string name="app_version" translatable="false">V1.1.0.2</string>
+    <string name="app_version" translatable="false">V1.2.0.0</string>
     <string name="playback_channel_name" translatable="false">Playback</string>
+    <string name="playback_channel_description" translatable="false">Playback Channel</string>
 
     <string name="surah">Surah</string>
     <string name="bookmark_add">Bookmark</string>
@@ -134,5 +135,9 @@
     <string name="vertical_quran_page">Vertical Quran page</string>
     <string name="font_size_key">Font size</string>
     <string name="previewing_text">Text preview</string>
+    <string name="play_surah_to_end">Play surah to end</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -1,200 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools" app:behavior_hideable="true"
-        app:layout_behavior="@string/bottom_sheet_behavior"
-        android:minHeight="300dp"
-        android:background="?toolbarColor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?toolbarColor"
+    android:minHeight="350dp"
+    app:behavior_hideable="true"
+    app:layout_behavior="@string/bottom_sheet_behavior">
 
     <Spinner
-            tools:targetApi="lollipop"
-            android:popupElevation="@dimen/elevation"
-            android:popupBackground="?toolbarColor"
-            android:id="@+id/reciterNameSpinner"
-            android:layout_width="fill_parent"
-            android:maxHeight="@dimen/_350sdp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="56dp"
-            android:layout_marginRight="56dp"/>
+        android:id="@+id/reciterNameSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginRight="56dp"
+        android:maxHeight="@dimen/_350sdp"
+        android:popupBackground="?toolbarColor"
+        android:popupElevation="@dimen/elevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop" />
 
     <androidx.constraintlayout.widget.Guideline
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/guideline7"/>
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/guideline8" app:layout_constraintGuide_begin="165dp"/>
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="165dp" />
 
     <TextView
-            android:textColor="?android:textColor"
-            android:id="@+id/text1"
-            style="@style/AppTheme.Text.Normal.Mini.Bold"
-            android:text="@string/from_aya"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline7"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/reciterNameSpinner"/>
+        android:id="@+id/text1"
+        style="@style/AppTheme.Text.Normal.Mini.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/from_aya"
+        android:textColor="?android:textColor"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/reciterNameSpinner" />
 
     <Spinner
-            tools:targetApi="lollipop"
-            android:popupElevation="@dimen/elevation"
-            android:popupBackground="?toolbarColor"
-            app:layout_constrainedWidth="true"
-            android:id="@+id/startPointSpinner"
-            android:layout_width="150dp"
-            android:maxHeight="@dimen/_250sdp" android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline8"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/text1" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintHorizontal_bias="0.469" app:layout_constraintBottom_toBottomOf="@+id/text1"/>
+        android:id="@+id/startPointSpinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:maxHeight="@dimen/_250sdp"
+        android:popupBackground="?toolbarColor"
+        android:popupElevation="@dimen/elevation"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@+id/text1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="@+id/text1"
+        tools:targetApi="lollipop" />
+
     <TextView
-            android:textColor="?android:textColor"
-            android:id="@+id/text2"
-            style="@style/AppTheme.Text.Normal.Mini.Bold"
-            android:text="@string/to_aya"
-            app:layout_constrainedWidth="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline7"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/text1"/>
+        android:id="@+id/text2"
+        style="@style/AppTheme.Text.Normal.Mini.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/to_aya"
+        android:textColor="?android:textColor"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
 
     <Spinner
-            tools:targetApi="lollipop"
-            android:popupElevation="@dimen/elevation"
-            android:popupBackground="?toolbarColor"
-            app:layout_constrainedWidth="true"
-            android:id="@+id/endPointSpinner"
-            android:layout_width="150dp"
-            android:maxHeight="@dimen/_250sdp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toTopOf="@+id/text2"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintHorizontal_bias="0.469" app:layout_constraintBottom_toBottomOf="@+id/text2"/>
-
-
-    <TextView
-            android:textColor="?android:textColor"
-            android:id="@+id/text3"
-            style="@style/AppTheme.Text.Normal.Mini.Bold"
-            android:text="@string/play_each_verse"
-            app:layout_constrainedWidth="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline7"
-            android:layout_marginLeft="8dp"
-
-            app:layout_constraintTop_toBottomOf="@+id/text2" android:layout_marginTop="12dp"/>
-
-    <Spinner
-            tools:targetApi="lollipop"
-            android:popupElevation="@dimen/elevation"
-            android:popupBackground="?toolbarColor"
-            app:layout_constrainedWidth="true"
-            android:id="@+id/repeatEachVerseSpinner"
-            android:layout_width="150dp"
-            android:maxHeight="@dimen/_250sdp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline8"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintHorizontal_bias="0.469"
-            app:layout_constraintTop_toTopOf="@+id/text3"
-            app:layout_constraintBottom_toBottomOf="@+id/text3"/>
-    <TextView
-            android:id="@+id/text4"
-            style="@style/AppTheme.Text.Normal.Mini.Bold"
-            android:textColor="?android:textColor"
-            android:text="@string/repeat_whole_set"
-            app:layout_constrainedWidth="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline7"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/text3" android:layout_marginTop="12dp"/>
-
-    <Spinner
-            tools:targetApi="lollipop"
-            android:popupElevation="@dimen/elevation"
-            android:popupBackground="?toolbarColor"
-            app:layout_constrainedWidth="true"
-            android:id="@+id/repeatWholeSetSpinner"
-            android:layout_width="150dp"
-            android:maxHeight="@dimen/_250sdp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline8"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintHorizontal_bias="0.461" app:layout_constraintTop_toTopOf="@+id/text4"
-            app:layout_constraintBottom_toBottomOf="@+id/text4"/>
+        android:id="@+id/endPointSpinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="24dp"
+        android:maxHeight="@dimen/_250sdp"
+        android:popupBackground="?toolbarColor"
+        android:popupElevation="@dimen/elevation"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@+id/text2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="@+id/text2"
+        tools:targetApi="lollipop" />
 
     <TextView
-            android:textColor="?android:textColor"
-            style="@style/AppTheme.Text.Normal.Mini.Bold"
-            android:text="@string/streaming_online"
-            android:id="@+id/text5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/text4"
-            app:layout_constraintStart_toStartOf="@+id/guideline7"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"/>
-
-    <com.google.android.material.button.MaterialButton
-            app:backgroundTint="@color/colorAccent"
-            android:id="@+id/play_button"
-            app:cornerRadius="12dp"
-            android:text="@string/play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp" app:layout_constraintTop_toBottomOf="@+id/saveFiles"
-            android:layout_marginTop="8dp"/>
+        android:id="@+id/play_surah_to_end"
+        style="@style/AppTheme.Text.Normal.Mini.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/play_surah_to_end"
+        android:textColor="?android:textColor"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/text2" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
-            android:checked="false"
-            android:id="@+id/saveFiles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/text5"
-            app:layout_constraintBottom_toBottomOf="@+id/text5"
-            app:layout_constraintStart_toEndOf="@+id/text5" android:layout_marginLeft="21dp"
-            android:layout_marginStart="21dp" app:layout_constraintVertical_bias="0.541"/>
+        android:id="@+id/play_surah_to_end_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="@+id/play_surah_to_end"
+        app:layout_constraintStart_toStartOf="@+id/endPointSpinner"
+        app:layout_constraintTop_toTopOf="@+id/play_surah_to_end" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/saveFiles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="@+id/text5"
+        app:layout_constraintStart_toEndOf="@+id/text5"
+        app:layout_constraintTop_toTopOf="@+id/text5"
+        app:layout_constraintVertical_bias="0.541" />
+
+
+    <TextView
+        android:id="@+id/text3"
+        style="@style/AppTheme.Text.Normal.Mini.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+
+        android:layout_marginTop="24dp"
+        android:text="@string/play_each_verse"
+
+        android:textColor="?android:textColor"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/play_surah_to_end" />
+
+    <Spinner
+        android:id="@+id/repeatEachVerseSpinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:maxHeight="@dimen/_250sdp"
+        android:popupBackground="?toolbarColor"
+        android:popupElevation="@dimen/elevation"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@+id/text3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="@+id/text3"
+        tools:targetApi="lollipop" />
+
+    <TextView
+        android:id="@+id/text4"
+        style="@style/AppTheme.Text.Normal.Mini.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/repeat_whole_set"
+        android:textColor="?android:textColor"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/text3" />
+
+    <Spinner
+        android:id="@+id/repeatWholeSetSpinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:maxHeight="@dimen/_250sdp"
+        android:popupBackground="?toolbarColor"
+        android:popupElevation="@dimen/elevation"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@+id/text4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="@+id/text4"
+        tools:targetApi="lollipop" />
+
+    <TextView
+        android:id="@+id/text5"
+        style="@style/AppTheme.Text.Normal.Mini.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/streaming_online"
+        android:textColor="?android:textColor"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/text4" />
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/play_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/play"
+        app:backgroundTint="@color/colorAccent"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveFiles" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

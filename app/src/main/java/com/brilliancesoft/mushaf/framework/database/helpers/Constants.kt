@@ -1,11 +1,11 @@
-package com.brilliancesoft.mushaf.framework.database
+package com.brilliancesoft.mushaf.framework.database.helpers
 
 const val AYAT_TABLE = "ayat"
 const val SURAHS_TABLE = "surahs"
 const val EDITIONS_TABLE = "editions"
 const val DOWNLOAD_STATE_TABLE = "download_states"
 const val RECITERS_TABLE = "reciters"
-
+const val DOWNLOADED_URI_TABLE = "downloaded_uris"
 //"database & cache version"
-const val DATA_VERSION = 1
+const val DATA_VERSION = 2
 

@@ -42,8 +42,6 @@ class QuranPagerAdapter(
             activity,
             coroutineScope
         )
-    var zoomOut: Boolean = false
-        private set
 
     private val pageFormatter: QuranPageTextFormatter by lazy(LazyThreadSafetyMode.NONE) {
         val popupActions = PopupActions(popupView!!.popup_quran, popupActions)
@@ -80,52 +78,8 @@ class QuranPagerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val quranRawPage = quranFormattedBySurah.getValue(position + 1)
-        holder.bind(pageFormatter.format(quranRawPage), zoomOut, startAtSurah)
+        holder.bind(pageFormatter.format(quranRawPage), startAtSurah)
     }
-
-/*
-  fun updateZoom(viewPager: ViewPager2, zoomOut: Boolean, page: Int) {
-        this.zoomOut = zoomOut
-        viewPager.preserveScrollPosition(page)
-    }
-
-    private fun ViewPager2.preserveScrollPosition(page: Int) {
-        val oldManager =
-            findViewWithTag<RecyclerView>(PAGE_CONTAINER_VIEW_TAG + page).layoutManager as LinearLayoutManager
-        val firstItem = oldManager.findFirstVisibleItemPosition()
-        val firstItemView = oldManager.findViewByPosition(firstItem)
-        val topOffset = firstItemView?.top ?: 0
-
-        notifyDataSetChanged()
-
-        val recyclerView = findViewWithTag<RecyclerView>(PAGE_CONTAINER_VIEW_TAG + page)
-        recyclerView.scrollToPosition(firstItem)
-        recyclerView.scrollBy(0, topOffset)
-        activity.hideSystemUI()
-
-    }
-    private fun ViewPager2.animateZoom(page: Int, zoomOut: Boolean) {
-        val marginAndOffset = resources.getDimensionPixelSize(R.dimen.pageMarginAndoffset)
-
-        for (position in (page - 15)..(page + 25)) {
-            val cardView: CardView? = findViewWithTag(FULL_PAGE_TAG + position)
-            if (cardView == null && position > page) break
-            cardView?.apply {
-                if (zoomOut) {
-                    radius = dp(16).toFloat()
-                    setMargins(marginAndOffset, dp(30), marginAndOffset, dp(30))
-                } else {
-                    translationX = 0f
-                    translationY = 0f
-                    radius = 0f
-                    setMargins(0, 0, 0, 0)
-                }
-            }
-
-        }
-
-    */
-
 
     class ViewHolder(
         itemView: View,
@@ -137,7 +91,6 @@ class QuranPagerAdapter(
 
         fun bind(
             quranFormattedPage: List<QuranFormattedPage>,
-            zoomOut: Boolean,
             startAtSurah: Int
         ) {
             itemView.apply {
@@ -148,7 +101,6 @@ class QuranPagerAdapter(
                         quranActions,
                         selectedTextSize
                     )
-                pageSurahsRecycler.tag = PAGE_CONTAINER_VIEW_TAG + quranFormattedPage[0].aya.page
                 pageSurahsRecycler.onScroll { _, dy ->
                     if (dy > 0) activity.hideSystemUI()
                     else if (dy < -dp(12)) activity.showSystemUI()
@@ -165,22 +117,6 @@ class QuranPagerAdapter(
                     quranFormattedPage.firstOrNull { it.aya.surah_number == startAtSurah }?.let {
                         pageSurahsRecycler.scrollToSurah(quranFormattedPage, startAtSurah)
                     }
-
-                /*
-                                 val marginLayoutParams = layoutParams as ViewGroup.MarginLayoutParams
-
-                 if (zoomOut) {
-                      quranPageCard.radius = dp(16).toFloat()
-                      marginLayoutParams.setMargins(
-                          resources.getDimensionPixelSize(R.dimen.pageMarginAndoffset),
-                          dp(30),
-                          resources.getDimensionPixelSize(R.dimen.pageMarginAndoffset),
-                          dp(30)
-                      )
-                  } else {
-                      quranPageCard.radius = 0f
-                      marginLayoutParams.setMargins(0, 0, 0, 0)
-                  }*/
             }
         }
 
@@ -199,12 +135,6 @@ class QuranPagerAdapter(
     init {
         if (quranFormattedBySurah.isEmpty()) activity.finish()
     }
-
-    companion object {
-        //const val FULL_PAGE_TAG = "quran page view"
-        const val PAGE_CONTAINER_VIEW_TAG = "pageScroller:"
-    }
-
 
 }
 

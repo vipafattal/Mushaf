@@ -11,7 +11,6 @@ import com.codebox.lib.android.views.listeners.onClick
 import com.codebox.lib.android.views.utils.gone
 import com.codebox.lib.android.views.utils.visible
 import kotlinx.android.synthetic.main.dialog_font_size.*
-import kotlinx.android.synthetic.main.dialog_font_size.close_image
 
 class TextSizeBottomSheet : BaseBottomSheetDialog(R.layout.dialog_font_size),
     RecyclerViewItemClickedListener<Int> {
@@ -35,7 +34,12 @@ class TextSizeBottomSheet : BaseBottomSheetDialog(R.layout.dialog_font_size),
         super.onActivityCreated(savedInstanceState)
 
         val selectedTextSize = UserPreferences.getFontSize()
-        val fontSize = arrayOf(R.string.small_font_size, R.string.medium_font_size, R.string.large_font_size, R.string.x_large_font_size)
+        val fontSize = arrayOf(
+            R.string.small_font_size,
+            R.string.medium_font_size,
+            R.string.large_font_size,
+            R.string.x_large_font_size
+        )
         fontSizeRecycler.adapter =
             FontSizeAdapter(
                 fontSize,
@@ -45,10 +49,6 @@ class TextSizeBottomSheet : BaseBottomSheetDialog(R.layout.dialog_font_size),
 
         textSizeViewModel = viewModelOf<TextSizeViewModel>()
 
-        val closeIcon = if (UserPreferences.isDarkThemeEnabled) R.drawable.ic_close_light
-        else R.drawable.ic_close_dark
-
-        close_image.setImageResource(closeIcon)
         close_image.onClick { dismiss() }
     }
 

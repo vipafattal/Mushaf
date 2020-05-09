@@ -88,14 +88,12 @@ class SearchAdapter(
                 val bundle = Bundle()
                 val intent: Intent
                 if (searchType == Edition.Quran) {
-                    intent = context.newIntent<ReadQuranActivity>()
                     bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, aya.page)
                     bundle.putString(
                         ReadQuranActivity.START_AT_AYA,
                         Json.stringify(Aya.serializer(), aya)
                     )
-                    intent.putExtras(bundle)
-                    context.startActivity(intent)
+                    ReadQuranActivity.startNewActivity(context, bundle)
                 } else {
                     intent = context.newIntent<ReadLibraryActivity>()
                     val editionIdentifier = aya.edition!!.identifier

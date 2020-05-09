@@ -12,11 +12,11 @@
         <item name="android:textColorPrimary">#000</item>
         <item name="android:textColor">#000</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme.Light</item>
         <item name="android:colorBackground">@color/lightBg</item>
         <item name="readBackground">?android:colorBackground</item>
         <item name="itemBg">#fff</item>
-        <item name="toolbarColor">#fff</item>
+        <item name="toolbarColor">@color/colorLightToolbar</item>
         <item name="transparentBackground">#E6E7F9E8</item>
         <item name="transparentItem">#DEFFFFFF</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
@@ -29,6 +29,7 @@
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
         <item name="android:textColorPrimary">#FFF</item>
         <item name="android:colorBackground">@color/color_background_dark</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme.Dark</item>
         <item name="readBackground">@android:color/black</item>
         <item name="itemBg">@android:color/black</item>
         <item name="toolbarColor">@color/color_background_dark</item>
@@ -46,12 +47,19 @@
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    <style name="AppBottomSheetDialogTheme.Dark" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle.Dark</item>
     </style>
 
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/rounded_top</item>
+    <style name="AppBottomSheetDialogTheme.Light" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle.Light</item>
+    </style>
+
+    <style name="AppModalStyle.Dark" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_top_dark</item>
+    </style>
+    <style name="AppModalStyle.Light" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_top_light</item>
     </style>
 
     <style name="AppTheme.LibraryReadSurah">
@@ -124,11 +132,6 @@
 
     <style name="BottomNavigationActive">
         <item name="android:textSize">15sp</item>
-    </style>
-
-    <style name="BottomNavigationInActive">
-        <item name="android:textColor">@color/colorDisabled</item>
-        <item name="android:textColorSecondary">@color/colorDisabled</item>
     </style>
 
     <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">

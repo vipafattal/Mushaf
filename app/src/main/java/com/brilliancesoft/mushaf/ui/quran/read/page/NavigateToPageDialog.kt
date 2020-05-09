@@ -35,14 +35,10 @@ class NavigateToPageDialog : BottomSheetDialogFragment() {
 
     private fun getToPage(pageNumber: Int) {
         if (pageNumber in 1..604) {
-            context?.let {
-                val intent = it.newIntent<ReadQuranActivity>()
                 val bundle = Bundle()
                 bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, pageNumber)
-                intent.putExtras(bundle)
-                it.startActivity(intent)
+                ReadQuranActivity.startNewActivity(requireContext(),bundle)
                 dismiss()
-            }
         } else
             activity?.let { CustomToast.makeLong(it,R.string.enter_page_number) }
     }

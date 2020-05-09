@@ -21,18 +21,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/close_image"
-            android:layout_width="@dimen/action_image_size"
-            android:layout_height="@dimen/action_image_size"
-            android:layout_gravity="end"
-            android:background="@drawable/ic_close_circal"
-            android:padding="5dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_close_dark"
-            tools:visibility="visible" />
-
+            <ImageView
+                android:background="?selectableItemBackgroundBorderless"
+                android:id="@+id/close_image"
+                android:layout_width="@dimen/action_image_size"
+                android:layout_height="@dimen/action_image_size"
+                android:layout_gravity="end"
+                android:padding="5dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_close"
+                tools:visibility="visible" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

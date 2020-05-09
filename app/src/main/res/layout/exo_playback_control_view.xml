@@ -7,9 +7,9 @@
     android:animateLayoutChanges="true">
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_nav"
+        android:id="@+id/player_bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         app:paddingBottomSystemWindowInsets="false"
         android:layout_gravity="bottom"
         app:backgroundTint="?toolbarColor"
@@ -103,7 +103,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         app:backgroundTint="@color/colorAccent"
-        app:layout_anchor="@id/bottom_nav"
+        app:layout_anchor="@id/player_bottom_nav"
         app:maxImageSize="35dp"
         app:srcCompat="@drawable/ic_pause"
         app:tint="@color/white" />

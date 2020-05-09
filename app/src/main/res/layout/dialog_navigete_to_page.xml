@@ -7,7 +7,6 @@
         android:layout_height="wrap_content">
 
     <TextView
-
             android:textColor="?android:textColor"
             android:id="@+id/text3"
             style="@style/AppTheme.Text.Normal"

@@ -13,11 +13,10 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         multiDexEnabled true
-        versionCode 110002
-        versionName "1.1.0.2"
+        versionCode 1020000
+        versionName "1.2.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-
     }
 
     bundle {
@@ -63,15 +62,13 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
 
     //Test
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.3.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha03'
 
     //Multi dex
     implementation "androidx.multidex:multidex:$multiDex_version"
-
-    //Fetch downloader
-    implementation "androidx.tonyodev.fetch2:xfetch2:$fetch_version"
 
     //Kotlin Serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializtion_version"

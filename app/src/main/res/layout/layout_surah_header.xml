@@ -8,7 +8,6 @@
     android:layout_marginTop="8dp"
     android:orientation="vertical">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -16,36 +15,36 @@
         android:layoutDirection="rtl"
         tools:targetApi="jelly_bean_mr1">
 
-        <View
+        <ImageView
             android:id="@+id/decor_surah1"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/surahNameArabic"
             android:layout_toRightOf="@+id/surahNameArabic"
-            android:background="@drawable/ic_surah_name_decor"
+            app:srcCompat="@drawable/ic_surah_name_decor"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@+id/decor_surah4"
             app:layout_constraintStart_toEndOf="@+id/decor_surah3"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
+        <ImageView
             android:id="@+id/decor_surah2"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/surahNameArabic"
             android:layout_toRightOf="@+id/surahNameArabic"
-            android:background="@drawable/ic_surah_name_decor"
+            app:srcCompat="@drawable/ic_surah_name_decor"
             android:rotation="180"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/decor_surah4"
             app:layout_constraintStart_toEndOf="@+id/decor_surah3" />
 
-        <View
+        <ImageView
             android:id="@+id/decor_surah3"
-            android:layout_width="30dp"
+            android:layout_width="35dp"
             android:layout_height="@dimen/_38sdp"
             android:layout_alignParentTop="true"
             android:layout_marginStart="1dp"
@@ -54,16 +53,16 @@
             android:layout_marginBottom="16dp"
             android:layout_toEndOf="@+id/surahNameArabic"
             android:layout_toRightOf="@+id/surahNameArabic"
-            android:background="@drawable/ic_surah_name_decor2"
+            app:srcCompat="@drawable/ic_surah_name_decor2"
             android:rotation="180"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="@+id/surahNameArabic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/surahNameArabic" />
 
-        <View
+        <ImageView
             android:id="@+id/decor_surah4"
-            android:layout_width="30dp"
+            android:layout_width="35dp"
             android:layout_height="@dimen/_38sdp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="16dp"
@@ -72,7 +71,7 @@
             android:layout_marginBottom="16dp"
             android:layout_toEndOf="@+id/surahNameArabic"
             android:layout_toRightOf="@+id/surahNameArabic"
-            android:background="@drawable/ic_surah_name_decor2"
+            app:srcCompat="@drawable/ic_surah_name_decor2"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="@+id/surahNameArabic"
             app:layout_constraintEnd_toEndOf="parent"

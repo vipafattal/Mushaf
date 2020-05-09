@@ -30,10 +30,6 @@ class WordByWordBottomSheet : BaseBottomSheetDialog(R.layout.dialog_word_by_word
             recycler_wordByWord.adapter = WordByWordAdapter(it)
         }
 
-        val closeIcon = if (UserPreferences.isDarkThemeEnabled) R.drawable.ic_close_light
-        else R.drawable.ic_close_dark
-
-        close_image.setImageResource(closeIcon)
         close_image.onClick { dismiss() }
     }
 

@@ -3,7 +3,7 @@ package com.brilliancesoft.mushaf.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
-import com.brilliancesoft.mushaf.framework.database.SURAHS_TABLE
+import com.brilliancesoft.mushaf.framework.database.helpers.SURAHS_TABLE
 import kotlinx.serialization.Serializable
 
 

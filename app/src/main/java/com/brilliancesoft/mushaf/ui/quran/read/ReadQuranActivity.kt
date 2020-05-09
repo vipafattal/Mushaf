@@ -1,20 +1,26 @@
 package com.brilliancesoft.mushaf.ui.quran.read
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
-import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
 import android.view.animation.AnticipateInterpolator
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.NotificationCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.CustomToast
 import com.brilliancesoft.mushaf.model.Aya
+import com.brilliancesoft.mushaf.model.Edition
+import com.brilliancesoft.mushaf.model.Media
+import com.brilliancesoft.mushaf.ui.MainActivity
+import com.brilliancesoft.mushaf.ui.audioPlayer.MediaPlayerService
 import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
 import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
@@ -22,58 +28,48 @@ import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.more.SettingsPreferencesConstant
 import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
 import com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranTextView
-import com.brilliancesoft.mushaf.ui.quran.read.reciter.Constants.PLAYBACK_CHANNEL_ID
-import com.brilliancesoft.mushaf.ui.quran.read.reciter.Constants.PLAYBACK_NOTIFICATION_ID
-import com.brilliancesoft.mushaf.ui.quran.read.reciter.DownloadingFragment
-import com.brilliancesoft.mushaf.ui.quran.read.reciter.ExoPlayerListener
-import com.brilliancesoft.mushaf.ui.quran.read.reciter.PlayerNotificationAdapter
+import com.brilliancesoft.mushaf.ui.quran.read.reciter.QuranPlayerListener
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.ReciterBottomSheet
-import com.brilliancesoft.mushaf.utils.extensions.addOnPageSelectedListener
-import com.brilliancesoft.mushaf.utils.extensions.callClickOnSpan
-import com.brilliancesoft.mushaf.utils.extensions.observer
-import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
-import com.brilliancesoft.mushaf.utils.toCurrentLanguageNumber
+import com.brilliancesoft.mushaf.utils.extensions.*
+import com.codebox.lib.android.actvity.launchActivity
+import com.codebox.lib.android.actvity.newIntent
 import com.codebox.lib.android.animators.simple.alphaAnimator
 import com.codebox.lib.android.os.wait
 import com.codebox.lib.android.utils.AppPreferences
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.ui.PlayerNotificationManager
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
-import com.google.android.exoplayer2.util.Util
+import com.codebox.lib.android.viewGroup.get
+import com.codebox.lib.android.views.utils.visible
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.activity_read_quran.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
+import kotlinx.android.synthetic.main.item_quran_page.view.*
 import kotlinx.android.synthetic.main.item_quran_surah.view.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-
-class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
+class ReadQuranActivity : BaseActivity(true) {
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         MushafApplication.appComponent.inject(this)
     }
 
+    private val playerServiceIntent by lazy { Intent(this, MediaPlayerService::class.java) }
+    private val quranPlayerListener by lazy {
+        QuranPlayerListener(this@ReadQuranActivity, playerService)
+    }
+    private lateinit var quranPagerAdapter: QuranPagerAdapter
+
+    lateinit var playerService: MediaPlayerService
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private var exoPlayer: ExoPlayer? = null
-    private var playerListener: ExoPlayerListener? = null
-    private var playerNotificationManager: PlayerNotificationManager? = null
-    private var playWhenReady = true
     private var currentPageKey = "current read page"
-    private val appPreference = AppPreferences()
 
+    private val appPreference = AppPreferences()
     private var disposable: Disposable? = null
     private val job: Job = SupervisorJob()
-    private lateinit var quranPagerAdapter: QuranPagerAdapter
     val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main + job)
 
     private val viewModel: QuranViewModel by lazy {
@@ -107,38 +103,17 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
             }
         }
 
-
         if (savedInstanceState != null)
             startAtPage = savedInstanceState.getInt(currentPageKey, startAtPage)
 
         viewModel.getMainMushaf().observer(this) { quranRawList ->
             val quranFormattedByPage = quranRawList.groupBy { it.page }
-            if (savedInstanceState == null) {
-                val aya = quranFormattedByPage.getValue(startAtPage).last()
-                //createHizbToast(aya)
-            }
-
             initViewPager(startAtPage, startAtAya, quranFormattedByPage)
         }
+
         viewModel.getMainMushaf()
-        activateClickListener()
+        initPlayerView()
     }
-
-    private fun goToAya(aya: Aya) {
-        coroutineScope.launch(Dispatchers.IO) {
-            var textView: QuranTextView? = null
-            while (true) {
-                if (textView != null) {
-                    withContext(Dispatchers.Main) { textView?.callClickOnSpan(aya) }
-                    break
-                } else {
-                    delay(150)
-                    textView = withContext(Dispatchers.Main) { getSurahTextView(aya) }
-                }
-            }
-        }
-    }
-
 
     private fun initViewPager(
         startAtPage: Int,
@@ -150,32 +125,24 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
                 ViewPager2.ORIENTATION_VERTICAL
             else ViewPager2.ORIENTATION_HORIZONTAL
 
-        quranPagerAdapter =
-            QuranPagerAdapter(
-                coroutineScope,
-                this,
-                quranFormattedByPage,
-                startAtSurah
-            )
+        quranPagerAdapter = QuranPagerAdapter(
+            coroutineScope,
+            this,
+            quranFormattedByPage,
+            startAtSurah
+        )
+
         quranViewpager.adapter = quranPagerAdapter
         quranViewpager.setCurrentItem(startAtPage - 1, false)
         startAtAya?.let { goToAya(it) }
-
-        /*openArrow.onClick {
-            if (quranPagerAdapter.zoomOut)
-                quranViewpager.restZoom()
-            else
-                quranViewpager.zoomOutPages(
-                    resources.getDimension(R.dimen.pageMargin).toInt(),
-                    resources.getDimension(R.dimen.pagerOffset).toInt()
-                )
-        }*/
-
-        quranViewpager.addOnPageSelectedListener {
-            //val aya = quranFormattedByPage.getValue(it + 1).last()
-            //createHizbToast(aya)
+        quranViewpager.addOnPageSelectedListener { pageIndex ->
+            val pageLayoutManager = getCurrentPageContainer(pageIndex)?.layoutManager
+            (pageLayoutManager as? LinearLayoutManager)?.scrollToPosition(
+                0
+            )
             hideSystemUI()
         }
+
         viewModel.bookmarkedAyaBookmarked.observer(this) {
             bookmarkedImage.apply {
                 translationY = (-height).toFloat()
@@ -189,172 +156,80 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         }
     }
 
-    fun getSurahTextView(aya: Aya): QuranTextView? {
-        var quranTextView: QuranTextView? = null
-        val ayaFormatted = aya.getFormattedAya()
 
-        // if (quranViewpager.currentItem != page)
-        // quranViewpager.currentItem = page
-
-        val surahsContainer: RecyclerView? =
-            quranViewpager.findViewWithTag(QuranPagerAdapter.PAGE_CONTAINER_VIEW_TAG + aya.page)
-
-        if (surahsContainer != null) {
-            for (childNumber in 0 until surahsContainer.adapter!!.itemCount) {
-                quranTextView =
-                    surahsContainer.findViewHolderForAdapterPosition(childNumber)?.itemView?.pageTextQuran
-
-                if (quranTextView == null) continue
-
-                val currentAyaIdx = quranTextView.text.indexOf(ayaFormatted)
-                if (currentAyaIdx != -1) break
-            }
-        }
-        return quranTextView
+    private fun initPlayerView() {
+        stopPlayer.setOnClickListener(clickListener)
+        playPauseButton.setOnClickListener(clickListener)
+        playerSettings.setOnClickListener(clickListener)
     }
 
-    private fun createHizbToast(aya: Aya) {
-        val hizbQuarters = aya.hizbQuarter
-        val integerNumberOfHizb = hizbQuarters / 4
-        val floatingNumberOfHizb = hizbQuarters % 4
-
-        val floatingText =
-            if (integerNumberOfHizb != 0) "$integerNumberOfHizb $floatingNumberOfHizb/4"
-            else "${floatingNumberOfHizb}/" + 4
-
-        val toastText =
-            "${getString(R.string.hizb)} " + if (floatingNumberOfHizb == 0) integerNumberOfHizb else floatingText
-        CustomToast.make(this, toastText.toCurrentLanguageNumber(), Toast.LENGTH_LONG)
-    }
-
-    private fun initializePlayer() {
-        if (exoPlayer == null && currentPlayedAyat != null) {
-            // a factory to create an AdaptiveVideoTrackSelection
-            val adaptiveTrackSelectionFactory = AdaptiveTrackSelection.Factory()
-
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(
-                this,
-                DefaultRenderersFactory(this),
-                DefaultTrackSelector(adaptiveTrackSelectionFactory), DefaultLoadControl(), null,
-                DefaultBandwidthMeter.Builder(this).build()
-            )
-            playerView.player = exoPlayer
-            exoPlayer!!.playWhenReady = true
-            exoPlayer!!.seekTo(
-                currentWindow,
-                playbackPosition
-            )
-            playerListener = ExoPlayerListener(
-                this,
-                currentPlayedAyat,
-                exoPlayer!!
-            )
-            exoPlayer!!.addListener(playerListener)
-            if (exoMediaSource != null) {
-                //if exoMediaSource not null then resume player with previous media source. This happens when activity configuration changed or resumed.
-                resumePlayer()
-                initNotificationManger(currentPlayedAyat!!)
-            } else {
-                //resting saved position for the new media source.
-                currentWindow = 0
-                playbackPosition = 0
-            }
-            playerNotificationManager!!.setPlayer(exoPlayer)
-        }
-    }
-
-    private fun resumePlayer() {
-        playerView.show()
-        playPauseButton.setImageResource(R.drawable.ic_pause)
-        exoPlayer!!.prepare(exoMediaSource, false, false)
-    }
-
-    fun releasePlayer() {
-        exoPlayer?.let {
-            playerView.hide()
-            playbackPosition = it.currentPosition
-            currentWindow = it.currentWindowIndex
-            playWhenReady = it.playWhenReady
-            it.release()
-            playerNotificationManager?.setPlayer(null)
-            it.removeListener(playerListener)
-            exoPlayer = null
-        }
-    }
-
-    fun setExoPLayerMediaSource(
-        newMediaSource: MediaSource,
-        selectedAyat: List<Aya>
+    fun playAyat(
+        ayatList: List<Aya>,
+        reciterEdition: Edition,
+        eachVerse: Int,
+        wholeSet: Int,
+        playFromDownloadSource: Boolean
     ) {
-        currentPlayedAyat = selectedAyat
-        initNotificationManger(selectedAyat)
-
-        //Resetting the exoMediaSource and re-instantiate exo-player.
-        exoMediaSource = null
-        releasePlayer()
-        initializePlayer()
-        exoPlayer?.prepare(newMediaSource, true, true)
-        playPauseButton.setImageResource(R.drawable.ic_pause)
-        playerView.show()
-        exoMediaSource = newMediaSource
+        val playlist = ayatList.map { Media.create(it, reciterEdition) }
+        playerService.playMedia(playlist, playFromDownloadSource, eachVerse, wholeSet)
+        playerView.visible()
     }
 
-    private fun initNotificationManger(playList: List<Aya>) {
-        playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(
-            this, PLAYBACK_CHANNEL_ID,
-            R.string.playback_channel_name,
-            PLAYBACK_NOTIFICATION_ID, PlayerNotificationAdapter(playList, this)
-        )
-        playerNotificationManager!!.apply {
-            setColor(Color.BLACK)
-            setColorized(true)
-            setUseChronometer(false)
-            setUseStopAction(true)
-            setBadgeIconType(NotificationCompat.BADGE_ICON_NONE)
-            setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
-        }
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.playerSettings -> {
-                val reciterBottomSheet = ReciterBottomSheet()
-                reciterBottomSheet.isComingFromMediaPlayer = true
-                reciterBottomSheet.show(supportFragmentManager, ReciterBottomSheet.TAG)
-            }
-
-            R.id.playPauseButton -> {
-                exoPlayer?.let {
-                    it.playWhenReady = !it.playWhenReady
-                    if (it.playWhenReady) playPauseButton.setImageResource(R.drawable.ic_pause)
-                    else playPauseButton.setImageResource(R.drawable.ic_play)
+    private fun goToAya(aya: Aya) {
+        coroutineScope.launch(Dispatchers.IO) {
+            var textView: QuranTextView? = null
+            while (true) {
+                if (textView != null) {
+                    withContext(Dispatchers.Main) { textView?.callClickOnSpan(aya) }
+                    break
+                } else {
+                    delay(150)
+                    withContext(Dispatchers.Main) {
+                        getSurahTextView(aya) { textView = it }
+                    }
                 }
             }
-
-            R.id.stopPlayer -> {
-                playerListener?.clearAllHighlighted()
-                playerView.hide()
-                releasePlayer()
-            }
         }
     }
 
-    private fun activateClickListener() {
-        stopPlayer.setOnClickListener(this)
-        playPauseButton.setOnClickListener(this)
-        playerSettings.setOnClickListener(this)
+    fun getCurrentPageContainer(pageIndex: Int): RecyclerView? {
+        val rootRecycler = quranViewpager[0] as RecyclerView
+        return rootRecycler.layoutManager!!.findViewByPosition(pageIndex)?.pageSurahsRecycler
+
     }
+
+    inline fun getSurahTextView(aya: Aya, crossinline onTextViewReady: (QuranTextView) -> Unit) {
+
+        val pageIndex = aya.page - 1
+        quranViewpager.setCurrentItem(pageIndex, false)
+
+        var quranTextView: QuranTextView?
+        val ayaFormatted = aya.getFormattedAya()
+
+        quranViewpager.post {
+            val surahsContainer: RecyclerView? = getCurrentPageContainer(pageIndex)
+
+            if (surahsContainer != null) {
+                for (childNumber in 0 until surahsContainer.adapter!!.itemCount) {
+                    quranTextView =
+                        surahsContainer.findViewHolderForAdapterPosition(childNumber)?.itemView?.pageTextQuran
+
+                    if (quranTextView == null) continue
+                    val currentAyaIdx = quranTextView!!.text.indexOf(ayaFormatted)
+                    if (currentAyaIdx != -1) {
+                        onTextViewReady(quranTextView!!)
+                        break
+                    }
+                }
+            }
+        }
+
+    }
+
 
     override fun onResume() {
         super.onResume()
         systemUiVisibility(true)
-        if (Util.SDK_INT <= 23)
-            initializePlayer()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (Util.SDK_INT > 23) initializePlayer()
     }
 
     override fun onPause() {
@@ -362,26 +237,13 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         preferences.put(PreferencesConstants.LastSurahViewed, quranViewpager.currentItem)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable?.dispose()
-        job.cancelChildren()
-    }
-
     override fun onBackPressed() {
-        super.onBackPressed()
-        exoMediaSource = null
-        currentPlayedAyat = null
-        releasePlayer()
-        DownloadingFragment.playerDownloadingCancelled.onNext(true)
-    }
+        if (isTaskRoot) {
+            launchActivity<MainActivity>()
+            finish()
+        } else
+            super.onBackPressed()
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (exoPlayer != null) {
-            releasePlayer()
-            initializePlayer()
-        }
     }
 
     override fun onSaveInstanceState(bundle: Bundle) {
@@ -404,15 +266,77 @@ class ReadQuranActivity : BaseActivity(true), View.OnClickListener {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        bindService(playerServiceIntent, connection, Context.BIND_AUTO_CREATE)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
+        job.cancelChildren()
+        try {
+            unbindService(connection)
+            if (::playerService.isInitialized && !playerService.isPlaying)
+                playerService.stopService(playerServiceIntent)
+        } catch (ex: IllegalArgumentException) {
+            print(ex.stackTrace)
+        }
+    }
+
+    private val connection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {}
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder) {
+            if (service is MediaPlayerService.ServiceBinder) {
+
+                playerService = service.getService()
+                playerService.setPlayerListener(quranPlayerListener)
+                playerService.setPlayerView(playerView)
+
+                (playerService.getCurrentPlayMedia()?.tag as? Aya)?.let {
+                    playerView.visible()
+                    getSurahTextView(it) {}
+                }
+            }
+        }
+    }
+
+    private val clickListener = View.OnClickListener { view ->
+        when (view.id) {
+            R.id.playPauseButton -> {
+                if (playerService.isPlaying) playPauseButton.setImageResource(R.drawable.ic_play)
+                else playPauseButton.setImageResource(R.drawable.ic_pause)
+                playerService.isPlaying = !playerService.isPlaying
+            }
+            R.id.stopPlayer -> {
+                quranPlayerListener.terminatePlayer()
+                playerService.releasePlayer()
+            }
+            R.id.playerSettings -> {
+                val reciterBottomSheet = ReciterBottomSheet()
+                reciterBottomSheet.isComingFromMediaPlayer = true
+                reciterBottomSheet.show(supportFragmentManager, ReciterBottomSheet.TAG)
+            }
+        }
+    }
+
+
     companion object {
-        private var exoMediaSource: MediaSource? = null
+        fun startNewActivity(context: Context, bundle: Bundle) {
+            val intent = context.newIntent<ReadQuranActivity>().apply {
+                putExtras(bundle)
+            }
+
+            context.stopService(Intent(context, MediaPlayerService::class.java))
+            context.startActivity(intent)
+        }
+
         const val REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 101
         const val START_AT_AYA = "start-at-aya"
         const val START_AT_PAGE_KEY = "start-at-page"
         const val START_AT_SURAH_KEY = "start-at-surah"
-        private var currentPlayedAyat: List<Aya>? = null
-        private var currentWindow = 0
-        private var playbackPosition: Long = 0
     }
 
 }

@@ -6,7 +6,7 @@
         android:right="4dp"
         android:top="5dp" />
 
-    <solid android:color="?toolbarColor" />
+    <solid android:color="@color/colorLightToolbar" />
 
     <corners
         android:topLeftRadius="14dp"

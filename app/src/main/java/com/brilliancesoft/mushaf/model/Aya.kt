@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
-import com.brilliancesoft.mushaf.framework.database.AYAT_TABLE
+import com.brilliancesoft.mushaf.framework.database.helpers.AYAT_TABLE
 import com.brilliancesoft.mushaf.utils.toLocalizedNumber
 import kotlinx.serialization.Serializable
 
@@ -95,6 +95,28 @@ data class Aya @Ignore constructor(
         if (numberInSurah == 1 && surah!!.englishName != MushafConstants.Fatiha) {
             text.replaceRange(0, getEndIndexOfBasmalih(), "")
         } else text
+
+    companion object {
+        @JvmField
+        val SAJDA_LIST: List<Int> =
+            listOf(
+                1160,
+                1722,
+                1951,
+                2138,
+                2308,
+                2613,
+                2672,
+                2915,
+                3185,
+                3518,
+                3994,
+                4256,
+                4846,
+                5905,
+                6125
+            )
+    }
 
 
 }

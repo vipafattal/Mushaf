@@ -1,65 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:minHeight="650dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="?toolbarColor"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fontSizeRecycler"
-        android:layout_width="match_parent"
-        app:layout_constrainedHeight="true"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        tools:listitem="@layout/item_font_size" />
-
-
-
+    android:minHeight="650dp"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/cardView"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/action_image_size"
+        android:layout_height="@dimen/action_image_size"
         android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_gravity="center_horizontal"
-            android:layout_width="22dp"
-            android:layout_height="5dp"
-            app:cardBackgroundColor="#80000000"
-            app:cardCornerRadius="3dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/close_image"
             android:layout_width="@dimen/action_image_size"
             android:layout_height="@dimen/action_image_size"
             android:layout_gravity="end"
-            android:background="@drawable/ic_close_circal"
             android:padding="5dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_close_dark"
+            app:srcCompat="@drawable/ic_close"
             tools:visibility="visible" />
 
     </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fontSizeRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        tools:listitem="@layout/item_font_size" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
