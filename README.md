@@ -8,5 +8,3 @@
 
 #### Pull request and contributions are welecomed.
 
-#### Screenshot & more info:
-https://www.upwork.com/o/profiles/users/_~013e9ef2f828337596/?p=1151638724445749248
