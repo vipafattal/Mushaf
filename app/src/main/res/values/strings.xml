@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Mushaf</string>
     <string name="app_name_google_play" translatable="false">Mushaf for Android</string>
-    <string name="app_version" translatable="false">V1.2.0.0</string>
+    <string name="app_version" translatable="false">V1.2.0.1</string>
     <string name="playback_channel_name" translatable="false">Playback</string>
     <string name="playback_channel_description" translatable="false">Playback Channel</string>
 
@@ -124,7 +124,7 @@
     <string name="unable_to_add_shortcut">Unable to add a shortcut</string>
     <string name="add_shortcut">Add shortcut to home screen</string>
     <string name="open_source_license">Open Source License</string>
-    <string name="download_completed">Download complete</string>
+    <string name="download_completed">Download completed</string>
     <string name="downloading_please_wait">Downloading Please Wait</string>
     <string name="background_download">Download in background</string>
     <string name="no_translation_tafeer_downloaded">No Translation/Tafseer Downloaded</string>
@@ -136,8 +136,4 @@
     <string name="font_size_key">Font size</string>
     <string name="previewing_text">Text preview</string>
     <string name="play_surah_to_end">Play surah to end</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>

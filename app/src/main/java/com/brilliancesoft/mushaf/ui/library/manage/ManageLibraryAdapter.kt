@@ -79,5 +79,4 @@ class ManageLibraryAdapter(
         private const val itemLibraryWithLanguage = R.layout.item_library_manage_lang
         private const val itemLibrary = R.layout.item_library_manage
     }
-    
 }

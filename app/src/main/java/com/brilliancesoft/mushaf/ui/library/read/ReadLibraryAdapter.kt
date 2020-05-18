@@ -156,7 +156,7 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
 
             shareText += ayaText
 
-            if (readTranslation.editionInfo.identifier == MushafConstants.SimpleQuran) {
+            if (readTranslation.editionInfo.identifier != MushafConstants.SimpleQuran) {
                 val translationText = """ "${readTranslation.translationText}" """ + "\n"
                 val translationInfo =
                     if (readTranslation.translationOrTafsir == Edition.Tafsir)

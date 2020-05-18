@@ -82,6 +82,11 @@
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 
+    <style name="TafseerText" parent="AppTheme.Text.Normal">
+        <item name="android:lineSpacingExtra">2.5dp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
     <style name="AppTheme.Title" parent="TextAppearance.AppCompat.Title">
         <item name="android:fontFamily">@font/normal_en</item>
     </style>

@@ -92,6 +92,4 @@ interface MushafDao {
 
     @Query("select * from $DOWNLOAD_STATE_TABLE where identifier == :id limit 1")
     suspend fun getDownloadingState(id: String): DownloadingState?
-
-
 }

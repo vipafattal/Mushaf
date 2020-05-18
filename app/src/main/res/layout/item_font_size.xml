@@ -57,7 +57,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -85,6 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?itemBg"
+                    style="@style/TafseerText"
                     android:padding="8dp"
                     android:text="@string/preview_translation"
                     tools:text="@string/preview_quran" />

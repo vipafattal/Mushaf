@@ -100,7 +100,7 @@ class LocalRepository : LocalDataSourceProviders {
     }
 
     override suspend fun searchTranslation(query: String, type: String): MutableList<Aya> {
-        val ayatWithInfo = dao.searchTranslation("%$query%", type)
+        val ayatWithInfo: List<AyaWithInfo> = dao.searchTranslation("%$query%", type)
         return ayatWithInfo.map { Aya(it) }.toMutableList()
     }
 

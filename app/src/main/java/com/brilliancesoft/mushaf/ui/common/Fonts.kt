@@ -39,5 +39,4 @@ object Fonts {
         }
         return ResourcesCompat.getFont(context, fontId)!!
     }
-
 }

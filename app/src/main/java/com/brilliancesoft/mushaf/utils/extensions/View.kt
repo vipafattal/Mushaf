@@ -67,7 +67,7 @@ fun QuranTextView.callClickOnSpan(aya: Aya) {
     val clickableSpan = customClickableSpans[0]
     clickableSpan.onClick(this)
 
-    val recyclerView = parent.parent.parent as RecyclerView
+    val recyclerView = parent.parent as RecyclerView
     recyclerView.smoothScrollToPosition(clickableSpan.clickY)
 
     appHandler.wait(200) {
