@@ -6,11 +6,19 @@ import android.text.Spannable
 import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.RecyclerView
 import com.brilliancesoft.mushaf.R
+import com.brilliancesoft.mushaf.model.Aya
+import com.brilliancesoft.mushaf.utils.CustomClickableSpan
 import com.brilliancesoft.mushaf.utils.TextSelectionCallback
+import com.brilliancesoft.mushaf.utils.extensions.toSpannable
+import com.brilliancesoft.mushaf.utils.toLocalizedNumber
+import com.codebox.lib.android.os.appHandler
+import com.codebox.lib.android.os.wait
 
 
 class QuranTextView : AppCompatTextView {
@@ -26,6 +34,30 @@ class QuranTextView : AppCompatTextView {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
+
+    fun callClickOnSpan(aya: Aya) {
+        val start = text.indexOf(aya.numberInSurah.toLocalizedNumber()) - 1
+        val end = start + 1
+
+        val customClickableSpans: Array<out CustomClickableSpan> =
+            text.toSpannable().getSpans(start, end, CustomClickableSpan::class.java)
+
+        if (customClickableSpans.isEmpty())
+            throw IllegalArgumentException("the given range(start..end) doesn't contain any clickable span")
+
+        val clickableSpan = customClickableSpans[0]
+        clickableSpan.onClick(this)
+
+        var v: View? = parent.parent as? View
+        while (v != null && v !is RecyclerView) {
+            v = v.parent as? View
+        }
+
+        (v as RecyclerView).scrollY = clickableSpan.clickY
+        appHandler.wait(200) {
+            clickableSpan.onClick(this)
+        }
+    }
 
 
     fun init() {

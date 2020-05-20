@@ -87,14 +87,18 @@ data class Aya @Ignore constructor(
     }
 
     private fun getEndIndexOfBasmalih(): Int {
-        val string = "ٱلرَّحِيمِ"
-        return text.indexOf(string, 0) + string.length
+        val endOfBasmalih = text.split(' ')[3]
+        return text.indexOf(endOfBasmalih, 0) + endOfBasmalih.length
     }
 
-    fun getTextWithoutBasmalih() =
-        if (numberInSurah == 1 && surah!!.englishName != MushafConstants.Fatiha) {
-            text.replaceRange(0, getEndIndexOfBasmalih(), "")
-        } else text
+    private fun getTextWithoutBasmalih(): String {
+        return if (numberInSurah == 1
+            && surah!!.englishName != MushafConstants.Fatiha
+            && surah!!.englishName != MushafConstants.Tawba
+        )
+            text.substring(startIndex = getEndIndexOfBasmalih())
+        else text
+    }
 
     companion object {
         @JvmField

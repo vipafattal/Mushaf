@@ -13,6 +13,7 @@ import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
 import com.brilliancesoft.mushaf.ui.library.read.ReadLibraryActivity
+import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
 import com.codebox.lib.android.actvity.newIntent
 import com.codebox.lib.android.utils.AppPreferences
@@ -91,7 +92,7 @@ class SearchAdapter(
                     bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, aya.page)
                     bundle.putString(
                         ReadQuranActivity.START_AT_AYA,
-                        Json.stringify(Aya.serializer(), aya)
+                        Json.stringify(Aya.serializer(), QuranViewModel.MainQuranList[aya.number-1])
                     )
                     ReadQuranActivity.startNewActivity(context, bundle)
                 } else {

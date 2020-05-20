@@ -118,7 +118,7 @@
     <string name="definition">شرح مفردات</string>
     <string name="tafseer_translation">تفسير وترجمة</string>
     <string name="select_translation">إختر تفسيراً</string>
-    <string name="vertical_quran_page_summry">الإنتقال بين صفحات القرآن سوف يكون عمودي بدلاً من الأفقي</string>
+    <string name="vertical_quran_page_summry">التقليب بين صفحات القرآن سوف يكون عمودي بدلاً من الأفقي</string>
     <string name="vertical_quran_page">صفحات قرآن عمودية</string>
     <string name="font_size_key">حجم الخط</string>
     <string name="previewing_text">معاينة للنص</string>

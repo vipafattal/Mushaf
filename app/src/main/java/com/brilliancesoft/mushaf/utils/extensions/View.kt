@@ -54,26 +54,6 @@ inline fun <T : View> onClicks(vararg views: T, crossinline block: T.() -> Unit)
         view.onClick(block)
 }
 
-fun QuranTextView.callClickOnSpan(aya: Aya) {
-    val start = text.indexOf(aya.numberInSurah.toLocalizedNumber()) - 1
-    val end = start + 1
-
-    val customClickableSpans: Array<out CustomClickableSpan> =
-        text.toSpannable().getSpans(start, end, CustomClickableSpan::class.java)
-
-    if (customClickableSpans.isEmpty())
-        throw IllegalArgumentException("the given range(start..end) doesn't contain any clickable span")
-
-    val clickableSpan = customClickableSpans[0]
-    clickableSpan.onClick(this)
-
-    val recyclerView = parent.parent as RecyclerView
-    recyclerView.smoothScrollToPosition(clickableSpan.clickY)
-
-    appHandler.wait(200) {
-        clickableSpan.onClick(this)
-    }
-}
 
 fun TextView.setTextSizeFromType(@StringRes type: Int) {
     val textDimenRes = when (type) {
@@ -90,11 +70,31 @@ fun TextView.setTextSizeFromType(@StringRes type: Int) {
     )
 }
 
-inline fun ViewPager2.addOnPageSelectedListener(crossinline block: (position: Int) -> Unit) {
+inline fun ViewPager2.addOnPageSelectedListener(crossinline onPageSelected: (position: Int) -> Unit) {
     registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
-            block.invoke(position)
+            onPageSelected.invoke(position)
+        }
+    })
+}
+
+inline fun ViewPager2.addOnPageSelectedListener(
+    crossinline onPageScrolled: (position: Int) -> Unit,
+    crossinline onPageSelected: (position: Int) -> Unit) {
+    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            onPageScrolled(position)
+        }
+
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            onPageSelected.invoke(position)
         }
     })
 }

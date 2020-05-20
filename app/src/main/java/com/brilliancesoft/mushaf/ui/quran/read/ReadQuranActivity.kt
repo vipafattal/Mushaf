@@ -30,7 +30,9 @@ import com.brilliancesoft.mushaf.ui.quran.QuranViewModel
 import com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranTextView
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.QuranPlayerListener
 import com.brilliancesoft.mushaf.ui.quran.read.reciter.ReciterBottomSheet
-import com.brilliancesoft.mushaf.utils.extensions.*
+import com.brilliancesoft.mushaf.utils.extensions.addOnPageSelectedListener
+import com.brilliancesoft.mushaf.utils.extensions.observer
+import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.codebox.lib.android.actvity.launchActivity
 import com.codebox.lib.android.actvity.newIntent
 import com.codebox.lib.android.animators.simple.alphaAnimator
@@ -39,7 +41,6 @@ import com.codebox.lib.android.utils.AppPreferences
 import com.codebox.lib.android.viewGroup.get
 import com.codebox.lib.android.views.utils.visible
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.activity_read_quran.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
 import kotlinx.android.synthetic.main.item_quran_page.view.*
@@ -135,11 +136,13 @@ class ReadQuranActivity : BaseActivity(true) {
         quranViewpager.adapter = quranPagerAdapter
         quranViewpager.setCurrentItem(startAtPage - 1, false)
         startAtAya?.let { goToAya(it) }
+        var previousPageIndex = 0
         quranViewpager.addOnPageSelectedListener { pageIndex ->
-            val pageLayoutManager = getCurrentPageContainer(pageIndex)?.layoutManager
-            (pageLayoutManager as? LinearLayoutManager)?.scrollToPosition(
-                0
-            )
+            if (pageIndex != previousPageIndex) {
+                val pageLayoutManager = getCurrentPageContainer(pageIndex)?.layoutManager
+                (pageLayoutManager as? LinearLayoutManager)?.scrollToPosition(0)
+                previousPageIndex = pageIndex
+            }
             hideSystemUI()
         }
 
