@@ -13,7 +13,7 @@ object MushafToast {
 
     @IntDef(Toast.LENGTH_SHORT, Toast.LENGTH_LONG)
     @Retention(AnnotationRetention.SOURCE)
-    annotation class ToastDuration
+    private annotation class ToastDuration
 
     @JvmStatic
     fun make(context: Context, message: String, @ToastDuration showingDuration: Int) {
