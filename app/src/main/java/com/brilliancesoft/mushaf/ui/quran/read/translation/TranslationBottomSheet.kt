@@ -3,7 +3,7 @@ package com.brilliancesoft.mushaf.ui.quran.read.translation
 import android.os.Bundle
 import android.view.View
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Edition
@@ -58,7 +58,7 @@ class TranslationBottomSheet : BaseBottomSheetDialog(R.layout.dialog_translation
                     )
                 }
                 if (translationList.isEmpty())
-                    CustomToast.makeLong(
+                    MushafToast.makeLong(
                         requireContext(),
                         R.string.no_translation_tafeer_downloaded
                     )

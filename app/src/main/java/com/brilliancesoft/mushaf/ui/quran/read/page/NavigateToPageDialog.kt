@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
-import com.codebox.lib.android.actvity.newIntent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_navigete_to_page.*
 
@@ -27,7 +26,7 @@ class NavigateToPageDialog : BottomSheetDialogFragment() {
             if (actionId == EditorInfo.IME_ACTION_GO && !page_number_edit_text.text.isNullOrBlank()) {
                 getToPage(page_number_edit_text.text.toString().toInt())
             } else
-                activity?.let { CustomToast.makeShort(it,R.string.enter_number) }
+                activity?.let { MushafToast.makeShort(it,R.string.enter_number) }
             true
         }
     }
@@ -40,7 +39,7 @@ class NavigateToPageDialog : BottomSheetDialogFragment() {
                 ReadQuranActivity.startNewActivity(requireContext(),bundle)
                 dismiss()
         } else
-            activity?.let { CustomToast.makeLong(it,R.string.enter_page_number) }
+            activity?.let { MushafToast.makeLong(it,R.string.enter_page_number) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

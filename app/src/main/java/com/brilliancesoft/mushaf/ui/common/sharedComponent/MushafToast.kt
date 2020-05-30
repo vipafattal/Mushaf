@@ -1,4 +1,4 @@
-package com.brilliancesoft.mushaf.framework
+package com.brilliancesoft.mushaf.ui.common.sharedComponent
 
 import android.content.Context
 import android.view.View
@@ -9,15 +9,14 @@ import com.brilliancesoft.mushaf.R
 import kotlinx.android.synthetic.main.layout_toast.view.*
 
 
-class CustomToast {
+object MushafToast {
 
     @IntDef(Toast.LENGTH_SHORT, Toast.LENGTH_LONG)
     @Retention(AnnotationRetention.SOURCE)
-    annotation class Duration
+    annotation class ToastDuration
 
-    companion object {
         @JvmStatic
-        fun make(context: Context, message: String, @Duration showingDuration: Int) {
+        fun make(context: Context, message: String, @ToastDuration showingDuration: Int) {
             val layout = View.inflate(context, R.layout.layout_toast, null)
 
             layout.toast_text.text = message
@@ -30,7 +29,7 @@ class CustomToast {
         }
 
         @JvmStatic
-        fun make(context: Context, @StringRes message: Int, @Duration showingDuration: Int) {
+        fun make(context: Context, @StringRes message: Int, @ToastDuration showingDuration: Int) {
             val layout = View.inflate(context, R.layout.layout_toast, null)
 
             layout.toast_text.text = context.getString(message)
@@ -44,23 +43,38 @@ class CustomToast {
 
         @JvmStatic
         fun makeShort(context: Context, message: String) {
-            make(context, message, Toast.LENGTH_SHORT)
+            make(
+                context,
+                message,
+                Toast.LENGTH_SHORT
+            )
         }
 
         @JvmStatic
         fun makeLong(context: Context, message: String) {
-            make(context, message, Toast.LENGTH_LONG)
+            make(
+                context,
+                message,
+                Toast.LENGTH_LONG
+            )
         }
 
         @JvmStatic
         fun makeShort(context: Context, @StringRes message: Int) {
-            make(context, message, Toast.LENGTH_SHORT)
+            make(
+                context,
+                message,
+                Toast.LENGTH_SHORT
+            )
         }
 
         @JvmStatic
         fun makeLong(context: Context, @StringRes message: Int) {
-            make(context, message, Toast.LENGTH_LONG)
+            make(
+                context,
+                message,
+                Toast.LENGTH_LONG
+            )
         }
 
-    }
 }

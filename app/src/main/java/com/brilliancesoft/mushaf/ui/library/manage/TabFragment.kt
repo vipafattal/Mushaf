@@ -4,7 +4,7 @@ package com.brilliancesoft.mushaf.ui.library.manage
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.framework.DownloadService
 import com.brilliancesoft.mushaf.model.DownloadingState
 import com.brilliancesoft.mushaf.model.Edition
@@ -82,7 +82,7 @@ class TabFragment : BaseFragment(), DownloadDialog.ProgressListener {
     private fun downloadMushaf(edition: Edition, downloadingState: DownloadingState) {
 
         if (parentActivity.supportFragmentManager.findFragmentByTag(DownloadDialog.TAG) == null) {
-            if (DownloadService.isDownloading) CustomToast.makeLong(parentActivity, R.string.downloading_please_wait)
+            if (DownloadService.isDownloading) MushafToast.makeLong(parentActivity, R.string.downloading_please_wait)
             else DownloadService.create(parentActivity, edition, downloadingState)
         }
 

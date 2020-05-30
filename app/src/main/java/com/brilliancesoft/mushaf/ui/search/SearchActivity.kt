@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.framework.utils.TextTypeOpt
@@ -67,8 +67,8 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
             empty_data_text.gone()
 
             if (actionId == EditorInfo.IME_ACTION_SEARCH && !search_text_input.text.isNullOrBlank() && !loading_search_result.isVisible) onSearch()
-            else if (loading_search_result.isVisible) CustomToast.makeShort(this@SearchActivity, R.string.wait)
-            else CustomToast.makeShort(this@SearchActivity, R.string.empty_search_query)
+            else if (loading_search_result.isVisible) MushafToast.makeShort(this@SearchActivity, R.string.wait)
+            else MushafToast.makeShort(this@SearchActivity, R.string.empty_search_query)
 
             true
         }

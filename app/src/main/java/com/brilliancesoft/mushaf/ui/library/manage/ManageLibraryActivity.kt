@@ -2,7 +2,7 @@ package com.brilliancesoft.mushaf.ui.library.manage
 
 import android.os.Bundle
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
 import com.brilliancesoft.mushaf.ui.common.dialog.DownloadDialog
@@ -49,7 +49,7 @@ class ManageLibraryActivity : BaseActivity() {
 
 
         repository.errorStream.filter { it.isNotEmpty() }
-            .observeOnMainThread { CustomToast.makeLong(this, it) }
+            .observeOnMainThread { MushafToast.makeLong(this, it) }
 
         val tabPagerAdapter = TabPagerAdapter(this)
         libraryManagerPager.adapter = tabPagerAdapter

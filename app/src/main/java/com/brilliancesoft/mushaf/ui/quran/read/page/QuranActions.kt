@@ -1,9 +1,8 @@
 package com.brilliancesoft.mushaf.ui.quran.read.page
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.framework.DownloadService
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
@@ -90,7 +89,7 @@ class QuranActions(
                 })
 
         } else
-            CustomToast.makeLong(activity, R.string.select_word_leaset)
+            MushafToast.makeLong(activity, R.string.select_word_leaset)
     }
 
     fun showAyaTranslation(numberInMushaf: Int) {
@@ -109,7 +108,7 @@ class QuranActions(
         coroutineScope.launch(Dispatchers.IO) {
             repository.updateBookmarkStatus(aya.number, aya.edition!!.identifier, !aya.isBookmarked)
             withContext(Dispatchers.Main) {
-                CustomToast.makeShort(activity, msg)
+                MushafToast.makeShort(activity, msg)
                 quranViewModel.updateBookmarkStateInData(aya)
             }
         }
@@ -145,7 +144,7 @@ class QuranActions(
 
     private fun downloadWordByWord(aya: Aya) {
         if (DownloadService.isDownloading)
-            CustomToast.makeLong(activity, R.string.downloading_please_wait)
+            MushafToast.makeLong(activity, R.string.downloading_please_wait)
         else {
             coroutineScope.launch {
 

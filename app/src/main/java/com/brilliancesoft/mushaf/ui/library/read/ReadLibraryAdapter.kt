@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Edition
@@ -113,7 +113,7 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
                         label = Stringify(R.string.copy_text , activity)
                         callback = {
                             TextActionUtil.copyToClipboard(activity, shareText)
-                            CustomToast.makeShort(activity, R.string.text_copied)
+                            MushafToast.makeShort(activity, R.string.text_copied)
                             dismissOnSelect = true
                         }
                     }
@@ -125,10 +125,10 @@ class ReadLibraryAdapter(private val dataList: MutableList<ReadTranslation>,
                             dataList[index] = newData
 
                             if (newData.isBookmarked) {
-                                CustomToast.makeShort(itemView.context, R.string.bookmard_saved)
+                                MushafToast.makeShort(itemView.context, R.string.bookmard_saved)
                                 updateViewToBookmarked(true)
                             } else {
-                                CustomToast.makeShort(itemView.context, R.string.bookmark_removed)
+                                MushafToast.makeShort(itemView.context, R.string.bookmark_removed)
                                 updateViewToBookmarked(false)
                             }
                             coroutineScope.launch(Dispatchers.IO) {

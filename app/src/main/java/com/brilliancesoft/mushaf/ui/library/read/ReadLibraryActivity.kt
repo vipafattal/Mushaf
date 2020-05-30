@@ -1,7 +1,6 @@
 package com.brilliancesoft.mushaf.ui.library.read
 
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,7 +14,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
@@ -251,7 +250,7 @@ class ReadLibraryActivity : BaseActivity() {
                 }
             }
         } else
-            CustomToast.makeShort(this, R.string.wait)
+            MushafToast.makeShort(this, R.string.wait)
     }
 
     private fun showAyaNumberPopup(anchorView: View) {

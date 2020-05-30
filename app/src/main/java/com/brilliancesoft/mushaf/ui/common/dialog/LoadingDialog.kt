@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
 import com.codebox.lib.standard.lambda.unitFun
 
@@ -26,7 +26,7 @@ class LoadingDialog : DialogFragment() {
 
         alertDialog.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == android.view.KeyEvent.KEYCODE_BACK) {
-                context?.let { CustomToast.makeShort(it, R.string.wait) }
+                context?.let { MushafToast.makeShort(it, R.string.wait) }
                 true // pretend we've processed it
             } else false // pass on to be processed as normal
 

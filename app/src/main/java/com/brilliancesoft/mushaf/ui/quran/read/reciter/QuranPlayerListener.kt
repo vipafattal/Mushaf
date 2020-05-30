@@ -4,7 +4,7 @@ import android.content.Intent
 import android.text.Spannable
 import android.widget.TextView
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.audioPlayer.MediaPlayerService
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
@@ -44,7 +44,7 @@ class QuranPlayerListener(
 
     override fun onPlayerError(error: ExoPlaybackException) {
         val exoPlayerErrorTag = "exoPlayerErrorTag"
-        CustomToast.makeShort(readQuranActivity, R.string.playing_error)
+        MushafToast.makeShort(readQuranActivity, R.string.playing_error)
 
         val crashlytics = FirebaseCrashlytics.getInstance()
 

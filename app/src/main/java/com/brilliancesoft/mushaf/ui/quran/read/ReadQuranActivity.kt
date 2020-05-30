@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.model.Media
@@ -262,7 +262,7 @@ class ReadQuranActivity : BaseActivity(true) {
         if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 onPermissionGiven?.invoke()
-            else CustomToast.makeShort(
+            else MushafToast.makeShort(
                 this,
                 "Cannot save audio files without the requested permission"
             )

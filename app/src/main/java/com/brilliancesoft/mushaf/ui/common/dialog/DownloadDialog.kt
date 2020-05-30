@@ -10,7 +10,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.framework.DownloadService
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
@@ -52,7 +52,7 @@ class DownloadDialog : DialogFragment() {
         repository.errorStream.onNext("")
 
         disposables += repository.errorStream.filter { it != "" }.observeOnMainThread {
-            activity?.let { context -> CustomToast.makeLong(context, it) }
+            activity?.let { context -> MushafToast.makeLong(context, it) }
             progressListener.onCancelled()
             dismiss()
         }
@@ -80,7 +80,7 @@ class DownloadDialog : DialogFragment() {
         dialog.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == android.view.KeyEvent.KEYCODE_BACK) {
                 progressListener.onCancelled()
-                activity?.let { CustomToast.makeShort(it, R.string.cancelled) }
+                activity?.let { MushafToast.makeShort(it, R.string.cancelled) }
             }
             return@setOnKeyListener false
         }

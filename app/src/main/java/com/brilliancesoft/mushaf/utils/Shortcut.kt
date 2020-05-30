@@ -8,7 +8,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.brilliancesoft.mushaf.R
-import com.brilliancesoft.mushaf.framework.CustomToast
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafToast
 import com.brilliancesoft.mushaf.model.ShortcutDetails
 import java.util.*
 
@@ -26,7 +26,7 @@ object Shortcut{
             addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIcon)
             addIntent.action = "com.android.launcher.action.INSTALL_SHORTCUT"
             context.sendBroadcast(addIntent)
-            CustomToast.makeShort(context, R.string.shortcut_created)
+            MushafToast.makeShort(context, R.string.shortcut_created)
         } else
             createDynamicShortcut(context,shortcutDetails,shortcutIntent,true)
 
