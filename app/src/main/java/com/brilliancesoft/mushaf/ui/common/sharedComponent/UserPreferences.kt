@@ -14,9 +14,9 @@ object UserPreferences {
     val isArabicLocal: Boolean
         get() = Locale.getDefault().language == "ar"
 
-    private lateinit var appPreferences:AppPreferences
+    private lateinit var appPreferences: AppPreferences
 
-    fun init(context: Context,preferences: AppPreferences) {
+    fun init(context: Context, preferences: AppPreferences) {
         appPreferences = preferences
         val currentLanguage = preferences.getStr(SettingsPreferencesConstant.AppLanguageKey, "")
         //If this first time user launch the app, we will save system app local.
@@ -35,24 +35,21 @@ object UserPreferences {
         else R.style.AppTheme
 
     fun getFontSize(): Int =
-        appPreferences.getInt(SelectedTextSizeKey ,R.string.medium_font_size)
+        appPreferences.getInt(SelectedTextSizeKey, R.string.medium_font_size)
 
-    fun saveFontSize(sizeName:Int) {
-        appPreferences.put(SelectedTextSizeKey , sizeName)
+    fun saveFontSize(sizeName: Int) {
+        appPreferences.put(SelectedTextSizeKey, sizeName)
     }
-
 
     private fun saveDefaultAppLocal(context: Context) {
         val systemLanguage = Locale.getDefault().language
         //System Language is Arabic save that so we show Arabic mode is activated in @SettingsFragment.
-        if (systemLanguage == "ar") appPreferences.put(SettingsPreferencesConstant.AppLanguageKey, "ar")
+        if (systemLanguage == "ar") appPreferences.put(
+            SettingsPreferencesConstant.AppLanguageKey,
+            "ar"
+        )
         //If system local is not english then forcing the app to English language.
         else if (systemLanguage != "en") LocaleHelper.setAppLocale(context, "en")
-    }
-
-    fun getAppLocale(){
-        TODO()
-
     }
 
 }

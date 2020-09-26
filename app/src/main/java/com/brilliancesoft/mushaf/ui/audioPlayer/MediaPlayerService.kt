@@ -118,8 +118,7 @@ class MediaPlayerService : Service() {
 
         exoMediaSource = MediaSourceBuilder.create(list, playEachTrack, playWholeSet, playOffline)
 
-        currentPlayList.clear()
-        currentPlayList.addAll(list)
+        currentPlayList = list
         //resting saved position for the new media create.
         currentWindow = 0
         playbackPosition = 0
@@ -220,7 +219,7 @@ class MediaPlayerService : Service() {
     }
 
     companion object {
-        private var currentPlayList: MutableList<Media> = mutableListOf()
+        private var currentPlayList: List<Media> = mutableListOf()
         private val _currentPlayMedia = MutableLiveData<Media?>()
         fun currentPlayMedia(): LiveData<Media?> = _currentPlayMedia
         private const val PLAYBACK_CHANNEL_ID = "mushaf_playback_channel"

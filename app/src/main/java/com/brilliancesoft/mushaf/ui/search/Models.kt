@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  */
 object Models {
     @Serializable
-    data class SearchableQuran(val data: Data)
+    data class MainQuran(val data: Data)
     @Serializable
     data class Data(val ayahs: List<Aya>, val edition: Edition)
 }

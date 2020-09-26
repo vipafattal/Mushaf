@@ -5,13 +5,16 @@ import androidx.annotation.Keep
 import com.brilliancesoft.mushaf.framework.api.QuranCloudAPI
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.local.LocalRepository
-import com.brilliancesoft.mushaf.model.*
+import com.brilliancesoft.mushaf.model.Aya
+import com.brilliancesoft.mushaf.model.DownloadingState
+import com.brilliancesoft.mushaf.model.Edition
+import com.brilliancesoft.mushaf.model.Surah
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.search.Models
+import com.brilliancesoft.mushaf.utils.LocalJsonParser
 import com.brilliancesoft.mushaf.utils.extensions.onComplete
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -65,14 +68,14 @@ class Repository : RepositoryProviders {
         refreshForNewTask()
         loop@ for (juz in startingPoint..30) {
             quranCloudAPI.getQuran(juz, identifier).onComplete({
-                localRepository.addAyat(it.data)
+                localRepository.addAyat(it.data.ayahs, it.data.edition)
                 loadingStream.onNext(juz)
                 if (juz < 30) {
                     localRepository.addDownloadState(DownloadingState(identifier, false, juz + 1))
                     serverDelay(juz)
                 } else {
                     localRepository.addDownloadState(
-                        DownloadingState.downloadQuranTextCompleted(
+                        DownloadingState.downloadCompleted(
                             identifier
                         )
                     )
@@ -88,50 +91,6 @@ class Repository : RepositoryProviders {
                 break@loop
         }
     }
-    /*
-    @NewAPI
-    override suspend fun downloadFullDataReciter(
-        reciterId: String,
-        reciterName: String
-    ) {
-        val allReciterDownloads = localRepository.getDownloadedDataReciter(reciterName)
-        var notDownloadedAyaRequest = mutableListOf<Request>()
-
-        if (allReciterDownloads.isNotEmpty()) {
-            for (ayaNumber in 1..MushafConstants.AyatNumber) if (allReciterDownloads.firstOrNull { it.number == ayaNumber } == null) {
-                val aya = QuranViewModel.MainQuranList[ayaNumber - 1]
-                val request =
-                    ReciterRequestGenerator.createRequestFromFile(
-                        reciterName,
-                        reciterId,
-                        aya.surah!!,
-                        ayaNumber
-                    )
-                notDownloadedAyaRequest.add(request)
-
-            }
-        } else {
-            notDownloadedAyaRequest = QuranViewModel.MainQuranList.map {
-                ReciterRequestGenerator.createRequestFromFile(
-                    reciterName,
-                    reciterId,
-                    it.surah!!,
-                    it.number
-                )
-            }.toMutableList()
-        }
-
-        fetch.enqueue(notDownloadedAyaRequest)
-        /*  val downloadListener = FetchDownloadListener(
-              notDownloadedAyaRequest.size,
-              reciterName,
-              QuranViewModel.QuranDataList,
-              this
-          ) {}
-          fetch.addListener(downloadListener)
-          Log.d("FullReciterDownloader: ", "Downloading started")*/
-    }*/
-
 
     override suspend fun updateBookmarkStatus(
         ayaNumber: Int,
@@ -150,12 +109,29 @@ class Repository : RepositoryProviders {
         localRepository.searchQuran(query, editionId)
 
 
+    private suspend fun saveMainMushaf() {
+
+        val mainQuran: Models.Data = withContext(Dispatchers.IO) {
+            LocalJsonParser.parse("main_mushaf.json", Models.MainQuran.serializer(), true).data
+        }
+
+        localRepository.addDownloadState(
+            DownloadingState.downloadCompleted(mainQuran.edition.identifier)
+        )
+
+        localRepository.addAyat(mainQuran.ayahs, mainQuran.edition)
+    }
+
+
     override suspend fun getMusahafAyat(identifier: String) = runBlocking<MutableList<Aya>> {
         val downloadingState = localRepository.getDownloadingState(identifier)
         val startingPoint: Int
         if (!downloadingState.isDownloadCompleted) {
-            startingPoint = downloadingState.stopPoint ?: 1
-            downloadAyat(identifier, startingPoint)
+            if (identifier != MushafConstants.MainMushaf) {
+                startingPoint = downloadingState.stopPoint ?: 1
+                downloadAyat(identifier, startingPoint)
+            } else
+                saveMainMushaf()
         }
 
         val musahaf = localRepository.getAllAyatByIdentifier(identifier)
@@ -234,16 +210,16 @@ class Repository : RepositoryProviders {
         return data
     }
 
-    override suspend fun getDownloadedEditions(): List<Edition> =
+    override suspend fun getDownloadedTafseer(): List<Edition> =
         localRepository.getAllEditions().distinctBy { it.identifier }
             .filter { isDownloaded(it.identifier) }
-            .filter { it.identifier != MushafConstants.WordByWord && it.identifier != MushafConstants.MainMushaf }
+            .filter { it.type != Edition.TYPE_QURAN }
             .sortedBy { it.language }
 
-    override suspend fun getDownloadedEditions(type: String): List<Edition> =
-        localRepository.getAllEditions(type).distinctBy { it.identifier }
+    override suspend fun getDownloadedTafseer(type: String): List<Edition> =
+        localRepository.getAllEditionsByType(type).distinctBy { it.identifier }
             .filter { isDownloaded(it.identifier) }
-            .filter { it.identifier != MushafConstants.WordByWord && it.identifier != MushafConstants.MainMushaf }
+            .filter { it.type != Edition.TYPE_QURAN }
             .sortedBy { it.language }
 
 
@@ -256,14 +232,8 @@ class Repository : RepositoryProviders {
         localRepository.getDownloadingState(identifier)
 
 
-    override suspend fun getAllByBookmarkStatus(bookmarkStatus: Boolean): MutableList<Aya> =
-        localRepository.getAllByBookmarkStatus(bookmarkStatus)
-
-    override suspend fun getByAyaByBookmark(
-        editionIdentifier: String,
-        bookmarkStatus: Boolean
-    ): MutableList<Aya> =
-        localRepository.getAyaByBookmark(editionIdentifier, bookmarkStatus)
+    override suspend fun getAllByBookmarked(): MutableList<Aya> =
+        localRepository.getAllByBookmarkStatus()
 
     override suspend fun getPage(musahafIdentifier: String, page: Int): List<Aya>? =
         if (isDownloaded(musahafIdentifier)) localRepository.getPage(musahafIdentifier, page)

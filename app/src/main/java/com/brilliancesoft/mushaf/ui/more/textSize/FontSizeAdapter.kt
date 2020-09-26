@@ -1,10 +1,11 @@
 package com.brilliancesoft.mushaf.ui.more.textSize
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import androidx.recyclerview.widget.RecyclerView
 import com.brilliancesoft.mushaf.R
+import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.common.Fonts
 import com.brilliancesoft.mushaf.ui.common.RecyclerViewItemClickedListener
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
@@ -22,7 +23,8 @@ class FontSizeAdapter(
 ) : RecyclerView.Adapter<FontSizeAdapter.ViewHolder>() {
 
     private val appLanguage = Locale.getDefault().language
-    private val quranicSpanText = QuranicSpanText(MushafApplication.appContext, null)
+    private val quranicSpanText =
+        QuranicSpanText(selectedTextType, MushafApplication.appContext, null)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(parent.inflater(R.layout.item_font_size))
@@ -40,15 +42,17 @@ class FontSizeAdapter(
                 textSizeName.text = context.getString(sizeName)
 
                 selectedTextSizeRadio.isChecked = sizeName == selectedTextType
+
+
                 quranTextViewSize.text =
-                    quranicSpanText.applyPreviewSpans(context.getString(R.string.preview_quran))
+                    quranicSpanText.applyPreviewSpans(context.getString(R.string.preview_quran),sizeName)
 
                 quranTextViewSize.setTextSizeFromType(sizeName)
                 translationTextViewSize.setTextSizeFromType(sizeName)
 
                 translationTextViewSize.typeface = Fonts.getTranslationFont(context, appLanguage)
 
-                onClicks(itemView,textSizeRow, selectedTextSizeRadio) {
+                onClicks(itemView, textSizeRow, selectedTextSizeRadio) {
                     itemView.selectedTextSizeRadio.isChecked = true
                     onItemClickRecycler.onItemClicked(sizeName, absoluteAdapterPosition)
                 }

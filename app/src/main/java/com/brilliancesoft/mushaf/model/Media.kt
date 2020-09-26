@@ -18,7 +18,7 @@ Media(
 ) {
 
 
-    fun toJson(): String = Json.stringify(serializer(), this)
+    fun toJson(): String = Json.encodeToString(serializer(), this)
 
 
     companion object {
@@ -37,7 +37,7 @@ Media(
 
         fun fromJson(json: String): Media {
             require(json.isNotEmpty())
-            return Json.parse(serializer(), json)
+            return Json.decodeFromString(serializer(), json)
         }
 
 

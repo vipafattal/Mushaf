@@ -14,17 +14,23 @@ class ReciterViewModel : ViewModel() {
     private lateinit var playFrom: MutableLiveData<Int>
     private lateinit var playTo: MutableLiveData<Int>
     private lateinit var repeatEachVerse: MutableLiveData<Int>
-    private lateinit var repeatWholeSet : MutableLiveData<Int>
-    private var firstAyaNumberInQuran = 0
+    private lateinit var repeatWholeSet: MutableLiveData<Int>
 
-    fun setSurah(startAt: Int, firstAyaNumber: Int, surah: Surah) {
-        if (!::surahLiveData.isInitialized) {
+
+    init {
+        if (!IsInitialized) {
             surahLiveData = MutableLiveData()
             playFrom = MutableLiveData()
             playTo = MutableLiveData()
             repeatEachVerse = MutableLiveData()
             repeatWholeSet = MutableLiveData()
+            IsInitialized = true
         }
+    }
+
+    fun setSurah(startAt: Int, firstAyaNumber: Int, surah: Surah) {
+        PlayingSurah = surah
+        StartAtAya = startAt
         surahLiveData.value = startAt to surah
         playFrom.value = firstAyaNumber + startAt
         if (surah.numberOfAyahs == startAt)
@@ -32,30 +38,66 @@ class ReciterViewModel : ViewModel() {
         else
             playTo.value = firstAyaNumber + startAt + 1
 
-        firstAyaNumberInQuran = firstAyaNumber
+        FirstAyaNumberInQuran = firstAyaNumber
         repeatEachVerse.value = 1
         repeatWholeSet.value = 1
     }
 
-    fun getSurah(): LiveData<Pair<Int, Surah>> = surahLiveData
+    fun getSurah(): LiveData<Pair<Int, Surah>> {
+        surahLiveData.value = StartAtAya to PlayingSurah!!
+        return surahLiveData
+    }
 
     fun updatePlayFrom(startAt: Int) {
-        playFrom.value = firstAyaNumberInQuran + startAt
+        StartAtAya = FirstAyaNumberInQuran + startAt
+        playFrom.value = StartAtAya
     }
 
     fun updatePlayTo(endAt: Int) {
-        playTo.value = firstAyaNumberInQuran + endAt
+        EndAtAya = FirstAyaNumberInQuran + endAt
+        playTo.value = EndAtAya
     }
 
-    fun getPlayRange() = playFrom.value!!..playTo.value!!
+    fun getPlayRange(): IntRange {
 
-    fun updateRepeatEachVerse(n:Int) {
-        repeatEachVerse.value = n
-    }
-    fun updateRepeatWholeSet(n:Int) {
-        repeatWholeSet.value = n
+        playFrom.value = StartAtAya
+        playTo.value = EndAtAya
+
+        return playFrom.value!!..playTo.value!!
     }
 
-    fun getRepeatEachVerse() = repeatEachVerse.value!!
-    fun getRepeatWholeSet() = repeatWholeSet.value!!
+    fun updateRepeatEachVerse(n: Int) {
+        RepeatEachVerse = n
+        repeatEachVerse.value = RepeatEachVerse
+    }
+
+    fun updateRepeatWholeSet(n: Int) {
+        RepeatSet = n
+        repeatWholeSet.value = RepeatSet
+    }
+
+    fun getRepeatEachVerse(): Int {
+        repeatEachVerse.value = RepeatEachVerse
+        return repeatEachVerse.value!!
+    }
+    fun getRepeatWholeSet(): Int {
+        repeatWholeSet.value = RepeatSet
+        return repeatWholeSet.value!!
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        IsInitialized = false
+    }
+
+    companion object {
+        private var PlayingSurah: Surah? = null
+        private var IsInitialized = false
+        private var FirstAyaNumberInQuran = -1
+        private var StartAtAya = -1
+        private var EndAtAya = -1
+        private var RepeatSet = -1
+        private var RepeatEachVerse = -1
+
+    }
 }

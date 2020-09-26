@@ -10,13 +10,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
-import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.Edition
 import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
-import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
+import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.viewModelOf
 import com.brilliancesoft.mushaf.utils.toArabicReciterName
@@ -123,15 +122,7 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
             isStreamingOnline = isChecked
         }
 
-
         play_surah_to_end_checkbox.isChecked = false
-        play_surah_to_end_checkbox.setOnCheckedChangeListener { _, isChecked ->
-            endPointSpinner.isEnabled = !isChecked
-            if (isChecked) {
-                viewModel.updatePlayTo(numberOfAyaInSurah)
-                previousEndAyaNumber = numberOfAyaInSurah
-            }
-        }
     }
 
 
@@ -214,10 +205,10 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
 
     private fun play() {
         parentActivity.coroutineScope.launch {
-            val playRange = viewModel.getPlayRange()
+            if (endPointSpinner.isEnabled)
+                viewModel.updatePlayTo(numberOfAyaInSurah)
 
-            val eachAyaRepeat = viewModel.getRepeatEachVerse()
-            val wholeSetRepeat = viewModel.getRepeatWholeSet()
+            val playRange = viewModel.getPlayRange()
 
             val ayat = withContext(Dispatchers.IO) {
                 repository.getAyatByRange(
@@ -225,8 +216,6 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
                     playRange.last
                 )
             }
-            val playList = repeatablePlayList(ayat, eachAyaRepeat, wholeSetRepeat)
-
             if (UserPreferences.isArabicLocal)
                 selectedReciterEdition = selectedReciterEdition.copy(
                     name = selectedReciterEdition.name.toEnglishReciterName(),
@@ -234,7 +223,7 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
                 )
 
             val reciterPlayer = ReciterPlayer(
-                playList,
+                ayat,
                 parentActivity,
                 repository.localRepositoryMetadata,
                 selectedReciterEdition,
@@ -248,28 +237,6 @@ class ReciterBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelect
             reciterPlayer.play(isStreamingOnline, playRange)
             dismiss()
         }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun repeatablePlayList(
-        ayaList: List<Aya>,
-        repeatEachVerse: Int,
-        wholeSet: Int
-    ): List<Aya> {
-        if (wholeSet != 1 || repeatEachVerse != 1) {
-            val playList = arrayListOf<Aya>()
-            //repeat for Each Verse.
-            for (aya in ayaList) {
-                for (repeatTime in 0 until repeatEachVerse) playList.add(aya)
-            }
-            if (wholeSet > 1) {
-                val currentList = playList.toMutableList()
-                for (repeatTime in 1 until wholeSet) {
-                    playList.addAll(currentList)
-                }
-            }
-            return playList
-        } else return ayaList
     }
 
     override fun onDestroy() {

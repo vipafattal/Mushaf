@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.model.Aya
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class QuranViewModel(private val repository: Repository) : ViewModel() {
 
@@ -25,8 +23,7 @@ class QuranViewModel(private val repository: Repository) : ViewModel() {
 
             viewModelScope.launch {
                 if (MainQuranList.isEmpty())
-                MainQuranList =
-                    withContext(Dispatchers.IO) { repository.getMusahafAyat(MushafConstants.MainMushaf) }
+                MainQuranList = repository.getMusahafAyat(MushafConstants.MainMushaf)
                 mainMushaf.postValue(MainQuranList)
             }
 

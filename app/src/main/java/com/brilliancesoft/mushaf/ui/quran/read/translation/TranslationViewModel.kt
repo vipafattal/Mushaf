@@ -40,7 +40,7 @@ class TranslationViewModel(
     private suspend fun getTranslationOfAya(numberInMusahaf: Int): Translation {
 
         val downloadedEditions = withContext(Dispatchers.IO) {
-            repository.getDownloadedEditions(MushafConstants.Text)
+            repository.getDownloadedTafseer(MushafConstants.Text)
         }.filter { it.identifier != MushafConstants.SimpleQuran }.toMutableList()
 
         val userSelectedTranslation = tinyDB.getListString(PreferencesConstants.LastUsedTranslation)

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Mushaf</string>
     <string name="app_name_google_play" translatable="false">Mushaf for Android</string>
-    <string name="app_version" translatable="false">V1.2.0.3</string>
+    <string name="app_version" translatable="false">V1.2.2.1</string>
     <string name="playback_channel_name" translatable="false">Playback</string>
     <string name="playback_channel_description" translatable="false">Playback Channel</string>
 

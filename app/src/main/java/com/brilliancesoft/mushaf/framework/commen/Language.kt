@@ -3,10 +3,7 @@ package com.brilliancesoft.mushaf.framework.commen
 /**
  * Created by ${User} on ${Date}
  */
-sealed class Language(val code: String, val name: String) {
-    init {
-        assert(code.length == 2) { "Please send a language name consisted of two chars." }
-    }
+sealed class Language(code: String, val name: String) {
 
     object Ar : Language("ar", "Arabic")
     object En : Language("en", "English")

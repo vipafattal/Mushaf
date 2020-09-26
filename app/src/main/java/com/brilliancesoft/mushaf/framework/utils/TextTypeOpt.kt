@@ -14,6 +14,6 @@ import com.brilliancesoft.mushaf.model.Edition
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.FUNCTION
 )
-@StringDef(Edition.Quran, Edition.Tafsir, Edition.Translation)
+@StringDef(Edition.TYPE_QURAN, Edition.TYPE_TAFSEER, Edition.TYPE_TRANSLATION)
 @Retention(AnnotationRetention.BINARY)
 annotation class TextTypeOpt

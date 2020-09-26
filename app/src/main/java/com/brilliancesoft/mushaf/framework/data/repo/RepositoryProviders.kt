@@ -19,20 +19,19 @@ interface RepositoryProviders {
     suspend fun getPage(musahafIdentifier: String, page: Int): List<Aya>?
     suspend fun getSurahs(): List<Surah>
     suspend fun getDownloadState(identifier: String): DownloadingState
-    suspend fun getByAyaByBookmark(editionIdentifier: String, bookmarkStatus: Boolean): MutableList<Aya>
-    suspend fun getAllByBookmarkStatus(bookmarkStatus: Boolean): MutableList<Aya>
+    suspend fun getAllByBookmarked(): MutableList<Aya>
     suspend fun getAyaByNumberInMusahaf(musahafIdentifier: String, number: Int): Aya
 
     suspend fun getAllEditions(): List<Edition>
     suspend fun getEditionsByType(@EditionTypeOpt type: String, fromInternet: Boolean = false): List<Edition>
     suspend fun getAvailableReciters(fromInternet: Boolean = false): List<Edition>
     suspend fun getAllEditionsWithState(): List<Pair<Edition, DownloadingState>>
-    suspend fun getDownloadedEditions(): List<Edition>
+    suspend fun getDownloadedTafseer(): List<Edition>
     suspend fun searchTranslation(query: String, type: String): List<Aya>
     suspend fun searchQuran(query: String, editionId: String): List<Aya>
 
     suspend fun updateBookmarkStatus(ayaNumber: Int, identifier: String, bookmarkStatus: Boolean)
 
     suspend fun isDownloaded(identifier: String): Boolean
-    suspend fun getDownloadedEditions(type: String): List<Edition>
+    suspend fun getDownloadedTafseer(type: String): List<Edition>
 }

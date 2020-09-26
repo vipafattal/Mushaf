@@ -49,7 +49,7 @@
                 android:lineSpacingExtra="1.3dp"
                 android:lineSpacingMultiplier="1.2"
                 android:layout_marginBottom="12dp"
-                android:fontFamily="@font/amiri"
+                android:fontFamily="@font/kitab_bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/aya_number_library"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

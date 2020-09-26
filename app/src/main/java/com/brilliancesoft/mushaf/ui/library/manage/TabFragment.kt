@@ -71,8 +71,8 @@ class TabFragment : BaseFragment(), DownloadDialog.ProgressListener {
 
     private fun filterDataByTabPosition(data: List<Pair<Edition, DownloadingState>>): List<Pair<Edition, DownloadingState>> {
         return when (tabPosition) {
-            0 -> data.filter { it.first.type == Edition.Tafsir }
-            1 -> data.filter { it.first.type == Edition.Translation && it.first.language != "ar" }
+            0 -> data.filter { it.first.type == Edition.TYPE_TAFSEER }
+            1 -> data.filter { it.first.type == Edition.TYPE_TRANSLATION && it.first.language != "ar" }
             // 2 -> data.filter { it.first.format == "audio" }
             else -> throw IllegalArgumentException("Position $tabPosition not found")
         }.onEach { it.first.language.capitalize() }.sortedBy { it.first.language }

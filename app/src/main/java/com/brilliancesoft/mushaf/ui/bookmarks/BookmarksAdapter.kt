@@ -75,17 +75,17 @@ class BookmarksAdapter(
             val page = context.getString(R.string.page) + " ${aya.page.toString().toCurrentLanguageNumber()}"
             val juz = context.getString(R.string.juz) + " ${aya.juz.toString().toCurrentLanguageNumber()}"
             val numberInSurah = context.getString(R.string.aya) + " ${aya.numberInSurah.toString().toCurrentLanguageNumber()}"
-            val editionName = if (aya.edition!!.type != Edition.Quran) aya.edition!!.name else ""
+            val editionName = if (aya.edition!!.type != Edition.TYPE_QURAN) aya.edition!!.name else ""
             info_bookmark.text = "$page, $juz, $numberInSurah, $editionName"
 
             item_bookmark_root_view.onClick {
                 val bundle = Bundle()
                 val intent: Intent
-                if (aya.edition!!.type == Edition.Quran) {
+                if (aya.edition!!.type == Edition.TYPE_QURAN) {
                     bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, aya.page)
                     bundle.putString(
                         ReadQuranActivity.START_AT_AYA,
-                        Json.stringify(Aya.serializer(), aya)
+                        Json.encodeToString(Aya.serializer(), aya)
                     )
                     ReadQuranActivity.startNewActivity(context,bundle)
                 } else {
@@ -107,8 +107,8 @@ class BookmarksAdapter(
 
         private fun View.bindItemWithHeader(aya: Aya) {
             type_header.text = when (aya.edition!!.type) {
-                Edition.Quran -> context.getString(R.string.quran)
-                Edition.Tafsir -> context.getString(R.string.tafseer)
+                Edition.TYPE_QURAN -> context.getString(R.string.quran)
+                Edition.TYPE_TAFSEER -> context.getString(R.string.tafseer)
                 else -> context.getString(R.string.translation)
             }
 

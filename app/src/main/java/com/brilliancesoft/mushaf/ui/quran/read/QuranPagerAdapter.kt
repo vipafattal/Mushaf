@@ -11,10 +11,9 @@ import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.model.QuranFormattedPage
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseActivity
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
-import com.brilliancesoft.mushaf.ui.more.SettingsPreferencesConstant
-import com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranicSpanText
 import com.brilliancesoft.mushaf.ui.quran.read.helpers.PopupActions
 import com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranPageTextFormatter
+import com.brilliancesoft.mushaf.ui.quran.read.helpers.QuranicSpanText
 import com.brilliancesoft.mushaf.ui.quran.read.page.PageSurahsAdapter
 import com.brilliancesoft.mushaf.ui.quran.read.page.QuranActions
 import com.brilliancesoft.mushaf.utils.TextActionUtil
@@ -45,7 +44,7 @@ class QuranPagerAdapter(
 
     private val pageFormatter: QuranPageTextFormatter by lazy(LazyThreadSafetyMode.NONE) {
         val popupActions = PopupActions(popupView!!.popup_quran, popupActions)
-        val textDecorator = QuranicSpanText(activity, popupActions)
+        val textDecorator = QuranicSpanText(selectedTextSizeType, activity, popupActions)
         return@lazy QuranPageTextFormatter(textDecorator)
     }
 

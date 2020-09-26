@@ -50,17 +50,17 @@ fun TextView.setStartDrawable(@DrawableRes drawableRes: Int) {
 }
 
 inline fun <T : View> onClicks(vararg views: T, crossinline block: T.() -> Unit) {
-    for (view in views)
-        view.onClick(block)
+
+    for (view in views) view.onClick(block)
 }
 
 
 fun TextView.setTextSizeFromType(@StringRes type: Int) {
     val textDimenRes = when (type) {
-        R.string.small_font_size -> R.dimen._16ssp
-        R.string.medium_font_size -> R.dimen._19ssp
-        R.string.large_font_size -> R.dimen._25ssp
-        R.string.x_large_font_size -> R.dimen._29ssp
+        R.string.small_font_size -> R.dimen._19ssp
+        R.string.medium_font_size -> R.dimen._22ssp
+        R.string.large_font_size -> R.dimen._28ssp
+        R.string.x_large_font_size -> R.dimen._33ssp
         else -> throw IllegalArgumentException("Unknown text size type")
     }
 
@@ -68,6 +68,18 @@ fun TextView.setTextSizeFromType(@StringRes type: Int) {
         TypedValue.COMPLEX_UNIT_PX,
         MushafApplication.appContext.resources.getDimension(textDimenRes)
     )
+}
+
+fun getTextSizeFromType(@StringRes type: Int): Float {
+    val textDimenRes = when (type) {
+        R.string.small_font_size -> R.dimen._19ssp
+        R.string.medium_font_size -> R.dimen._22ssp
+        R.string.large_font_size -> R.dimen._28ssp
+        R.string.x_large_font_size -> R.dimen._33ssp
+        else -> throw IllegalArgumentException("Unknown text size type")
+    }
+
+    return MushafApplication.appContext.resources.getDimension(textDimenRes)
 }
 
 inline fun ViewPager2.addOnPageSelectedListener(crossinline onPageSelected: (position: Int) -> Unit) {
@@ -101,7 +113,7 @@ inline fun ViewPager2.addOnPageSelectedListener(
 
 inline fun View.addTopInsetPadding(crossinline onApplyInsets: (WindowInsets) -> Unit) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-        setOnApplyWindowInsetsListener { v, insets ->
+        setOnApplyWindowInsetsListener { _, insets ->
             onApplyInsets(insets)
             insets
         }

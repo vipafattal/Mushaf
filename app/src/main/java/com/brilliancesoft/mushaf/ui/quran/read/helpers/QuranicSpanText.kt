@@ -12,24 +12,31 @@ import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.UserPreferences
 import com.brilliancesoft.mushaf.utils.CustomClickableSpan
 import com.brilliancesoft.mushaf.utils.TextDrawable
+import com.brilliancesoft.mushaf.utils.extensions.getTextSizeFromType
 import com.brilliancesoft.mushaf.utils.extensions.toBitmap
 import com.brilliancesoft.mushaf.utils.extensions.toSpannable
 import com.brilliancesoft.mushaf.utils.toLocalizedNumber
-import com.codebox.lib.android.utils.screenHelpers.dp
+import kotlin.math.roundToInt
 
 /**
  * Created by ${User} on ${Date}
  */
-class QuranicSpanText(private val context: Context, private val popupActions: PopupActions?) {
+class QuranicSpanText(
+    textSizeType: Int,
+    private val context: Context,
+    private val popupActions: PopupActions?
+) {
+
+    var textSize: Float = getTextSizeFromType(textSizeType)
 
     private val ayaNumberColor =
         if (UserPreferences.isDarkThemeEnabled) Color.WHITE else Color.BLACK
     private var clickedStartSpanPosition = 0
     private var clickedEndSpanPosition = 0
 
-    fun applyPreviewSpans(rawText: String): SpannableString {
+    fun applyPreviewSpans(rawText: String, TextSizeType: Int): SpannableString {
         val text = SpannableString(rawText)
-
+        textSize = getTextSizeFromType(TextSizeType)
         for (i in text.indices) {
             val ch = text[i]
 
@@ -68,6 +75,7 @@ class QuranicSpanText(private val context: Context, private val popupActions: Po
 
         text.setSpan(object : CustomClickableSpan() {
             override fun onClick(widget: TextView, x: Int, y: Int) {
+
                 highlightSelection(widget, text, previousAyaLength)
                 popupActions.show(y, aya.number) { bookmarkStateChanged ->
                     val clickedTextSpan = widget.text.toSpannable()
@@ -123,13 +131,14 @@ class QuranicSpanText(private val context: Context, private val popupActions: Po
             if (isBookmarked) R.drawable.ic_aya_number_bookmarked else R.drawable.ic_aya_number
 
         val endAyaImage = TextDrawable.builder()
-            .beginConfig().fontSize(dp(16)).textColor(ayaNumberColor).bold().endConfig()
+            .beginConfig().fontSize((textSize * 0.60f).roundToInt()).textColor(ayaNumberColor)
+            .bold().endConfig()
             .buildTextVectorImage(
                 context,
                 numberInSurah.toString().toLocalizedNumber(),
                 ayaDecorImg,
-                dp(38),
-                dp(38)
+                (textSize * 1.40).roundToInt(),
+                (textSize * 1.40).roundToInt()
             )
 
         return ImageSpan(context, endAyaImage.toBitmap(), ImageSpan.ALIGN_BASELINE)

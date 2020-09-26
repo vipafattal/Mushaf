@@ -17,6 +17,6 @@ data class DownloadingState(
     val stopPoint: Int?
 )  {
     companion object {
-        fun downloadQuranTextCompleted(identifier: String): DownloadingState = DownloadingState(identifier, true, 30)
+        fun downloadCompleted(identifier: String): DownloadingState = DownloadingState(identifier, true, 30)
     }
 }

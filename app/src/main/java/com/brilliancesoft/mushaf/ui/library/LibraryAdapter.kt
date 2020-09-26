@@ -58,7 +58,7 @@ class LibraryAdapter(private val dataList: List<Edition>) : RecyclerView.Adapter
 
         @SuppressLint("SetTextI18n")
         fun bindData(edition: Edition) {
-            itemView.type_library.text = if (edition.type != Edition.Tafsir) edition.type else "تفسير"
+            itemView.type_library.text = if (edition.type != Edition.TYPE_TAFSEER) edition.type else "تفسير"
             itemView.edition_name_library.text = edition.name
             itemView.edition_name_library.typeface = Fonts.getNormalFont(context, edition.language)
             onClicks(itemView.read_translation_button, itemView) { onItemClick(edition, itemView.context) }

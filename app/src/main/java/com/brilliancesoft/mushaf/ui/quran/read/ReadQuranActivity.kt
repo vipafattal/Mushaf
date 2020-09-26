@@ -95,7 +95,7 @@ class ReadQuranActivity : BaseActivity(true) {
             val selectedAyaJson = bundle.getString(START_AT_AYA) ?: ""
 
             if (selectedAyaJson.isNotEmpty()) {
-                startAtAya = Json.parse(Aya.serializer(), selectedAyaJson)
+                startAtAya = Json.decodeFromString(Aya.serializer(), selectedAyaJson)
                 startAtPage = startAtAya.page
                 startAtSurah = startAtAya.surah_number
             } else {

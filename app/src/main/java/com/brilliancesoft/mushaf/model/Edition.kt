@@ -18,8 +18,8 @@ data class Edition(
 )  {
 
     companion object {
-        const val Tafsir = "tafsir"
-        const val Translation = "translation"
-        const val Quran = "quran"
+        const val TYPE_TAFSEER = "tafsir"
+        const val TYPE_TRANSLATION = "translation"
+        const val TYPE_QURAN = "quran"
     }
 }

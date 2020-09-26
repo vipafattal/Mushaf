@@ -57,7 +57,7 @@ class BookmarksFragment : BaseFragment() {
 
     private fun refreshBookmarksData() = runBlocking {
         coroutineScope.launch {
-            val newData = withContext(Dispatchers.IO) { repository.getAllByBookmarkStatus(true) }
+            val newData = withContext(Dispatchers.IO) { repository.getAllByBookmarked() }
             dataList = newData
             dataList.sortBy { it.edition!!.type }
             dispatchBookmarkData()

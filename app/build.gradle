@@ -13,8 +13,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         multiDexEnabled true
-        versionCode 1020003
-        versionName "1.2.0.3"
+        versionCode 1020201
+        versionName "1.2.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -54,6 +54,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
     //Support
     implementation "androidx.appcompat:appcompat:$support_version"
     implementation "androidx.recyclerview:recyclerview:$recycler_version"
@@ -71,7 +72,7 @@ dependencies {
     implementation "androidx.multidex:multidex:$multiDex_version"
 
     //Kotlin Serialization
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializtion_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$serializtion_version"
 
     //ViewModel + LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"

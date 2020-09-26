@@ -83,11 +83,9 @@
                     android:id="@+id/translationTextViewSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="?itemBg"
                     style="@style/TafseerText"
                     android:padding="8dp"
-                    android:text="@string/preview_translation"
-                    tools:text="@string/preview_quran" />
+                    android:text="@string/preview_translation" />
 
                 <TextView
                     android:layout_marginTop="6dp"

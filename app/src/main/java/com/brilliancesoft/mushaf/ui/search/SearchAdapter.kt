@@ -59,8 +59,8 @@ class SearchAdapter(
         fun bindData(aya: Aya, isLastPosition: Boolean) {
             itemView.apply {
                 aya_number_search.text = aya.numberInSurah.toString()
-                if (searchType == Edition.Quran) {
-                    val typeface = ResourcesCompat.getFont(context, R.font.amiri)
+                if (searchType == Edition.TYPE_QURAN) {
+                    val typeface = ResourcesCompat.getFont(context, R.font.kitab_bold)
                     aya_text_search.setLineSpacing(dp(1).toFloat(), 1.2f)
                     aya_text_search.typeface = typeface
                     aya_text_search.text = aya.text
@@ -70,7 +70,7 @@ class SearchAdapter(
 
                 var searchInfo =
                     if (isRightToLeft == 1) aya.surah!!.englishName else aya.surah!!.name
-                searchInfo += if (searchType != Edition.Quran) " ${context.getString(R.string.In)} ${aya.edition!!.name} " else ""
+                searchInfo += if (searchType != Edition.TYPE_QURAN) " ${context.getString(R.string.In)} ${aya.edition!!.name} " else ""
 
                 found_in_search.text = " ${context.getString(R.string.found)} $searchInfo"
                 if (isLastPosition)
@@ -88,11 +88,11 @@ class SearchAdapter(
             itemView.search_item_root_view.onClick {
                 val bundle = Bundle()
                 val intent: Intent
-                if (searchType == Edition.Quran) {
+                if (searchType == Edition.TYPE_QURAN) {
                     bundle.putInt(ReadQuranActivity.START_AT_PAGE_KEY, aya.page)
                     bundle.putString(
                         ReadQuranActivity.START_AT_AYA,
-                        Json.stringify(Aya.serializer(), QuranViewModel.MainQuranList[aya.number-1])
+                        Json.encodeToString(Aya.serializer(), QuranViewModel.MainQuranList[aya.number-1])
                     )
                     ReadQuranActivity.startNewActivity(context, bundle)
                 } else {

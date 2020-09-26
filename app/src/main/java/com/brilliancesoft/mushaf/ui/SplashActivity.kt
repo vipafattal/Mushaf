@@ -3,6 +3,7 @@ package com.brilliancesoft.mushaf.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.brilliancesoft.mushaf.R
 import com.brilliancesoft.mushaf.framework.data.repo.Repository
 import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
@@ -32,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        coroutineScope.launch() { repository.getAvailableReciters(true) }
+        coroutineScope.launch { repository.getAvailableReciters(true) }
 
         viewModel = viewModelOf(QuranViewModel::class.java, viewModelFactory)
 

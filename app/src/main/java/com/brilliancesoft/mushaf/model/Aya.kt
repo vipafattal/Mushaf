@@ -23,7 +23,8 @@ data class Aya @Ignore constructor(
     val page: Int,
     val hizbQuarter: Int,
     var edition_id: String = "",
-    val isBookmarked: Boolean = false,
+    @Ignore
+    var isBookmarked: Boolean = false,
     @Ignore
     var surah: Surah?,
     @Ignore
@@ -37,8 +38,7 @@ data class Aya @Ignore constructor(
         juz: Int,
         page: Int,
         hizbQuarter: Int,
-        edition_id: String,
-        isBookmarked: Boolean
+        edition_id: String
     ) : this(
         number,
         surah_number,
@@ -48,7 +48,7 @@ data class Aya @Ignore constructor(
         page,
         hizbQuarter,
         edition_id,
-        isBookmarked, null, null
+        false, null, null
     )
 
     @Ignore
@@ -101,6 +101,7 @@ data class Aya @Ignore constructor(
     }
 
     companion object {
+
         @JvmField
         val SAJDA_LIST: List<Int> =
             listOf(

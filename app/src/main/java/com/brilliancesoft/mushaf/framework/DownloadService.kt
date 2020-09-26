@@ -22,6 +22,8 @@ import com.brilliancesoft.mushaf.utils.extensions.bundleOf
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.parse
+import kotlinx.serialization.stringify
 import javax.inject.Inject
 
 @Keep
@@ -49,12 +51,12 @@ class DownloadService : Service() {
     @Suppress("EXPERIMENTAL_API_USAGE")
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         intent.extras?.run {
-            downloadingState = Json.parse(
+            downloadingState = Json.decodeFromString(
                 DownloadingState.serializer(),
                 getString(DOWNLOADING_STATE_KEY) ?: throw  IllegalAccessException()
             )
 
-            edition = Json.parse(
+            edition = Json.decodeFromString(
                 Edition.serializer(),
                 getString(EDITION_KEY) ?: throw  IllegalAccessException()
             )
@@ -187,8 +189,8 @@ class DownloadService : Service() {
         const val EDITION_KEY = "edition_key"
 
         fun create(context: Context, edition: Edition, downloadingState: DownloadingState) {
-            val jsonDownloadState = Json.stringify(DownloadingState.serializer(), downloadingState)
-            val jsonEdition = Json.stringify(Edition.serializer(), edition)
+            val jsonDownloadState = Json.encodeToString(DownloadingState.serializer(), downloadingState)
+            val jsonEdition = Json.encodeToString(Edition.serializer(), edition)
 
             val intent = Intent(context, DownloadService::class.java)
             intent.putExtras(

@@ -122,7 +122,11 @@ abstract class BaseActivity(private val isRequiringFullScreen: Boolean = false) 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(LocaleHelper.onAttach(base))
     }
-
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        super.applyOverrideConfiguration(overrideConfiguration)
+        if (overrideConfiguration != null)
+            LocaleHelper.updateConfiguration(overrideConfiguration)
+    }
     private fun requestForSpecificPermission(requestCode: Int, vararg permissions: String) {
         ActivityCompat.requestPermissions(this, permissions, requestCode)
     }

@@ -8,10 +8,10 @@ import com.brilliancesoft.mushaf.model.Aya
 import com.brilliancesoft.mushaf.ui.MainActivity
 import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
 import com.brilliancesoft.mushaf.ui.common.ViewModelFactory
-import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
-import com.brilliancesoft.mushaf.ui.quran.read.page.NavigateToPageDialog
-import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.BaseFragment
+import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
+import com.brilliancesoft.mushaf.ui.quran.read.ReadQuranActivity
+import com.brilliancesoft.mushaf.ui.quran.read.page.NavigateToPageDialog
 import com.brilliancesoft.mushaf.ui.search.SearchActivity
 import com.brilliancesoft.mushaf.utils.extensions.observer
 import com.brilliancesoft.mushaf.utils.extensions.onScroll
@@ -48,7 +48,7 @@ class QuranIndexFragment : BaseFragment() {
         viewModel = viewModelOf(QuranViewModel::class.java, viewModelFactory)
 
         initToolbar()
-        activity?.runOnUiThread {  }
+        activity?.runOnUiThread { }
 
         viewModel.getMainMushaf().observer(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -76,8 +76,8 @@ class QuranIndexFragment : BaseFragment() {
         quranlist_recyclerView.adapter = QuranIndexAdapter(data, false)
 
         fast_page_transition.onClick {
-                val pageNavDialog =
-                    NavigateToPageDialog()
+            val pageNavDialog =
+                NavigateToPageDialog()
             pageNavDialog.show(parentFragmentManager, NavigateToPageDialog.TAG)
         }
 
@@ -106,16 +106,17 @@ class QuranIndexFragment : BaseFragment() {
     }
 
     private fun convertToQuranList(ayat: List<Aya>): MutableList<Aya> {
-        val adapterList = mutableListOf<Aya>()
+
+        val firstAyaJuzList = mutableListOf<Aya>()
         var oldJuz = -1
         var oldSurahNumber = -1
         for (aya in ayat) {
             if (aya.surah_number != oldSurahNumber || aya.juz != oldJuz)
-                adapterList.add(aya)
+                firstAyaJuzList.add(aya)
             oldJuz = aya.juz
             oldSurahNumber = aya.surah_number
         }
-        return adapterList
+        return firstAyaJuzList
     }
 
 

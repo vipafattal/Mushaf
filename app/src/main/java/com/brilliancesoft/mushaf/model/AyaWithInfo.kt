@@ -15,5 +15,15 @@ data class AyaWithInfo(
         parentColumn = "edition_id",
         entityColumn = "identifier"
     )
-    val edition: Edition
-)
+    val edition: Edition,
+    @Relation(
+        parentColumn = "edition_id",
+        entityColumn = "bookmark_editionId",
+    )
+    val bookmark: Bookmark?
+){
+    init {
+        if (bookmark != null && bookmark.ayaNumber == aya.number)
+            aya.isBookmarked = true
+    }
+}

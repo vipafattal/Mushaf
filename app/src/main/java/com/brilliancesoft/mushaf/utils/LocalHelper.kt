@@ -2,30 +2,23 @@ package com.brilliancesoft.mushaf.utils
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
-import android.preference.PreferenceManager
 import com.brilliancesoft.mushaf.ui.more.SettingsPreferencesConstant
+import com.codebox.lib.android.utils.AppPreferences
 import java.util.*
 
 
 object LocaleHelper {
 
     fun onAttach(context: Context): Context {
-        val lang = getPersistedData(context, Locale.getDefault().language)
+        val lang = getPersistedLanguage()
         return setAppLocale(context, lang)
     }
 
-    fun onAttach(context: Context, defaultLanguage: String): Context {
-        val lang = getPersistedData(context, defaultLanguage)
-        return setAppLocale(context, lang)
-    }
 
-    fun getLanguage(context: Context): String? {
-        return getPersistedData(context, Locale.getDefault().language)
-    }
-
-    fun setAppLocale(context: Context, language: String?): Context {
-        persist(context, language)
+    fun setAppLocale(context: Context, language: String): Context {
+        persist(language)
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             updateResources(context, language)
@@ -33,16 +26,17 @@ object LocaleHelper {
 
     }
 
-    private fun getPersistedData(context: Context, defaultLanguage: String): String? {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return preferences.getString(SettingsPreferencesConstant.AppLanguageKey, defaultLanguage)
+    private fun getPersistedLanguage(): String {
+        val preferences = AppPreferences.getInstance("language")
+        return preferences.getStr(
+            SettingsPreferencesConstant.AppLanguageKey,
+            Locale.getDefault().language
+        )
     }
 
-    private fun persist(context: Context, language: String?) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val editor = preferences.edit()
-        editor.putString(SettingsPreferencesConstant.AppLanguageKey, language)
-        editor.apply()
+    private fun persist(language: String) {
+        val preferences = AppPreferences.getInstance("language")
+        preferences.put(SettingsPreferencesConstant.AppLanguageKey, language)
     }
 
     @TargetApi(Build.VERSION_CODES.N)
@@ -73,6 +67,18 @@ object LocaleHelper {
         resources.updateConfiguration(configuration, resources.displayMetrics)
 
         return context
+    }
+
+    fun updateConfiguration(configuration: Configuration) {
+
+        val lang = getPersistedLanguage()
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(locale)
+            configuration.setLayoutDirection(locale)
+        }
     }
 
 }

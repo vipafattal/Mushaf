@@ -7,6 +7,6 @@ import com.brilliancesoft.mushaf.model.Edition
  * Created by ${User} on ${Date}
  */
 @Target(AnnotationTarget.VALUE_PARAMETER,AnnotationTarget.LOCAL_VARIABLE,AnnotationTarget.FIELD,AnnotationTarget.PROPERTY,AnnotationTarget.PROPERTY_GETTER,AnnotationTarget.FUNCTION)
-@StringDef(Edition.Tafsir,Edition.Translation)
+@StringDef(Edition.TYPE_TAFSEER,Edition.TYPE_TRANSLATION)
 @Retention(AnnotationRetention.SOURCE)
 annotation class TranslationTypeOpt

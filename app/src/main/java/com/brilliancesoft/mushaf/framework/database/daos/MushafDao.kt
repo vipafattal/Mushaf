@@ -1,6 +1,8 @@
 package com.brilliancesoft.mushaf.framework.database.daos
 
 import androidx.room.*
+import com.brilliancesoft.mushaf.framework.commen.MushafConstants.MainMushaf
+import com.brilliancesoft.mushaf.framework.commen.MushafConstants.MainMushaf_OLD
 import com.brilliancesoft.mushaf.framework.database.helpers.*
 import com.brilliancesoft.mushaf.model.*
 
@@ -10,9 +12,6 @@ interface MushafDao {
     //Ayat dao
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAya(aya: Aya)
-
-    @Query("update $AYAT_TABLE set isBookmarked = :bookmarkState where number_in_mushaf = :ayaNumber and edition_id = :editionId")
-    suspend fun updateAyaBookmarkState(ayaNumber: Int, editionId: String, bookmarkState: Boolean)
 
     @Transaction
     @Query("select * from $AYAT_TABLE where edition_id = :mushafIdentifier order by number_in_mushaf ASC")
@@ -39,15 +38,8 @@ interface MushafDao {
     suspend fun getAyaByNumberInMusahaf(musahafIdentifier: String, ayaNumber: Int): AyaWithInfo?
 
     @Transaction
-    @Query("select * from $AYAT_TABLE where isBookmarked = :bookmarkStatus and edition_id = :musahafIdentifier")
-    suspend fun getAyaByBookmarkStatus(
-        musahafIdentifier: String,
-        bookmarkStatus: Boolean
-    ): List<AyaWithInfo>
-
-    @Transaction
-    @Query("select * from $AYAT_TABLE where isBookmarked = :bookmarkStatus")
-    suspend fun getAllAyatByBookmark(bookmarkStatus: Boolean): List<AyaWithInfo>
+    @Query("select * from $AYAT_TABLE join $BOOKMARKS_TABLE on bookmark_editionId = edition_id where bookmark_ayaNumber == number_in_mushaf")
+    suspend fun getAllAyatByBookmark(): List<AyaWithInfo>
 
     @Transaction
     @Query("select * from $AYAT_TABLE inner join $EDITIONS_TABLE on identifier == edition_id where type = :type and text like :query")
@@ -89,6 +81,15 @@ interface MushafDao {
     //DownloadState dao
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addDownloadState(downloadingState: DownloadingState)
+
+    @Query("delete from $BOOKMARKS_TABLE where bookmark_editionId == :editionId and bookmark_ayaNumber == :ayaNumber")
+    suspend fun removeBookmark(ayaNumber: Int, editionId: String)
+
+    @Insert
+    suspend fun addBookmark(bookmark: Bookmark)
+
+    @Query("update $BOOKMARKS_TABLE set bookmark_editionId = '$MainMushaf' where bookmark_editionId like '$MainMushaf_OLD' ")
+    suspend fun updateOldQuranEdition()
 
     @Query("select * from $DOWNLOAD_STATE_TABLE where identifier == :id limit 1")
     suspend fun getDownloadingState(id: String): DownloadingState?

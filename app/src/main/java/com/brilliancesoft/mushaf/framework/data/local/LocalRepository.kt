@@ -2,8 +2,8 @@ package com.brilliancesoft.mushaf.framework.data.local
 
 import com.brilliancesoft.mushaf.framework.api.ApiModels
 import com.brilliancesoft.mushaf.framework.commen.MushafConstants
-import com.brilliancesoft.mushaf.framework.database.daos.MushafDao
 import com.brilliancesoft.mushaf.framework.database.MushafDatabase
+import com.brilliancesoft.mushaf.framework.database.daos.MushafDao
 import com.brilliancesoft.mushaf.model.*
 import com.brilliancesoft.mushaf.ui.common.PreferencesConstants
 import com.brilliancesoft.mushaf.ui.common.sharedComponent.MushafApplication
@@ -19,9 +19,11 @@ import javax.inject.Inject
 class LocalRepository : LocalDataSourceProviders {
     @Inject
     lateinit var tinyDB: TinyDB
+
     @Inject
     lateinit var database: MushafDatabase
-    private  val dao: MushafDao
+    private val dao: MushafDao
+
     @Inject
     lateinit var metadataRepository: MetadataRepository
 
@@ -43,18 +45,17 @@ class LocalRepository : LocalDataSourceProviders {
             tinyDB.getListString(PreferencesConstants.SupportedLanguage)
         }
 
+    override suspend fun addAyat(ayat:List<Aya>, edition: Edition) {
 
-    override suspend fun addAyat(quran: ApiModels.QuranDataApi) {
-
-        for (index in quran.ayahs.indices) {
-            val aya = quran.ayahs[index]
-            aya.edition_id = quran.edition.identifier
+        for (index in ayat.indices) {
+            val aya = ayat[index]
+            aya.edition_id = edition.identifier
             aya.surah_number = aya.surah!!.number
             dao.addAya(aya)
             dao.addSurah(aya.surah!!)
         }
 
-        dao.addEdition(quran.edition)
+        dao.addEdition(edition)
     }
 
     override suspend fun getSurahs(): List<Surah> =
@@ -81,7 +82,7 @@ class LocalRepository : LocalDataSourceProviders {
     override suspend fun getAllEditions(): List<Edition> =
         dao.getAllEditions()
 
-    override suspend fun getAllEditions(type: String): List<Edition> =
+    override suspend fun getAllEditionsByType(type: String): List<Edition> =
         dao.getAllEditions()
 
     override suspend fun getEditionsByType(type: String): List<Edition> =
@@ -94,9 +95,10 @@ class LocalRepository : LocalDataSourceProviders {
     override suspend fun updateBookmarkStatus(
         ayaNumber: Int,
         identifier: String,
-        bookmarkStatus: Boolean
+        isAddNew: Boolean
     ) {
-        dao.updateAyaBookmarkState(ayaNumber, identifier, bookmarkStatus)
+        if (isAddNew) dao.addBookmark(Bookmark(identifier, ayaNumber))
+        else dao.removeBookmark(ayaNumber, identifier)
     }
 
     override suspend fun searchTranslation(query: String, type: String): MutableList<Aya> {
@@ -134,17 +136,8 @@ class LocalRepository : LocalDataSourceProviders {
         return Aya(ayaWithInfo)
     }
 
-    override suspend fun getAllByBookmarkStatus(bookmarkStatus: Boolean): MutableList<Aya> {
-        val ayaWithInfo = dao.getAllAyatByBookmark(bookmarkStatus)
-        return ayaWithInfo.map { Aya(it) }.toMutableList()
-    }
-
-
-    override suspend fun getAyaByBookmark(
-        editionIdentifier: String,
-        bookmarkStatus: Boolean
-    ): MutableList<Aya> {
-        val ayaWithInfo = dao.getAyaByBookmarkStatus(editionIdentifier, bookmarkStatus)
+    override suspend fun getAllByBookmarkStatus(): MutableList<Aya> {
+        val ayaWithInfo = dao.getAllAyatByBookmark()
         return ayaWithInfo.map { Aya(it) }.toMutableList()
     }
 
@@ -153,7 +146,6 @@ class LocalRepository : LocalDataSourceProviders {
         val ayaWithInfo = dao.getAyatByRange(MushafConstants.MainMushaf, from, to)
         return ayaWithInfo.map { Aya(it) }.toMutableList()
     }
-
 
 
 }

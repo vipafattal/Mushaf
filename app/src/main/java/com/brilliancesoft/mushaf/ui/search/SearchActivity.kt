@@ -32,7 +32,7 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
     lateinit var viewModelFactory: ViewModelFactory
 
     @TextTypeOpt
-    private var searchType: String = Edition.Quran
+    private var searchType: String = Edition.TYPE_QURAN
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
@@ -79,7 +79,7 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
             coroutineScope.launch {
                 val searchQuery = search_text_input.text.toString()
                 when (searchType) {
-                    Edition.Quran -> {
+                    Edition.TYPE_QURAN -> {
                             loading_search_result.visible()
 
                             val searchResult =
@@ -138,9 +138,9 @@ class SearchActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener {
             else chip.unChecked()
 
             searchType = when (buttonView.id) {
-                R.id.search_quran_chip -> Edition.Quran
-                R.id.search_tafseer_chip -> Edition.Tafsir
-                else -> Edition.Translation
+                R.id.search_quran_chip -> Edition.TYPE_QURAN
+                R.id.search_tafseer_chip -> Edition.TYPE_TAFSEER
+                else -> Edition.TYPE_TRANSLATION
             }
         }
     }

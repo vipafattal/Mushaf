@@ -16,12 +16,12 @@ data class DownloadedUri(
     val ayaNumber: Int
 ) {
 
-    fun toJson(): String = Json.stringify(serializer(), this)
+    fun toJson(): String = Json.encodeToString(serializer(), this)
 
     companion object {
         fun fromJson(json: String): DownloadedUri {
             require(json.isNotEmpty())
-            return Json.parse(serializer(), json)
+            return Json.decodeFromString(serializer(), json)
         }
     }
 }

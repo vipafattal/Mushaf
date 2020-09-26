@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.ProgressbarColor">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="boxBackgroundColor">@color/colorSecondary</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="hintTextAppearance">@style/TextInputLayout.HintText</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">@color/colorDisabled</item>
+        <item name="android:textSize">0sp</item>
+    </style>
+
+    <style name="Widget.MPM.Menu.Dark.DarkBackground">
+        <item name="android:colorBackground">@color/color_background_dark</item>
+    </style>
+</resources>

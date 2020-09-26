@@ -66,7 +66,7 @@ open class AppModule {
             MushafDatabase::class.java,
             Stringer(R.string.app_name)
         ).createFromAsset("Mushaf.db")
-            .addMigrations(MushafDatabase.MIGRATION_1_2)
+            .addMigrations(MushafDatabase.MIGRATION_1_2, MushafDatabase.MIGRATION_2_3)
             .build()
         return database
     }

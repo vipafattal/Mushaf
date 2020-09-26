@@ -69,7 +69,7 @@ class LibraryFragment : BaseFragment() {
     private fun initRecyclerView() {
         coroutineScope.launch {
             empty_data_text.gone()
-            val data = withContext(Dispatchers.IO) { repository.getDownloadedEditions() }
+            val data = withContext(Dispatchers.IO) { repository.getDownloadedTafseer() }
             loadingCompleted(false)
             if (data.isNotEmpty()) {
                 recycler_items_library?.adapter = LibraryAdapter(data)

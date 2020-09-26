@@ -21,6 +21,7 @@
         <item name="transparentItem">#DEFFFFFF</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@android:color/white</item>
+
     </style>
 
     <style name="AppTheme.Dark">
@@ -67,19 +68,14 @@
         <item name="colorPrimaryDark">@color/white</item>
     </style>
 
-    <style name="AppTheme.ProgressbarColor">
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <style name="AppTheme.TransparentDialog" parent="Base.Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="QuranicText">
         <item name="android:textSize">@dimen/_23ssp</item>
-        <item name="fontFamily">@font/amiri</item>
-        <item name="android:lineSpacingExtra">4dp</item>
-        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="fontFamily">@font/kitab_bold</item>
+        <item name="android:lineSpacingExtra">12dp</item>
     </style>
 
     <style name="TafseerText" parent="AppTheme.Text.Normal">
@@ -111,6 +107,7 @@
     </style>
 
     <style name="AppTheme.Text.Normal" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">?android:textColor</item>
         <item name="android:fontFamily">@font/normal_en</item>
         <item name="android:textSize">@dimen/_16ssp</item>
     </style>
@@ -139,23 +136,6 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="colorControlNormal">@color/colorPrimaryDark</item>
-        <item name="boxBackgroundColor">@color/colorSecondary</item>
-        <item name="boxBackgroundMode">filled</item>
-        <item name="hintTextAppearance">@style/TextInputLayout.HintText</item>
-        <item name="colorControlActivated">@color/colorPrimaryDark</item>
-        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
 
-    </style>
-
-    <style name="TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textColor">@color/colorDisabled</item>
-        <item name="android:textSize">0sp</item>
-    </style>
-
-    <style name="Widget.MPM.Menu.Dark.DarkBackground">
-        <item name="android:colorBackground">@color/color_background_dark</item>
-    </style>
 
 </resources>

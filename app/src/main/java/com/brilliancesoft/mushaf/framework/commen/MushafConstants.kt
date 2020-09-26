@@ -9,7 +9,8 @@ import com.codebox.lib.android.resoures.Stringer
 object MushafConstants {
     const val BASE_URL = "http://api.alquran.cloud/v1/"
 
-    const val MainMushaf = "quran-uthmani"
+    const val MainMushaf = "quran-uthmani-quran-academy"
+    const val MainMushaf_OLD = "quran-uthmani"
     const val WordByWord = "quran-wordbyword"
     const val SimpleQuran = "quran-simple-clean"
 
