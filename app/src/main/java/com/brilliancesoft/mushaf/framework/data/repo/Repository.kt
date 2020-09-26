@@ -115,11 +115,12 @@ class Repository : RepositoryProviders {
             LocalJsonParser.parse("main_mushaf.json", Models.MainQuran.serializer(), true).data
         }
 
+        localRepository.addAyat(mainQuran.ayahs, mainQuran.edition)
+
         localRepository.addDownloadState(
             DownloadingState.downloadCompleted(mainQuran.edition.identifier)
         )
 
-        localRepository.addAyat(mainQuran.ayahs, mainQuran.edition)
     }
 
 
